@@ -1,0 +1,27 @@
+{
+  "title": "Scalar-Tensor Hydrodynamics: A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "version": "3.3",
+  "language": "eng",
+  "access_right": "open",
+  "license": "cc-by-4.0",
+  "creators": [
+    {
+      "name": "Hays, Keith"
+    }
+  ],
+  "description": "<p>A theoretical proposal extending General Relativity by treating the vacuum as a dynamic scalar medium with its own stress-energy, pressure and dissipative response, rather than as a fixed geometric background plus a constant cosmological term.</p><p>The formalism separates the Einstein geometric tensor from the vacuum viscous stress tensor, introduces a dynamical scalar-field sector, replaces a fixed cosmological constant with a field-dependent pressure contribution, and allows the effective gravitational coupling to depend on the local vacuum state.</p><p>The matter sector is partitioned by a localization criterion derived from the excitation spectrum of the scalar field itself. The crossover is set by the medium's healing length rather than by a declared energy threshold, which recovers the electron rest energy as a calibration of that length rather than as an input.</p><p>This is a proposal, not an established theory. The document states its own falsification conditions explicitly and carries an itemized research program, several items of which could terminate the framework.</p>",
+  "keywords": [
+    "scalar-tensor gravity",
+    "modified gravity",
+    "vacuum viscosity",
+    "superfluid vacuum",
+    "cyclic cosmology",
+    "dark matter",
+    "dark energy",
+    "healing length",
+    "k-essence"
+  ],
+  "notes": "Built reproducibly from build_ocean_formalism.py; requires pdflatex."
+}

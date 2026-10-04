@@ -1,0 +1,25 @@
+Scalar-Tensor Hydrodynamics: A Modified Gravity Framework for Vacuum
+Viscosity and Cyclic Vacuum Cosmology
+
+Copyright (c) 2026 Keith Hays
+
+The written work in this repository -- the paper, its LaTeX source and the
+prose embedded in the build script -- is licensed under the Creative Commons
+Attribution 4.0 International License (CC BY 4.0).
+
+You are free to share and adapt the material for any purpose, including
+commercially, provided you give appropriate credit, link to the license, and
+indicate if changes were made.
+
+Full license text:
+  https://creativecommons.org/licenses/by/4.0/legalcode
+Human-readable summary:
+  https://creativecommons.org/licenses/by/4.0/
+
+SPDX-License-Identifier: CC-BY-4.0
+
+----------------------------------------------------------------------------
+
+The build tooling is licensed separately. See LICENSE-CODE (MIT) for the terms
+covering build_ocean_formalism.py as a program, as distinct from the document
+text it emits.

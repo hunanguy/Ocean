@@ -1,0 +1,46 @@
+# --- Generated LaTeX source -----------------------------------------------
+# The .tex is emitted by build_ocean_formalism.py. The script is the source of
+# truth; committing the generated file as well produces noisy diffs on every
+# rebuild. Delete the next line if you would rather ship the .tex in the
+# Zenodo archive alongside the PDF.
+Ocean_Scalar_Tensor_Hydrodynamics_*.tex
+
+# --- pdflatex intermediates -----------------------------------------------
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.xdv
+
+# --- Python ----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# --- Editors and OS --------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# --- Scratch ---------------------------------------------------------------
+build/
+out/
+tmp/

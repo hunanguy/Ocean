@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use or refer to this work, please cite the preprint below."
+title: "Ocean: Scalar-Tensor Hydrodynamics"
+abstract: >-
+  Build system and source for a theoretical proposal extending General
+  Relativity with a dynamic scalar vacuum medium, including a localization
+  criterion derived from the medium's own excitation spectrum.
+type: software
+authors:
+  - family-names: Hays
+    given-names: Keith
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
+version: "3.3"
+date-released: "2026-10-04"
+license: CC-BY-4.0
+repository-code: "https://github.com/hunanguy/Ocean"
+keywords:
+  - scalar-tensor gravity
+  - modified gravity
+  - vacuum viscosity
+  - superfluid vacuum
+  - cyclic cosmology
+  - dark matter
+  - dark energy
+
+preferred-citation:
+  type: article
+  title: >-
+    Scalar-Tensor Hydrodynamics: A Modified Gravity Framework for Vacuum
+    Viscosity and Cyclic Vacuum Cosmology
+  authors:
+    - family-names: Hays
+      given-names: Keith
+      # orcid: "https://orcid.org/0000-0000-0000-0000"
+  year: 2026
+  month: 10
+  # doi: "10.5281/zenodo.XXXXXXX"   # add after the first Zenodo release
+  notes: "Version 3.3, revised formalism. Preprint."
