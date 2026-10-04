@@ -62,9 +62,14 @@ Stated in the paper, repeated here so that they are visible before reading:
 
 ## Citing
 
-Please cite the archived release rather than the repository. After the first Zenodo deposit, add the DOI to `CITATION.cff` and to the badge below.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23142440.svg)](https://doi.org/10.5281/zenodo.23142440)
 
-<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX) -->
+Please cite the archived release rather than the repository.
+
+- **All versions** — `10.5281/zenodo.23142440`. Resolves to the latest release. Use this when citing the work as an evolving artifact.
+- **Version 3.3** — `10.5281/zenodo.23142441`. Pinned to this release and its exact files. Use this when the specific version matters.
+
+> Hays, K. (2026). *Scalar–Tensor Hydrodynamics: A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology* (Version 3.3) [Preprint]. Zenodo. <https://doi.org/10.5281/zenodo.23142441>
 
 ## License
 

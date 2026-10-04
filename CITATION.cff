@@ -34,5 +34,5 @@ preferred-citation:
       # orcid: "https://orcid.org/0000-0000-0000-0000"
   year: 2026
   month: 10
-  # doi: "10.5281/zenodo.XXXXXXX"   # add after the first Zenodo release
-  notes: "Version 3.3, revised formalism. Preprint."
+  doi: "10.5281/zenodo.23142441"
+  notes: "Version 3.3, revised formalism. Preprint. Concept DOI (all versions): 10.5281/zenodo.23142440"
