@@ -14,7 +14,7 @@ The question it asks is whether dark matter and dark energy are two substances o
 
 | File | Description |
 |---|---|
-| `Ocean_Scalar_Tensor_Hydrodynamics_v3_3.pdf` | The paper. 12 pages, including a non-technical preface. |
+| `Ocean_Scalar_Tensor_Hydrodynamics_v3_5.pdf` | The paper. 15 pages, including a non-technical preface and a bibliography. |
 | `build_ocean_formalism.py` | Generates the LaTeX source and compiles it. The source of truth. |
 | `.zenodo.json` | Deposit metadata consumed by the Zenodo–GitHub integration. |
 | `CITATION.cff` | Citation metadata for GitHub's *Cite this repository* widget. |
@@ -50,7 +50,8 @@ On a full TeX Live installation you can substitute `newtxtext`/`newtxmath` and r
 2. **§1–§6** — the field equation, tensor definitions, scalar-field dynamics, and the cosmological and galactic regimes.
 3. **§7** — the localization threshold. The matter/vacuum partition is derived from the excitation spectrum of the scalar field rather than declared at a fixed energy. The crossover is set by the medium's healing length, which recovers the electron rest energy as a calibration of that length rather than as an input.
 4. **§8–§9** — limiting regimes, conservation conditions, global regularity, and the defocusing requirement.
-5. **§10–§11** — the research program and a summary.
+5. **§10** — relation to existing work. Positions the framework against the superfluid-vacuum and viscous-cosmology literature, isolates what is inherited from what is not, and records three known deficiencies.
+6. **§11–§12** — the research program and a summary.
 
 ## Known open problems
 
@@ -59,17 +60,14 @@ Stated in the paper, repeated here so that they are visible before reading:
 - **The scale hierarchy.** Galactic-scale effects and the matter-localization scale are separated by roughly thirty-two orders of magnitude. They are set by different operators, so this is not an outright contradiction, but the separation is not yet explained. This is the most serious unresolved problem in the document.
 - **The sign of the self-interaction.** If the medium's self-interaction is focusing rather than defocusing, nothing arrests concentration and the framework is not viable as written.
 - **The preferred frame.** Treating the vacuum as a medium gives it a rest frame. Experimental limits on Lorentz violation are extremely tight and compatibility has not been demonstrated.
+- **Vertical galactic dynamics.** Local Milky Way data require a large enhancement of radial acceleration and essentially none vertically. Models whose extra force is parallel to the baryonic gravitational field fail this test. Whether this framework's vacuum stress is parallel or independently oriented has not been determined.
+- **First-order dissipative hydrodynamics.** The viscous sector is of Eckart–Landau type, which is known to be acausal and generically unstable in relativistic settings. A causal second-order or BDNK reformulation is required.
 
 ## Citing
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23142440.svg)](https://doi.org/10.5281/zenodo.23142440)
+Please cite the archived release rather than the repository. After the first Zenodo deposit, add the DOI to `CITATION.cff` and to the badge below.
 
-Please cite the archived release rather than the repository.
-
-- **All versions** — `10.5281/zenodo.23142440`. Resolves to the latest release. Use this when citing the work as an evolving artifact.
-- **Version 3.3** — `10.5281/zenodo.23142441`. Pinned to this release and its exact files. Use this when the specific version matters.
-
-> Hays, K. (2026). *Scalar–Tensor Hydrodynamics: A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology* (Version 3.3) [Preprint]. Zenodo. <https://doi.org/10.5281/zenodo.23142441>
+<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX) -->
 
 ## License
 

@@ -32,8 +32,27 @@ from pathlib import Path
 #        falsify the framework, plus two further sections: the provenance
 #        of Lambda and dark matter, and the GR / quantum-field-theory
 #        disagreement over the vacuum. No change to the technical content.
+#   3.4  Related-work section and bibliography added. Positions the
+#        framework against superfluid-vacuum and viscous-cosmology
+#        literature, isolates the distinctive claim, and records two
+#        deficiencies: first-order dissipative form and the status of
+#        c(phi). Section 10 gains the corresponding items.
+#   3.5  Lisanti et al. added to the bibliography. Sections 10 and 11 gain
+#        the vertical-acceleration (Gaia) constraint, which the galactic
+#        sector had not addressed. Bibliography upgraded to journal versions
+#        of record for Huang et al. and Berezhiani & Khoury. Section 10.3
+#        corrected: Chavanis gives Lambda in terms of the electron mass, not
+#        a minimum-length replacement for the Planck scale. Section 10 now
+#        concedes Huang's galactic vortex result as the nearest precedent for
+#        Section 6, narrowing the distinctive claim to the partition alone.
+#        Section 10.2 further corrected: superfluid vacuum theory is not a
+#        two-species model, so the distinctive claim is the partition plus a
+#        retained fundamental geometry, not single-substance ontology.
+#        Sections 10.4 and 11 corrected against the Lisanti et al. paper:
+#        the failure mode is a force parallel to the baryonic field, not a
+#        disk-shaped source. Earlier Lisanti et al. (2019) added.
 
-DOCNAME = "Ocean_Scalar_Tensor_Hydrodynamics_v3_3"
+DOCNAME = "Ocean_Scalar_Tensor_Hydrodynamics_v3_5"
 
 PREAMBLE = r"""
 \documentclass[11pt,a4paper]{article}
@@ -84,7 +103,7 @@ PREAMBLE = r"""
 \title{\Large Scalar--Tensor Hydrodynamics\\[4pt]
 \normalsize A Modified Gravity Framework for Vacuum Viscosity\\
 and Cyclic Vacuum Cosmology}
-\date{Revised Formalism --- Version 3.3}
+\date{Revised Formalism --- Version 3.5}
 \author{Keith Hays}
 """
 
@@ -833,6 +852,156 @@ cutoff of Section~\ref{sec:threshold} arrests rather than accelerates
 concentration.
 \end{enumerate}
 
+
+% =========================================================================
+\section{Relation to Existing Work}
+\label{sec:related}
+
+The proposal that the vacuum is a superfluid, and that dark matter and dark
+energy are two behaviours of it rather than two substances, is not new. This
+section states what is already established, so that the framework's actual
+claim can be isolated from the parts of it that are inherited.
+
+\subsection{Two families of superfluid-vacuum programme}
+
+Existing work divides on whether spacetime geometry is fundamental.
+
+\paragraph{Emergent gravity.} Volovik's programme \cite{volovik2003} treats the
+quantum liquid as prior to spacetime: the metric, Lorentz invariance and gauge
+structure appear as low-energy collective behaviour of the condensate.
+Zloshchastiev's logarithmic superfluid vacuum theory \cite{zloshchastiev2020}
+derives an induced gravitational potential from the vacuum wavefunction and
+concludes that dark matter and dark energy are manifestations of the same
+object and therefore cannot be independent. That conclusion is the one reached
+here. The mechanism is not: Zloshchastiev distinguishes his approach explicitly
+from models that work by modifying the stress-energy tensor of the Einstein
+equations.
+
+\paragraph{Modified source.} Huang and collaborators \cite{huang2013} treat a
+complex vacuum scalar field as a cosmic superfluid within standard General
+Relativity, identifying its energy density with dark energy and departures from
+vacuum density with dark matter. That work also treats galaxies as external
+sources perturbing the superfluid, and obtains the galactic halo together with
+the creation of vortices by galactic rotation --- the closest existing
+precedent for the galactic sector of Section~6. Berezhiani and Khoury \cite{berezhiani2015}
+construct an effective field theory in which dark matter is a superfluid with a
+galaxy-scale coherence length, described by phonons rather than collisionless
+particles, recovering MOND phenomenology on galactic scales. That model has
+since been disfavoured by Milky Way data \cite{lisanti2023}: it over-predicts
+vertical accelerations of disk stars even while reproducing the rotation curve. Viscous cosmology
+\cite{dou2011} models the dark sector as a single fluid whose bulk viscosity
+produces a negative effective pressure and thereby mimics dark energy. The
+logotropic models of Chavanis \cite{chavanis2026} belong to the same family,
+yielding a density profile that falls as $r^{-1}$ and offering an alternative to
+MOND that accounts for the Tully--Fisher relation.
+
+The present framework belongs to the second family. Equation~\eqref{eq:field}
+retains $\Gmn$ as the geometric backbone and places the vacuum medium entirely
+on the right-hand side.
+
+\subsection{What is inherited and what is not}
+
+Inherited: the identification of the vacuum as a scalar condensate; the
+proposal that the dark sector is one medium rather than two substances; the
+use of bulk and shear viscosity to generate an effective pressure; the
+appearance of a coherence length in the galactic regime.
+
+Inherited also, and more directly than the preceding list suggests: the
+generation of galactic structure by vorticity in a vacuum superfluid. Huang and
+collaborators \cite{huang2013} obtain vortices from galactic rotation within a
+nonlinear Klein--Gordon description in which galaxies act as external sources.
+Section~6 reaches for the same phenomenon through different machinery --- a
+dissipative stress tensor $\Pimn$ entering the field equation~\eqref{eq:field}
+rather than a source term in a wave equation. Whether these are distinct
+physical mechanisms or one mechanism in two formalisms is not settled here, and
+a credible version of this framework must say which.
+
+The premise that ordinary matter is itself an excitation of the vacuum medium
+is also not new, and it is worth being precise about who holds it. Huang
+\cite{huang2013} and Berezhiani and Khoury \cite{berezhiani2015} are
+two-species: the condensate constitutes the dark sector while baryonic matter
+is a separate species coupled to it. Superfluid vacuum theory is not. Its
+stated paradigm is a background quantum liquid of which elementary particles
+are excitations --- one substance, as here.
+
+What remains distinctive is narrower, and is the conjunction of three things
+rather than any one of them. Superfluid vacuum theory obtains a single
+substance by making geometry emergent from the condensate. This framework
+attempts a single substance while retaining $\Gmn$ as fundamental
+(Section~\ref{sec:related} above), and the mechanism by which it does so is the
+covariant criterion of Section~\ref{sec:threshold}: the dimensionless quantity
+$\Qq = \xi^{2} h^{\mu\nu} k_{\mu} k_{\nu}$ of~\eqref{eq:criterion}, with a
+smooth weighting $f(\Qq)$ splitting the mode integral between $\Tmat$ and
+$\Tphi$. The consequence developed in Section~\ref{sec:conservation} --- that
+no discontinuous exchange term between the two is required, because both are
+populations of one field --- follows from that construction. It removes an
+obstruction to the conservation conditions; it does not by itself establish
+them, which remains outstanding.
+
+\subsection{The electron-scale coincidence}
+
+The numerical agreement of Section~\ref{sec:threshold} has been approached from
+the opposite direction. Working from a logotropic equation of state, Chavanis
+\cite{chavanis2026} recalls an expression for the cosmological constant in terms
+of the electron mass and the fundamental constants,
+\begin{equation}
+\Lambda = \frac{G^{2} m_{e}^{6}}{\alpha^{6} \hbar^{4}}
+\approx 1.36 \times 10^{-52}\,\mathrm{m}^{-2},
+\end{equation}
+a relation of Eddington type. There the electron mass fixes $\Lambda$; here the
+electron mass is the readout of $\xi(\phi_0)$. Both routes tie the electron
+scale to a vacuum-scale quantity, from opposite ends.
+
+Two cautions attach to this. The relation is \emph{recalled} rather than derived
+in that work, so the primary source lies earlier in the logotropic literature.
+And independent arrival at a coincidence is weak evidence that it is not
+accidental; it is not this framework's discovery, and the open question of
+Section~\ref{sec:sec7open}, item~(6), remains untouched by it.
+
+\subsection{Known deficiencies relative to current practice}
+
+Two points where this document is behind the literature it should be
+engaging.
+
+\begin{enumerate}[label=(\arabic*)]
+\item \textbf{First-order dissipative hydrodynamics.} The constitutive form of
+Section~2.3 is of Eckart--Landau type, which is known to be acausal and
+generically unstable in relativistic settings \cite{hiscock1985}. Current
+viscous cosmology uses causal second-order formulations of Israel--Stewart type
+\cite{israel1979}. A viable version of this framework must do the same.
+\item \textbf{Silence on vertical dynamics.} Section~6 states only a radial
+relation. Milky Way kinematics constrain the two components separately, and
+they do not want the same thing: the baryonic distribution supplies too little
+gravity to account for the rotation curve but enough to account for the
+vertical velocity dispersions near the Sun, so substantial enhancement is
+required radially and essentially none vertically
+\cite{lisanti2019, lisanti2023}. Superfluid dark matter fails this test because
+its phonon-mediated force is approximately parallel to the baryonic
+gravitational field and therefore enhances both components by the same factor
+\cite{lisanti2023}. Cold dark matter passes because its vertical acceleration
+is dominated by baryons, with the halo subdominant. The resulting criterion
+applies to any model: the enhancement of vertical acceleration must be
+suppressed relative to the radial enhancement. Whether this framework is
+exposed depends on whether $v_{\phi,\mathrm{eff}}$ tracks the baryonic
+acceleration field --- in which case it inherits the parallelism problem ---
+or constitutes an independent source. Section~6 does not say which.
+\item \textbf{The status of $c(\phi)$.} A variable effective propagation speed
+is natural in the emergent-gravity family, where the metric is acoustic. It sits
+awkwardly alongside a fundamental $\Gmn$. The framework must either justify
+$c(\phi)$ as a refractive effect within fixed geometry, or acknowledge that
+taking it as a genuine causal speed moves the proposal toward the emergent
+family and incurs that family's obligations.
+\end{enumerate}
+
+\subsection{The structural question}
+
+If the vacuum is a medium possessing density, pressure and a rest frame, it is
+reasonable to ask why it requires a background spacetime to occupy. The
+emergent-gravity family answers that it does not, and that geometry is the
+medium's own collective behaviour. This framework currently posits a medium and
+a geometry as distinct structures coupled through $\kappa(\phi)$. That is a
+coherent position, but it is a position, and it has not been argued for here.
+
 % =========================================================================
 \section{Research Program and Testable Predictions}
 \label{sec:program}
@@ -864,6 +1033,30 @@ $\xi_{0} \approx 386\,\mathrm{fm}$.
 verify the defocusing condition of Section~\ref{sec:defocusing}. A framework
 whose potential turns out to be focusing has no mechanism arresting
 concentration and is not viable as written.
+\item \textbf{Distinguish the galactic mechanism from its precedent.}
+Determine whether the rotational support of Section~6, generated by $\Pimn$,
+is physically distinct from the vortex formation obtained by Huang and
+collaborators \cite{huang2013} from a nonlinear Klein--Gordon equation with
+galaxies as external sources, or whether the two are the same mechanism
+expressed in different formalisms.
+\item \textbf{Establish the direction of the vacuum contribution.} Determine
+whether the acceleration produced by $\Pimn$ is parallel to the baryonic
+gravitational field, as a scalar-mediated MOND-like force is, or whether its
+anisotropic shear components yield a contribution with an independent
+orientation. This is the question on which the galactic sector turns: a
+parallel contribution enhances radial and vertical accelerations by a common
+factor and is excluded by local Milky Way data \cite{lisanti2019, lisanti2023},
+whereas an independent, quasi-spherical contribution is not. Then compute the
+predicted vertical acceleration explicitly and confront it, together with the
+rotation curve of Section~6, with stellar kinematics.
+\item \textbf{Reformulate the dissipative sector causally.} Replace the
+first-order constitutive relation of Section~2.3 with a second-order
+Israel--Stewart or BDNK form, and verify that the resulting system is causal and
+stable in the weak-field limit.
+\item \textbf{Settle the status of $c(\phi)$} as either a refractive effect
+within fixed geometry or a genuine causal speed, and state the consequences for
+the framework's relation to emergent-gravity formulations
+(Section~\ref{sec:related}).
 \item \textbf{Establish whether matter coupling constitutes a forcing term.}
 The known finite-time blowup constructions for viscous media require an external
 force injecting momentum; the unforced problem remains open. In this framework
@@ -898,6 +1091,59 @@ The central hypothesis is that phenomena conventionally divided into dark energy
 dark matter, and particulate matter may have a common origin in different
 dynamical regimes of one vacuum field. Establishing that claim requires deriving
 the relevant limits and demonstrating quantitative agreement with observations.
+
+
+% =========================================================================
+\begin{thebibliography}{9}
+\footnotesize
+
+\bibitem{volovik2003}
+G.~E. Volovik, \emph{The Universe in a Helium Droplet}, International Series of
+Monographs on Physics \textbf{117}, Clarendon Press / Oxford University Press
+(2003).
+
+\bibitem{zloshchastiev2020}
+K.~G. Zloshchastiev, \emph{An alternative to dark matter and dark energy:
+Scale-dependent gravity in superfluid vacuum theory}, Universe \textbf{6}, 180
+(2020); doi:10.3390/universe6100180; arXiv:2011.12565.
+
+\bibitem{huang2013}
+K.~Huang, C.~Xiong and X.~Zhao, \emph{Scalar-field theory of dark matter},
+Int. J. Mod. Phys. A \textbf{29}, 1450074 (2014);
+doi:10.1142/S0217751X14500742; arXiv:1304.1595.
+
+\bibitem{berezhiani2015}
+L.~Berezhiani and J.~Khoury, \emph{Theory of dark matter superfluidity},
+Phys. Rev. D \textbf{92}, 103510 (2015); arXiv:1507.01019.
+
+\bibitem{dou2011}
+X.~Dou and X.-H. Meng, \emph{Bulk viscous cosmology: unified dark matter},
+Advances in Astronomy \textbf{2011}, 829340 (2011); arXiv:1012.3045.
+
+\bibitem{chavanis2026}
+P.-H. Chavanis, \emph{Polytropes, logotropes, the universal value of the surface
+density of dark matter halos, and the value of the cosmological constant},
+arXiv:2603.21302.
+
+\bibitem{lisanti2019}
+M.~Lisanti, M.~Moschella, N.~J. Outmezguine and O.~Slone, \emph{Testing dark
+matter and modifications to gravity using local Milky Way observables},
+Phys. Rev. D \textbf{100}, 083009 (2019); arXiv:1812.08169.
+
+\bibitem{lisanti2023}
+M.~Lisanti, M.~Moschella, N.~J. Outmezguine and O.~Slone, \emph{A preference for
+cold dark matter over superfluid dark matter in local Milky Way data},
+arXiv:1911.12365v2 (2023).
+
+\bibitem{hiscock1985}
+W.~A. Hiscock and L.~Lindblom, \emph{Generic instabilities in first-order
+dissipative relativistic fluid theories}, Phys. Rev. D \textbf{31}, 725 (1985).
+
+\bibitem{israel1979}
+W.~Israel and J.~M. Stewart, \emph{Transient relativistic thermodynamics and
+kinetic theory}, Annals of Physics \textbf{118}, 341 (1979).
+
+\end{thebibliography}
 
 \vfill
 \noindent\rule{\textwidth}{0.4pt}
