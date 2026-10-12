@@ -14,7 +14,7 @@ The question it asks is whether dark matter and dark energy are two substances o
 
 | File | Description |
 |---|---|
-| `Ocean_Scalar_Tensor_Hydrodynamics_v3_5.pdf` | The paper. 15 pages, including a non-technical preface and a bibliography. |
+| `Ocean_Scalar_Tensor_Hydrodynamics_v3_6.pdf` | The paper. 17 pages, including a non-technical preface and a bibliography. |
 | `build_ocean_formalism.py` | Generates the LaTeX source and compiles it. The source of truth. |
 | `.zenodo.json` | Deposit metadata consumed by the Zenodo–GitHub integration. |
 | `CITATION.cff` | Citation metadata for GitHub's *Cite this repository* widget. |
@@ -47,17 +47,17 @@ On a full TeX Live installation you can substitute `newtxtext`/`newtxmath` and r
 ## Structure of the paper
 
 1. **Preface** — non-technical. The motivating problem, the provenance of Λ and of dark matter, the General Relativity / quantum field theory disagreement over the vacuum, the core idea, and the three conditions that would falsify the framework.
-2. **§1–§6** — the field equation, tensor definitions, scalar-field dynamics, and the cosmological and galactic regimes.
-3. **§7** — the localization threshold. The matter/vacuum partition is derived from the excitation spectrum of the scalar field rather than declared at a fixed energy. The crossover is set by the medium's healing length, which recovers the electron rest energy as a calibration of that length rather than as an input.
+2. **§1–§6** — the field equation, tensor definitions, scalar-field dynamics, and the cosmological and galactic regimes. §2.2 states the complex-field condition that the scale-hierarchy route depends on; §6 reads a galaxy as a single solution of the field equations rather than a source acting on the medium.
+3. **§7** — the localization threshold. The matter/vacuum partition is derived from the excitation spectrum of the scalar field rather than declared at a fixed energy. The crossover is set by the medium's healing length, which recovers the electron rest energy as a calibration of that length rather than as an input. §7.7 records a candidate route for the scale hierarchy.
 4. **§8–§9** — limiting regimes, conservation conditions, global regularity, and the defocusing requirement.
 5. **§10** — relation to existing work. Positions the framework against the superfluid-vacuum and viscous-cosmology literature, isolates what is inherited from what is not, and records three known deficiencies.
-6. **§11–§12** — the research program and a summary.
+6. **§11–§12** — the research program and a summary. The hierarchy item is split into three tasks: protection of the gap by a shift symmetry, what fixes the size of a galactic solution, and rotation curves derived from the baryons alone against the radial acceleration relation.
 
 ## Known open problems
 
 Stated in the paper, repeated here so that they are visible before reading:
 
-- **The scale hierarchy.** Galactic-scale effects and the matter-localization scale are separated by roughly thirty-two orders of magnitude. They are set by different operators, so this is not an outright contradiction, but the separation is not yet explained. This is the most serious unresolved problem in the document.
+- **The scale hierarchy.** Galactic-scale effects and the matter-localization scale are separated by roughly thirty-two orders of magnitude. They are set by different operators, so this is not an outright contradiction, but the separation is not yet explained. Version 3.6 records a candidate route: the galactic scale may belong to the individual disturbance rather than to the medium, which would reduce the requirement to an upper bound on the gap, protected by a shift symmetry if the field is the phase of a complex scalar. Until the route's three tasks are done, this remains the most serious unresolved problem in the document.
 - **The sign of the self-interaction.** If the medium's self-interaction is focusing rather than defocusing, nothing arrests concentration and the framework is not viable as written.
 - **The preferred frame.** Treating the vacuum as a medium gives it a rest frame. Experimental limits on Lorentz violation are extremely tight and compatibility has not been demonstrated.
 - **Vertical galactic dynamics.** Local Milky Way data require a large enhancement of radial acceleration and essentially none vertically. Models whose extra force is parallel to the baryonic gravitational field fail this test. Whether this framework's vacuum stress is parallel or independently oriented has not been determined.
@@ -65,9 +65,14 @@ Stated in the paper, repeated here so that they are visible before reading:
 
 ## Citing
 
-Please cite the archived release rather than the repository. After the first Zenodo deposit, add the DOI to `CITATION.cff` and to the badge below.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23142440.svg)](https://doi.org/10.5281/zenodo.23142440)
 
-<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX) -->
+Please cite the archived release rather than the repository.
+
+- **All versions** — `10.5281/zenodo.23142440`. Resolves to the latest release. Use this when citing the work as an evolving artifact.
+- **Version 3.6** — `10.5281/zenodo.XXXXXXXX`. Pinned to this release and its exact files; filled in once the release is archived. Earlier version DOIs are listed on the Zenodo record.
+
+> Hays, K. (2026). *Scalar–Tensor Hydrodynamics: A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology* (Version 3.6) [Preprint]. Zenodo. <https://doi.org/10.5281/zenodo.23142440>
 
 ## License
 

@@ -51,8 +51,20 @@ from pathlib import Path
 #        Sections 10.4 and 11 corrected against the Lisanti et al. paper:
 #        the failure mode is a force parallel to the baryonic field, not a
 #        disk-shaped source. Earlier Lisanti et al. (2019) added.
+#   3.6  Candidate route for the scale hierarchy recorded, not a resolution.
+#        The galactic scale is reassigned from the medium to the individual
+#        disturbance, so the gap needs only an upper bound; a U(1) shift
+#        symmetry (phi as the phase of a complex field) is the proposed
+#        protection. Section 2.2 states the condition and its cost, Section 6
+#        adopts the single-structure reading of a galaxy, Section 7.7(5) and
+#        the preface are updated, and the hierarchy item of the research
+#        program is split into three tasks. The hierarchy remains listed as
+#        the most serious open problem. The radial acceleration relation
+#        (McGaugh, Lelli & Schombert 2016; Lelli et al. 2017) is cited as
+#        the target for the no-per-galaxy-freedom prediction, with its
+#        acceleration scale g_dagger recorded as a further obligation.
 
-DOCNAME = "Ocean_Scalar_Tensor_Hydrodynamics_v3_5"
+DOCNAME = "Ocean_Scalar_Tensor_Hydrodynamics_v3_6"
 
 PREAMBLE = r"""
 \documentclass[11pt,a4paper]{article}
@@ -103,7 +115,7 @@ PREAMBLE = r"""
 \title{\Large Scalar--Tensor Hydrodynamics\\[4pt]
 \normalsize A Modified Gravity Framework for Vacuum Viscosity\\
 and Cyclic Vacuum Cosmology}
-\date{Revised Formalism --- Version 3.5}
+\date{Revised Formalism --- Version 3.6}
 \author{Keith Hays}
 """
 
@@ -370,6 +382,21 @@ contradiction --- but a framework that merely tolerates such a gap has not
 explained anything, and this is the most serious unresolved problem in the
 document.
 
+A route out now exists, and it is recorded as a route rather than a result. A
+hurricane is hundreds of miles across, but that size is not a property of air.
+It belongs to the storm: to how much energy and spin were gathered in one place.
+Air itself has only small-scale properties. If the same holds here, the galactic
+scale is not built into the Ocean at all. A galaxy is not an object that stirs
+the medium; it is a region of the medium carrying excess energy and excess
+current, of which the visible stars are the dense middle and the wide slow flow
+is the outskirts. The Ocean would then need only one built-in size, the small
+one, together with the ability to carry very long, slow disturbances at almost
+no cost. Laboratory superfluids have that ability for a known reason, a symmetry
+of the underlying field. The price is that the field must be a richer object
+than the one written down below, and that the calculation showing such a
+disturbance reproduces observed galaxies has not been done. Until it is, the gap
+stays on this list.
+
 \textbf{The sign.} As above: if the Ocean's self-interaction has the wrong sign,
 nothing arrests collapse and the framework is not viable in its present form.
 This is a single calculation away from being settled either way.
@@ -444,6 +471,39 @@ This term gives the Ocean a genuine dynamical energy density and pressure. The
 specific choice of $L$ determines whether the field behaves as a conventional
 scalar, a $k$-essence-like medium, or a more specialized superfluid effective
 theory. Section~\ref{sec:threshold} depends on this choice directly.
+
+\paragraph{A candidate refinement.}
+\label{sec:complex}
+The candidate route for the scale hierarchy (Section~\ref{sec:sec7open},
+item~(5)) requires more structure than a single real scalar. Take the medium to be
+a complex field with a global $U(1)$ symmetry,
+\begin{equation}
+\Phi = \rho\, e^{i\theta},
+\qquad
+\theta \;\to\; \theta + \text{const},
+\label{eq:complex}
+\end{equation}
+and identify the $\phi$ of the preceding expressions with the phase $\theta$.
+The shift symmetry forbids a potential for $\theta$, so that
+$L(\phi, X) \to L(X)$ and the long-wavelength excitation is a gapless Goldstone
+phonon, as in a laboratory superfluid. The modulus $\rho$ is the natural home of
+the self-interaction of Section~\ref{sec:defocusing}, and its excitation is
+heavy.
+
+This is a condition the route depends on, not an adopted change, and it has a
+cost that propagates. An exact shift symmetry forbids any dependence on the
+value of $\theta$ itself. The state-dependent quantities $P(\phi)$,
+$\kappa(\phi)$, $\xi(\phi)$, $\eta(\phi)$ and $\zeta(\phi)$ would have to be
+re-expressed as functions of the modulus $\rho$ or of $X$, and the phase
+transitions of the Heartbeat cosmology would become transitions of $\rho$. The
+same applies to the quartic potential of Section~\ref{sec:defocusing}, which
+becomes a potential for $\rho$, and to the mass-gap entry of the table in
+Section~\ref{sec:threshold}, which vanishes identically for $\theta$. The
+route also brings the framework's field content closer to the complex-field
+description of Huang and collaborators \cite{huang2013} and to the phonon
+description of Berezhiani and Khoury \cite{berezhiani2015}; the distinctive
+claim of Section~\ref{sec:related}, the partition with a retained fundamental
+geometry, is unaffected.
 
 \subsection{Vacuum viscosity tensor $\Pi_{\mu\nu}$}
 
@@ -550,6 +610,38 @@ Here $v_{b}$ is the baryonic contribution and $v_{\phi,\mathrm{eff}}$ denotes th
 effective contribution produced by the scalar field and its stress response. The
 goal is not to insert an arbitrary halo profile, but to derive
 $v_{\phi,\mathrm{eff}}(r)$ from $\phi$, $\Pimn$, and the field equations.
+
+\paragraph{One structure, not two.}
+\label{sec:onestructure}
+The decomposition above is bookkeeping and should not be read as a statement
+that a galaxy acts on the medium from outside. In this framework a galaxy is a
+region of the Ocean carrying excess localized energy and elevated current. Its
+baryonic content is the $\Qq \gg 1$ population of that region and the extended
+flow is the $\Qq \ll 1$ population, in the sense of
+Section~\ref{sec:threshold}; the two are the dense interior and the diffuse
+exterior of a single solution of the field equations. This differs from
+treatments in which galaxies are external sources perturbing the superfluid
+\cite{huang2013}.
+
+Two consequences follow. First, the kiloparsec scale is a property of the
+individual solution, fixed by the energy and angular momentum concentrated in
+it, and need not be a parameter of the medium; this is the basis of the
+candidate route of Section~\ref{sec:sec7open}, item~(5). Second, if the solution
+is fixed by its baryonic content --- the question posed by the Size task of
+Section~\ref{sec:program} --- the baryonic distribution determines
+$v_{\phi,\mathrm{eff}}(r)$ with no freedom adjusted galaxy by galaxy. The
+observed radial acceleration relation has that form: across rotationally
+supported galaxies the total acceleration is fixed by the baryonic acceleration
+alone, with little or no intrinsic scatter and no sign of a second parameter
+\cite{mcgaugh2016, lelli2017}. That is a target to be derived, not a result.
+
+It also sharpens the exposure recorded in Section~\ref{sec:related}. A
+contribution fixed by the baryons is precisely the kind that risks being
+parallel to the baryonic gravitational field, and a parallel contribution is
+excluded by Milky Way vertical kinematics \cite{lisanti2019, lisanti2023}. The
+single-structure reading therefore needs a vacuum contribution whose magnitude
+is set by the baryons while its direction is not slaved to theirs. Whether the
+field equations permit that is not known.
 
 % =========================================================================
 \section{The Localization Threshold}
@@ -752,6 +844,31 @@ thirty-two orders of magnitude. They are set by different operators ---
 $\Veff''$ versus $\Gg$ --- so this is not immediately inconsistent, but a
 credible model must \emph{explain} the separation rather than merely tolerate
 it. This is the most serious open problem in the revised section.
+
+\emph{Candidate route.} The estimate $\Ogap \sim 10^{-26}\,\mathrm{eV}$ assumes
+that the kiloparsec scale is intrinsic to the medium. On the single-structure
+reading of Section~\ref{sec:onestructure} it is instead a property of the
+individual galactic solution. The requirement on the medium then weakens from a
+tuned value to an upper bound,
+\begin{equation}
+\Ogap \;\lesssim\; 10^{-26}\,\mathrm{eV},
+\end{equation}
+which $\Ogap = 0$ satisfies. A vanishing gap is protected, rather than tuned,
+if $\phi$ is the phase of a complex field with a $U(1)$ shift
+symmetry~\eqref{eq:complex}; a small nonzero gap from soft breaking of that
+symmetry would be technically natural. The medium would then carry one intrinsic
+length scale, $\xi_{0}$, and the hierarchy would be a ratio between a parameter of the
+medium and the size of a particular solution, which is not a naturalness
+problem. In the same construction the heavy modulus is the expected origin of
+the $k^{4}$ term in~\eqref{eq:dispersion}, which would bear on item~(1).
+
+None of this is established. The route trades the hierarchy for three
+obligations: to show that the symmetry survives the couplings of
+equation~\eqref{eq:field}; to say what fixes the size of a galactic solution;
+and to pass the vertical-acceleration test in the form stated in
+Section~\ref{sec:onestructure}. It also carries the cost recorded in
+Section~\ref{sec:complex}. Until those are met the hierarchy stands as an open
+problem.
 \item \textbf{Relation to the Standard Model.} The Higgs mechanism already
 accounts for $m_{e}$ via a Yukawa coupling. The framework must state whether
 $\xi_{0}$ and the electron Yukawa are independent quantities that happen to
@@ -1028,7 +1145,27 @@ healing length $\xi(\phi)$ of~\eqref{eq:healing}, from the scalar Lagrangian.
 effective electron mass --- with quasar absorption spectra and Oklo constraints.
 \item \textbf{Resolve or explain the hierarchy} between the mass gap $\Ogap$
 required by galactic dynamics and the stiffness scale implied by
-$\xi_{0} \approx 386\,\mathrm{fm}$.
+$\xi_{0} \approx 386\,\mathrm{fm}$. The candidate route of
+Section~\ref{sec:sec7open}, item~(5), divides this into three tasks.
+\begin{itemize}
+\item \emph{Protection.} Reformulate the scalar sector with $\phi$ as the phase
+of a complex field~\eqref{eq:complex}, re-express $P$, $\kappa$, $\xi$, $\eta$,
+$\zeta$ and the quartic potential of Section~\ref{sec:defocusing} in terms of
+the modulus or of $X$, and determine whether the shift symmetry survives the
+matter coupling and the dissipative sector. If it does
+not, compute the gap that results.
+\item \emph{Size.} Determine what fixes the extent of a galactic solution,
+given that the medium supplies no kiloparsec scale of its own: which conserved
+quantities of the disturbance set it, and where their values originate.
+\item \emph{Rotation curves without per-galaxy freedom.} Derive
+$v_{\phi,\mathrm{eff}}(r)$ from the baryonic distribution alone, with no
+per-galaxy freedom, and compare with the observed radial acceleration relation
+\cite{mcgaugh2016, lelli2017}, including its universal acceleration scale
+$g_{\dagger} \approx 1.2 \times 10^{-10}\,\mathrm{m\,s^{-2}}$, which the
+framework must then account for. This must be done jointly with the
+vertical-acceleration item below, since a contribution fixed by the baryons is
+the kind most exposed to it.
+\end{itemize}
 \item \textbf{Determine the sign of $\lambda$} from the chosen $L(\phi, X)$ and
 verify the defocusing condition of Section~\ref{sec:defocusing}. A framework
 whose potential turns out to be focusing has no mechanism arresting
@@ -1094,7 +1231,7 @@ the relevant limits and demonstrating quantitative agreement with observations.
 
 
 % =========================================================================
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
 \footnotesize
 
 \bibitem{volovik2003}
@@ -1134,6 +1271,16 @@ Phys. Rev. D \textbf{100}, 083009 (2019); arXiv:1812.08169.
 M.~Lisanti, M.~Moschella, N.~J. Outmezguine and O.~Slone, \emph{A preference for
 cold dark matter over superfluid dark matter in local Milky Way data},
 arXiv:1911.12365v2 (2023).
+
+\bibitem{mcgaugh2016}
+S.~S. McGaugh, F.~Lelli and J.~M. Schombert, \emph{Radial acceleration relation
+in rotationally supported galaxies}, Phys. Rev. Lett. \textbf{117}, 201101
+(2016); arXiv:1609.05917.
+
+\bibitem{lelli2017}
+F.~Lelli, S.~S. McGaugh, J.~M. Schombert and M.~S. Pawlowski, \emph{One law to
+rule them all: The radial acceleration relation of galaxies}, Astrophys. J.
+\textbf{836}, 152 (2017); doi:10.3847/1538-4357/836/2/152; arXiv:1610.08981.
 
 \bibitem{hiscock1985}
 W.~A. Hiscock and L.~Lindblom, \emph{Generic instabilities in first-order

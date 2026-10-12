@@ -10,8 +10,8 @@ authors:
   - family-names: Hays
     given-names: Keith
     # orcid: "https://orcid.org/0000-0000-0000-0000"
-version: "3.5"
-date-released: "2026-10-04"
+version: "3.6"
+date-released: "2026-10-13"
 license: CC-BY-4.0
 repository-code: "https://github.com/hunanguy/Ocean"
 keywords:
@@ -35,4 +35,4 @@ preferred-citation:
   year: 2026
   month: 10
   doi: "10.5281/zenodo.23142440"
-  notes: "Concept DOI; always resolves to the latest version. Version 3.5, revised formalism. Preprint."
+  notes: "Concept DOI; always resolves to the latest version. Version 3.6, revised formalism. Preprint."
