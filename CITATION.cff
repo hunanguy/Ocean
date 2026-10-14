@@ -2,21 +2,24 @@ cff-version: 1.2.0
 message: "If you use or refer to this work, please cite the preprint below."
 title: "Ocean: Scalar-Tensor Hydrodynamics"
 abstract: >-
-  Build system and source for a theoretical proposal extending General
-  Relativity with a dynamic scalar vacuum medium, including a localization
-  criterion derived from the medium's own excitation spectrum.
+  Build system and source for a theoretical proposal in which the vacuum is a
+  single continuous medium and gravity is proposed to be its response to
+  concentrated energy, with Einstein's equation retained as the effective
+  description and a localization criterion derived from the medium's own
+  excitation spectrum.
 type: software
 authors:
   - family-names: Hays
     given-names: Keith
     # orcid: "https://orcid.org/0000-0000-0000-0000"
-version: "3.6"
-date-released: "2026-10-13"
+version: "3.7"
+date-released: "2026-10-14"
 license: CC-BY-4.0
 repository-code: "https://github.com/hunanguy/Ocean"
 keywords:
   - scalar-tensor gravity
   - modified gravity
+  - emergent gravity
   - vacuum viscosity
   - superfluid vacuum
   - cyclic cosmology
@@ -26,8 +29,9 @@ keywords:
 preferred-citation:
   type: article
   title: >-
-    Scalar-Tensor Hydrodynamics: A Modified Gravity Framework for Vacuum
-    Viscosity and Cyclic Vacuum Cosmology
+    Scalar-Tensor Hydrodynamics: Gravity as the Response of a Vacuum Medium.
+    A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum
+    Cosmology
   authors:
     - family-names: Hays
       given-names: Keith
@@ -35,4 +39,4 @@ preferred-citation:
   year: 2026
   month: 10
   doi: "10.5281/zenodo.23142440"
-  notes: "Concept DOI; always resolves to the latest version. Version 3.6, revised formalism. Preprint."
+  notes: "Concept DOI; always resolves to the latest version. Version 3.7, revised formalism. Preprint."
