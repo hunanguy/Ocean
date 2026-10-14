@@ -76,7 +76,7 @@ Stated in the paper, repeated here so that they are visible before reading:
 Please cite the archived release rather than the repository.
 
 - **All versions** — `10.5281/zenodo.23142440`. Resolves to the latest release. Use this when citing the work as an evolving artifact.
-- **Version 3.7** — `10.5281/zenodo.XXXXXXXX`. Pinned to this release and its exact files; filled in once the release is archived.
+- **Version 3.7** — `10.5281/zenodo.23368921`. Pinned to this release and its exact files; filled in once the release is archived.
 - **Version 3.6** — `10.5281/zenodo.23324587`. Earlier version DOIs are listed on the Zenodo record.
 
 > Hays, K. (2026). *Scalar–Tensor Hydrodynamics: Gravity as the Response of a Vacuum Medium. A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology* (Version 3.7) [Preprint]. Zenodo. <https://doi.org/10.5281/zenodo.23142440>
