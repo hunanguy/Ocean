@@ -71,7 +71,7 @@ Stated in the paper, repeated here so that they are visible before reading:
 
 ## Citing
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23142440.svg)](https://doi.org/10.5281/zenodo.23142440)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.23142440-blue)](https://doi.org/10.5281/zenodo.23142440)
 
 Please cite the archived release rather than the repository.
 
