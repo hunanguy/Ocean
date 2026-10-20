@@ -14,7 +14,7 @@ From that premise the paper asks whether dark matter and dark energy are two sub
 
 | File | Description |
 |---|---|
-| `Ocean_Scalar_Tensor_Hydrodynamics_v3_7.pdf` | The paper. 25 pages, including a non-technical preface, a glossary and a bibliography. |
+| `Ocean_Scalar_Tensor_Hydrodynamics_v3_8.pdf` | The paper. 34 pages, including a non-technical preface, a glossary and a bibliography. |
 | `build_ocean_formalism.py` | Generates the LaTeX source and compiles it. The source of truth. |
 | `.zenodo.json` | Deposit metadata consumed by the Zenodo–GitHub integration. |
 | `CITATION.cff` | Citation metadata for GitHub's *Cite this repository* widget. |
@@ -32,7 +32,7 @@ python3 build_ocean_formalism.py --no-pdf        # emit the .tex only
 python3 build_ocean_formalism.py --keep-aux      # retain .aux/.log for debugging
 ```
 
-The script runs `pdflatex` twice so that cross-references resolve.
+The script runs `pdflatex` three times so that cross-references and page breaks settle.
 
 ### Font dependency
 
@@ -46,14 +46,14 @@ On a full TeX Live installation you can substitute `newtxtext`/`newtxmath` and r
 
 ## Structure of the paper
 
-1. **Preface** — non-technical. The premise (no empty space; an Ocean without edges or outside; no particles as objects; gravity as the medium's response), the motivating problem, the provenance of Λ and of dark matter, the General Relativity / quantum field theory disagreement over the vacuum, what a medium can do, and the four conditions that would falsify the framework.
-2. **Conventions and glossary** — fixed meanings for the Ocean, pattern, localized excitation, the Heartbeat, a beat, the present beat, beat transition, the big bang and epoch. "Particle" and "cycle" appear only when reporting other work, and "universe" is not used on its own.
-3. **§1–§4** — the field equation and its status as the effective description of the medium; tensor definitions, including the refractive account of gravity (§2.5) and the complex-field condition the scale-hierarchy route depends on (§2.2); scalar-field dynamics; the Ocean interpretation.
-4. **§5** — the Heartbeat cosmology, in two fenced parts: what can be said within the present beat (deceleration, acceleration and the evidence for evolving dark energy), and what the framework permits across beats (counted, not timed; the nearest precedent; the primordial gravitational-wave test).
-5. **§6** — galactic dynamics, including pressure-supported galaxies and the vacuum contribution as a flow with shear and wakes.
-6. **§7** — the localization threshold. The matter/vacuum partition is derived from the excitation spectrum of the medium rather than declared at a fixed energy, and the healing length recovers the electron rest energy as a calibration. §7.7 records the open items, including the candidate route for the scale hierarchy and the size and spin of the localized excitation.
-7. **§8–§9** — limiting regimes, a strong-field regime and black holes, conservation conditions, and regularity as a property of the medium's state.
-8. **§10** — relation to existing work: the superfluid-vacuum, viscous-cosmology and cyclic-cosmology literature, what is inherited, what remains distinctive, and four known deficiencies, including the vacuum effects already measured at the electron scale.
+1. **Preface** — non-technical. The premise (no empty space; an Ocean without edges or outside; no particles as objects; gravity as the medium's response), the motivating problem, the provenance of Λ and of dark matter, the General Relativity / quantum field theory disagreement over the vacuum, what a medium can do, black holes, and the five conditions that would falsify the framework.
+2. **Conventions and glossary** — fixed meanings for the Ocean, flow, circulation, travel, state, pattern, carried quantities, excitation, the healing length, circulation sense, horizon, the Heartbeat, a beat, the present beat, beat transition, the big bang, epoch and the present expansion epoch. "Particle" and "cycle" appear only when reporting other work, "universe" is not used on its own, and "dark matter" and "dark energy" name only what other work calls them.
+3. **§1–§4** — the field equation and its status as the effective description of the medium; tensor definitions, including the refractive account of gravity (§2.5) and the complex field Φ = ρe^{iθ} as the baseline representation, with the state split into the amount ρ and the phase rate μ (§2.2); scalar-field dynamics; the Ocean interpretation.
+4. **§5** — the Heartbeat cosmology, in two fenced parts: what can be said within the present beat (expansion as divergence; one root, two effects: a gradient of state refracts, a uniform change of state flows; deceleration, acceleration and the hints of evolving dark energy), and what the framework permits across beats (counted, not timed; the nearest precedent; the primordial gravitational-wave test; the horizon problem and the age of the Ocean).
+5. **§6** — galactic dynamics, including pressure-supported galaxies and the vacuum contribution as a flow, with shear bound to the galaxy as the proposed route past the vertical-acceleration constraint.
+6. **§7** — the localization threshold. The matter/vacuum partition is derived from the excitation spectrum of the medium rather than declared at a fixed energy, and the healing length recovers the electron rest energy as a calibration. The electron's mass, and the strength of gravity with it, are constants of the beat. §7.7 records the open items, including the candidate route for the scale hierarchy, the strength of gravity as the measured ratio α_G, the size and spin of the localized excitation, and circulation sense.
+7. **§8–§9** — limiting regimes; black holes rewritten around a refractive horizon (no accumulation, stripping as the no-hair theorem, Hawking radiation, recycling rather than draining), with a living worked case, "A traveller falls in" (§8.2); conservation conditions, regularity as a property of the medium's state, and two new sections: nothing is destroyed (§9.2) and where a wave's energy goes (§9.3).
+8. **§10** — relation to existing work: the superfluid-vacuum, viscous-cosmology and cyclic-cosmology literature, what is inherited, what remains distinctive, and five known deficiencies, including the vacuum effects already measured at the electron scale and the matter–antimatter comparisons.
 9. **§11–§12** — the research program and a summary.
 
 ## Known open problems
@@ -66,6 +66,7 @@ Stated in the paper, repeated here so that they are visible before reading:
 - **The sign of the self-interaction.** If the medium is focusing rather than defocusing in its present state, nothing arrests concentration and the framework is not viable as written.
 - **The preferred frame.** Treating the vacuum as a medium gives it a rest frame. Experimental limits on Lorentz violation are extremely tight and compatibility has not been demonstrated.
 - **Vertical galactic dynamics.** Local Milky Way data require a large enhancement of radial acceleration and essentially none vertically. Models whose extra force is parallel to the baryonic gravitational field fail this test.
+- **The strength of gravity.** The medium must produce the observed strength of gravity, the ratio α_G = Gm_e²/ħc ≈ 1.75 × 10⁻⁴⁵; the electric force between two electrons is about 4 × 10⁴² times their gravity. The Planck length is treated as a readout of the medium's state, not a fundamental length, and the medium must account for a gap of about 10²² below its own scale as well as 10³² above.
 - **Size and spin.** The localized excitation must appear pointlike to probes at about 10⁻¹⁸ m, and spin ½ requires structure the scalar formulation does not yet contain.
 - **First-order dissipative hydrodynamics.** The viscous sector is of Eckart–Landau type, which is known to be acausal and generically unstable in relativistic settings. A causal second-order or BDNK reformulation is required.
 
@@ -76,10 +77,11 @@ Stated in the paper, repeated here so that they are visible before reading:
 Please cite the archived release rather than the repository.
 
 - **All versions** — `10.5281/zenodo.23142440`. Resolves to the latest release. Use this when citing the work as an evolving artifact.
-- **Version 3.7** — `10.5281/zenodo.23368921`. Pinned to this release and its exact files; filled in once the release is archived.
+- **Version 3.8** — to be filled in once the release is archived.
+- **Version 3.7** — `10.5281/zenodo.23368921`.
 - **Version 3.6** — `10.5281/zenodo.23324587`. Earlier version DOIs are listed on the Zenodo record.
 
-> Hays, K. (2026). *Scalar–Tensor Hydrodynamics: Gravity as the Response of a Vacuum Medium. A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology* (Version 3.7) [Preprint]. Zenodo. <https://doi.org/10.5281/zenodo.23142440>
+> Hays, K. (2026). *Scalar–Tensor Hydrodynamics: Gravity as the Response of a Vacuum Medium. A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology* (Version 3.8) [Preprint]. Zenodo. <https://doi.org/10.5281/zenodo.23142440>
 
 ## License
 
