@@ -44,3 +44,6 @@ Thumbs.db
 build/
 out/
 tmp/
+
+# --- Full texts of cited papers (copyrighted; keep local) -------------------
+references/*.txt

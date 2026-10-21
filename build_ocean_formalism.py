@@ -119,8 +119,33 @@ from pathlib import Path
 #        alpha_G = (l_P / xi_0)^2, the Planck length a readout of the state.
 #        Glossary gains "Healing length"; "fm" spelled out as femtometres.
 #        Section 11 gains the Chavanis lead (G from m_e and the pressure).
+#   3.9  One speed and the split. New Section 11, "One Speed and the Split":
+#        the Ocean has one carrying speed c_s for every disturbance, with its
+#        flow unlimited; why there is one speed; the rules are fixed and every
+#        pattern responds alike; what sits on each side of the field equation;
+#        two results showing the simplest law cannot carry the split (the phase
+#        acoustic metric gives gamma = -(2+3a)/(3a); light and matter have
+#        different speed limits); the weak-field condition (rhythm and size
+#        each scale as sqrt(c_s), after Broekaert); a candidate mechanism, the
+#        current through time, reproducing gamma = beta = 1 given two stated
+#        inputs, with a strong-field departure; what the substrate must
+#        provide. Preface: one speed in the premise, a sixth revision, and a
+#        corrected summary of the revisions. Section 2.4-2.5: c(phi) is the
+#        one carrying speed. Section 6: the bound-lattice route no longer
+#        claimed to suppress vertical support. Section 7.7(3) and (7) revised;
+#        Section 8.2 traveler updated (steepness, not speed; strong-field
+#        open lines). Section 10.2 adds the nearest precedents (Arminjon,
+#        Broekaert) and narrows the distinctive claim. Research program
+#        revised. Fourteen references added, each read before citing.
+#        Section 10.4(2) retitled "Vertical dynamics" and updated for the
+#        split: the lattice's shear sources the geometry rather than pushing
+#        stars, so its anisotropy does not by itself give an anisotropic pull.
+#        Closing reference-basis note: the variable-speed-of-light reading of
+#        the original formalism recorded as superseded by Section 11.1.
+#        Spelling standardized to American English, except in the titles of
+#        cited works.
 
-DOCNAME = "Ocean_Scalar_Tensor_Hydrodynamics_v3_8"
+DOCNAME = "Ocean_Scalar_Tensor_Hydrodynamics_v3_9"
 
 PREAMBLE = r"""
 \documentclass[11pt,a4paper]{article}
@@ -171,7 +196,7 @@ PREAMBLE = r"""
 \title{\Large Scalar--Tensor Hydrodynamics\\[4pt]
 \normalsize Gravity as the Response of a Vacuum Medium:\\
 A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology}
-\date{Revised Formalism --- Version 3.8}
+\date{Revised Formalism --- Version 3.9}
 \author{Keith Hays}
 """
 
@@ -197,7 +222,8 @@ underlying medium. The medium is taken as primary. What are conventionally
 called particles are treated as localized excitations of it, and spacetime
 geometry, with Einstein's equation, as the effective description of how its
 state is experienced. Gravity is proposed to be the medium's response to
-concentrated energy.
+concentrated energy. The medium has one speed, at which every disturbance
+travels, and gravity is where that speed varies from place to place.
 
 \medskip
 \noindent
@@ -235,6 +261,12 @@ response to what the rest of it has done. For that reason this document uses the
 word ``particle'' only when reporting other authors' theories, and marks it as
 theirs.
 
+The Ocean has one speed: the speed at which it carries a disturbance. Light,
+the inner workings of matter and every signal run at it; only the Ocean's own
+flow is free of it. What physics calls the speed of light is the Ocean's local
+carrying speed, measured everywhere with the same value because rulers and
+clocks are themselves patterns of the Ocean and run at the same speed.
+
 This work began with gravity. Einstein's theory describes what gravity does with
 extraordinary precision: clocks run slow near a mass, space stretches, paths
 curve. It does not say why concentrated energy should do this. The proposal here
@@ -252,9 +284,9 @@ space must match the slowing of time exactly as Einstein requires.
 The same premise bears on the largest open problem in cosmology.
 
 Two of the largest numbers in cosmology are placeholders. Roughly a quarter of
-the contents of the observable universe is labelled \emph{dark matter}: a substance inferred
+the contents of the observable universe is labeled \emph{dark matter}: a substance inferred
 entirely from its gravitational pull on things we can see, and never once
-detected directly. Most of the remainder is labelled \emph{dark energy}, which
+detected directly. Most of the remainder is labeled \emph{dark energy}, which
 is less a substance than a name for an observation --- that cosmic expansion is
 speeding up when everything we understand says it should be slowing down.
 Together these two labels cover something like ninety-five per cent of what the
@@ -313,7 +345,7 @@ observational changes. The rotation curves remain exactly as measured. So do the
 lensing maps, the microwave background, and the supernova data establishing
 acceleration. What dissolves is the pair of substances invoked to account for
 them: they stop being two unknown constituents of the observable universe and become
-two behaviours of one medium. The measurements survive intact. Only their cause is
+two behaviors of one medium. The measurements survive intact. Only their cause is
 reassigned.
 
 \subsection*{Where our two best theories disagree}
@@ -354,7 +386,7 @@ General Relativity, read as it is usually taught, treats the vacuum as the
 absence of things: a stage that can be curved by what sits on it but has no
 density, pressure or flow of its own. A medium does things a stage cannot.
 It flows. It drags. It carries waves. They can be stirred, and they push back when you stir
-them. Each of those behaviours is a candidate for a phenomenon currently
+them. Each of those behaviors is a candidate for a phenomenon currently
 attributed to something unknown:
 
 \begin{itemize}
@@ -375,7 +407,7 @@ a localized pattern and what counts as a ripple.
 \end{itemize}
 
 The ambition is that what are called dark matter and dark energy stop being two
-mysteries and become two behaviours of one thing.
+mysteries and become two behaviors of one thing.
 
 \subsection*{Black holes}
 
@@ -385,7 +417,7 @@ its own pattern until it turns with the whirlpool. Black holes recycle; they do
 not drain. Most of what they return comes back early, as light and jets from
 the matter swirling around them, and the rest leaves over immense times as
 faint radiation. Energy returns to the Ocean; structure does not.
-Section~\ref{sec:traveller} follows a single traveller in.
+Section~\ref{sec:traveller} follows a single traveler in.
 
 \subsection*{What this document is not}
 
@@ -407,7 +439,7 @@ required only that the pieces appear to fit. That is a much weaker standard
 than the one it has since been held to, and the gap between the two turned out
 to be where the interesting work was.
 
-Five revisions have followed, and they share a shape.
+Six revisions have followed, and they share a shape.
 
 \textbf{The first} corrected a structural error. In the original formulation the
 vacuum's viscous response \emph{replaced} the Einstein tensor --- the geometric
@@ -434,12 +466,12 @@ as localized patterns. The matter/vacuum distinction becomes a property of the
 Ocean rather than a line drawn across it.
 
 The result worth noting is what happened next. Calibrating that scale to present
-conditions puts the Ocean's healing length at roughly 386~femtometres. (A
-femtometre is a millionth of a billionth of a metre, about the size of a
+conditions puts the Ocean's healing length at roughly 386~femtometers. (A
+femtometer is a millionth of a billionth of a meter, about the size of a
 proton.) That is exactly the electron's own characteristic length. Every
 pattern has a natural spread set by its mass, tighter the heavier it is, and
 the Ocean can hold in place only a pattern whose spread fits within its healing
-length. The electron's spread is 386~femtometres, so the electron is simply the
+length. The electron's spread is 386~femtometers, so the electron is simply the
 lightest pattern the Ocean can hold in place, and everything lighter, photons
 and neutrinos included, spreads too wide and is necessarily a ripple instead.
 The healing length is the Ocean's tightest grip, not the electron's size:
@@ -479,7 +511,7 @@ energy. That claim brings obligations the earlier arrangement did not carry,
 and they are set out in the technical sections; the heaviest is to derive the
 geometry rather than assume it.
 
-\textbf{The fifth} is the one this version records, and it removed a picture.
+\textbf{The fifth} removed a picture.
 Earlier versions borrowed the image of a black hole as a drain, with the medium
 pouring inward. Taken literally the image fails: a medium flowing in would have
 to pile up somewhere, and nothing piles up. Near a black hole the Ocean's state
@@ -489,12 +521,21 @@ reasoning gave gravity and expansion one root. Both are a change in the Ocean's
 state: where the change varies from place to place it bends paths, and where it
 is the same everywhere at once it makes the Ocean flow apart.
 
+\textbf{The sixth} is the one this version records, and it found the stage still
+standing in the equations. The fourth revision had removed it as a position,
+but the law written for the Ocean still measured every disturbance against a
+fixed speed that belonged to no part of the Ocean. Light took its speed from the
+Ocean's state; matter took its limit from that fixed speed; and no arrangement
+of the two could produce gravity. So the second speed is removed. The Ocean has
+one speed, the speed at which it carries a disturbance. Light, the workings of
+matter and every signal run at it; only the Ocean's own flow is free of it.
+Gravity is where that speed varies from place to place.
+
 \medskip
 \noindent
-Each revision has the same form: something chosen by hand is removed, and
-something forced by the structure takes its place. A substituted tensor, then an
-imported number, then an unexamined assumption, then an inherited stage, then a
-borrowed picture. That a framework can absorb that
+Each revision has the same form: something the framework had not earned is
+removed, whether it was chosen by hand, imported or inherited, and what replaces
+it must then be derived rather than assumed. That a framework can absorb that
 process repeatedly is not evidence that it is true. It is evidence that it is
 the right kind of thing to keep testing --- which is a lower bar, and the only
 one this document claims to clear.
@@ -561,7 +602,7 @@ trillion (Section~\ref{sec:related}, deficiency~(5)).
 
 \textbf{The measured vacuum.} Empty space has already been measured doing
 things. It screens electric charge, it scatters light off light, and in very
-strong magnetic fields it splits light by polarisation, as a crystal does.
+strong magnetic fields it splits light by polarization, as a crystal does.
 Standard physics predicts these effects by other means, in some cases to many
 decimal places. If the Ocean is real, these are its properties, and it must
 reproduce the same numbers. Agreement would be strong support. Any disagreement
@@ -593,7 +634,7 @@ unrelated facts that happen to agree is, at present, unknown.
 What follows is the technical statement of all of this. It is written for a
 reader comfortable with tensor notation, but the argument it makes is the one
 above: that the emptiness between things may not be empty, and that a great deal
-of what we currently call unknown may be the behaviour of a single medium that
+of what we currently call unknown may be the behavior of a single medium that
 has been sitting in plain view the whole time.
 
 \clearpage
@@ -605,7 +646,7 @@ No independent particulate entities are posited. An excitation of the medium
 that is localized in the sense of Section~\ref{sec:threshold} is called a
 \emph{localized excitation}; one that is not is a \emph{coherent excitation}.
 ``Matter'' and ``the matter sector'' denote the localized
-population of the one medium, never a second substance. Particle-like behaviour
+population of the one medium, never a second substance. Particle-like behavior
 --- the exchange of energy, momentum and charge in whole units at a single point
 --- is treated as a property of how excitations of a quantum field interact,
 not as evidence of objects (Section~\ref{sec:threshold}). The word
@@ -631,7 +672,7 @@ is the coherent extent of a galaxy's disturbance (Section~6) and the Ocean's own
 pressure $P(\phi)$ (Section~\ref{sec:heartbeat}). The hottest stage of a beat
 transition is \emph{the hot, dense phase} or \emph{the transition plasma};
 ``primeval fireball'' is the literature's term. Neither is a ball: it has no
-surface, centre or outside, and is the condition of the whole Ocean at once.
+surface, center or outside, and is the condition of the whole Ocean at once.
 
 \paragraph{Glossary.}
 \label{sec:glossary}
@@ -640,12 +681,17 @@ The following terms are used with fixed meanings throughout.
 \item[The Ocean] The single continuous medium. It has no edges and no outside,
 and it includes every beat. Nothing in the framework exists apart from it.
 \item[Flow] The Ocean's own motion, described by the medium four-velocity
-$u^{\mu}$. Flow is not limited by the speed of light.
+$u^{\mu}$. Flow is not limited by the carrying speed $c_{s}$; where it
+outruns $c_{s}$ for an observer, there is a horizon (Section~\ref{sec:onespeed}).
+\item[Carrying speed] $c_{s}$, the speed at which the Ocean carries a
+disturbance: the one speed of light, of the internal workings of matter and of
+every signal. Locally it is always measured with the same value; gravity is
+where it varies (Section~\ref{sec:onespeed}).
 \item[Circulation] The Ocean's motion within a pattern. A pattern can circulate
 internally while staying in place.
 \item[Travel] A pattern's motion as a whole: the location at which the Ocean
 re-makes it, shifting. Travel is measured by the group velocity of the
-excitation relative to $u^{\mu}$, and is limited by the local wave speed.
+excitation relative to $u^{\mu}$, and is limited by the local carrying speed.
 \item[State] The complete configuration of the Ocean's flow and circulation at
 the finest scale. What physics calls information.
 \item[Pattern] The form of an excitation: organized structure recognizable at
@@ -658,8 +704,11 @@ radiation and a beat transition.
 \item[Excitation] The Ocean's departure from its background state at some
 location: a pattern together with what it carries. Matter and light are
 excitations; so is a galaxy.
+\item[Light] A free ripple of the Ocean, all of its carrying speed spent in
+travel. Matter is a confined ripple, its carrying speed spent circulating in
+place: same medium, same speed, different shape.
 \item[Healing length] $\xi$, the shortest distance over which the Ocean can
-bend before it springs back; about 386~femtometres in the present state
+bend before it springs back; about 386~femtometers in the present state
 ($\xi_{0}$), set by the amount $\rho$. It is the threshold below which an
 excitation localizes, not the size of any excitation and not a grain of the
 medium.
@@ -853,6 +902,9 @@ Reynolds and mutual-friction stress, averaged over scales well above the
 intervortex spacing --- with the underlying dynamics conservative. It therefore
 has no meaning below that averaging scale, and mutual friction requires a normal
 component that the formalism has not yet defined (Section~\ref{sec:program}).
+A normal component would also bring a second sound with a speed of its own,
+which the one-speed principle does not allow to carry signals that patterns can
+use (Section~\ref{sec:onespeed}); how the two fit is open.
 
 \subsection{Scalar pressure $P(\phi)$}
 \label{sec:pressure}
@@ -878,10 +930,10 @@ depend on the local scalar density:
 \kappa(\phi) = \frac{8\pi G(\phi)}{c(\phi)^{4}} .
 \end{equation}
 $G(\phi)$ represents a field-dependent effective gravitational coupling. The
-quantity $c(\phi)$ is treated initially as an effective propagation speed
-associated with the vacuum medium. If it is interpreted as a genuine variable
-causal speed, the theory must specify the resulting causal structure and recover
-the observed local value $c_{0}$ in the appropriate limit.
+quantity $c(\phi)$ is the Ocean's local carrying speed, the one speed at which
+every disturbance travels (Section~\ref{sec:onespeed}). Locally it is always
+measured as $c_{0}$, because rods and clocks are patterns of the Ocean and scale
+with it.
 
 \paragraph{The refractive reading.}
 \label{sec:refractive}
@@ -898,7 +950,7 @@ light bending and a refractive index
 n(r) \;\simeq\; 1 + \frac{2GM}{rc^{2}} .
 \end{equation}
 Refraction alone does not reproduce the full weak-field and post-Newtonian
-behaviour --- perihelion advance, frame dragging, gravitational radiation ---
+behavior --- perihelion advance, frame dragging, gravitational radiation ---
 and extending it to do so is the test this reading must pass
 (Section~\ref{sec:program}). Three requirements are decisive. Every excitation
 must respond to the medium's state in exactly the same proportion, since all
@@ -908,9 +960,12 @@ response must slow time and stretch space in equal measure: the measured
 deflection of starlight by the Sun is twice what slowing alone would give, and
 the second half comes from the spatial part. And disturbances of the response
 itself, gravitational waves, must travel at the speed of light, as observed when
-a neutron-star merger's gravitational and light signals arrived together. The
-alternative reading of $c(\phi)$, a genuine variable causal speed, is retained
-as the fallback.
+a neutron-star merger's gravitational and light signals arrived together.
+Section~\ref{sec:split} states the second requirement as a condition on how
+patterns scale with the carrying speed (Section~\ref{sec:weakfield}) and offers
+a candidate mechanism for it (Section~\ref{sec:timecurrent}). The reading of
+$c(\phi)$ as a genuine second causal speed, kept as a fallback in earlier
+versions, is set aside: there is one speed (Section~\ref{sec:onespeed}).
 
 % =========================================================================
 \section{Scalar-Field Dynamics}
@@ -924,7 +979,7 @@ form is
 where $\Veff(\phi)$ is an effective potential and $C$ represents permitted
 couplings to matter, curvature, or hydrodynamic variables. The potential and
 coupling structure determine the vacuum phases, stability, characteristic sound
-speed, and possible Heartbeat behaviour.
+speed, and possible Heartbeat behavior.
 
 % =========================================================================
 \section{The Ocean Interpretation}
@@ -975,7 +1030,7 @@ account of Section~\ref{sec:refractive} requires.
 \paragraph{Expansion is divergence, not transport.}
 Expansion is an effect of flow whose cause is a change of the Ocean's state. On
 the largest scales the Ocean's flow is divergent, $\Theta =
-\nabla_{\alpha} u^{\alpha} > 0$ everywhere, with no centre and no common
+\nabla_{\alpha} u^{\alpha} > 0$ everywhere, with no center and no common
 direction. A uniform flow carrying every pattern the same way would be
 unobservable in principle; what is observed is regions moving apart. Regions
 beyond the Hubble radius recede faster than light. This is flow, not travel,
@@ -991,7 +1046,7 @@ in its shape. A gradient of state, varying from place to place as near a mass,
 bends travel: it refracts patterns and, where steep enough, brings outward
 travel to zero at a horizon, with no net flow of the medium
 (Section~\ref{sec:blackholes}). A uniform change of state, the same everywhere
-at once, drives flow: a divergent flow with no centre, which is expansion, or a
+at once, drives flow: a divergent flow with no center, which is expansion, or a
 convergent one, which is contraction. In the terms of Section~\ref{sec:complex}
 the uniform change is a change of $\mu$, with the amount $\rho$ held at $v$.
 Literal flow is excluded for a black hole because a local inflow would have to
@@ -1085,7 +1140,11 @@ problem}: the microwave background has the same temperature, to about one part
 in $10^{5}$, across regions that have not been in contact within the present
 expansion; the framework's account is that the previous beat's contraction
 brought them into contact before the transition, and it must be shown that this
-produces the observed uniformity and its spectrum of departures. \emph{The age
+produces the observed uniformity and its spectrum of departures. The same
+account must also supply flatness, which inflation otherwise explains: in the
+cyclic model the long accelerated expansion of each cycle flattens and smooths
+what follows \cite{steinhardt2002}, and the Heartbeat would need its
+pressure-driven expansion to do the same. \emph{The age
 of the Ocean}: the 13.8 billion years is the age of the present expansion
 epoch, extrapolated on the assumption that patterns have kept the same time
 throughout, not the age of the beat or of the Ocean. Whether the Ocean has an
@@ -1131,7 +1190,7 @@ treatments in which galaxies are external sources perturbing the superfluid
 
 Two consequences follow. First, the kiloparsec scale is a property of the
 individual solution, fixed by the full state of the disturbance --- its energy,
-its organised and random flow, and its exchange with the surrounding medium ---
+its organized and random flow, and its exchange with the surrounding medium ---
 and need not be a parameter of the medium; this is the basis of the
 candidate route of Section~\ref{sec:sec7open}, item~(5). Second, if the solution
 is fixed by its baryonic content --- the question posed by the Size task of
@@ -1156,26 +1215,26 @@ The decomposition $v_{c}^{2} = v_{b}^{2} + v_{\phi,\mathrm{eff}}^{2}$ reduces
 the vacuum's response to a single radial quantity. In the framework it is a
 flow in time and space together, not a single radial number. Momentum
 conservation means that any local acceleration of the medium produces shear
-against neighbouring regions; the shear term $\sigma_{\mu\nu}$ of $\Pimn$ is
+against neighboring regions; the shear term $\sigma_{\mu\nu}$ of $\Pimn$ is
 where this enters. Such a flow is not constrained to lie parallel to the
 baryonic gravitational field.
 
 The route proposed here is shear bound to the galaxy itself: the differential
 circulation of a flattened vortex lattice in the baryons' gravitational well.
 Azimuthal and meridional shear of such a lattice gives an anisotropic $\Pimn$,
-enhancing support in the disc plane while suppressing it vertically, which is
-the anisotropy the parallelism criterion requires, and it does not depend on the
-galaxy's travel through its surroundings. That independence is required: the
+and it does not depend on the galaxy's travel through its surroundings. That independence is required: the
 radial acceleration relation shows almost no intrinsic scatter across galaxies
-travelling at very different speeds relative to the cosmic rest frame, and in
+traveling at very different speeds relative to the cosmic rest frame, and in
 colliding clusters the inferred extra mass follows the galaxies rather than the
 slowed gas. A wake from a galaxy's travel, aligned with its direction of travel
 rather than with the baryonic field, remains only as a small residual offset,
-tested separately (Section~\ref{sec:program}). Whether a bound vortex lattice
-gives the required anisotropy quantitatively is the calculation, and it is not
-done.
+tested separately (Section~\ref{sec:program}). Stress in the Ocean does not
+push stars; it reaches them only through how patterns read the Ocean's state
+(Section~\ref{sec:sides}). Whether the lattice's anisotropy reaches the stars as
+the radial-over-vertical enhancement the parallelism criterion requires is
+therefore the calculation, and it is not done.
 
-Stars and gas orbiting a galactic centre are travel. Whether the Ocean also
+Stars and gas orbiting a galactic center are travel. Whether the Ocean also
 flows with them is a separate claim, about how the travel of patterns couples to
 the flow of the medium, and the formalism does not yet specify that coupling.
 The decomposition $v_{c}^{2} = v_{b}^{2} + v_{\phi,\mathrm{eff}}^{2}$ treats the
@@ -1256,7 +1315,7 @@ than chosen:
 \textbf{Quantity} & \textbf{Definition} & \textbf{Physical meaning} \\
 \midrule
 Sound speed & $c_{s}^{2} = L_{,X} / \Kk$ &
-Propagation speed of coherent Ocean disturbances \\
+Carrying speed of the Ocean, the speed of every disturbance (Section~\ref{sec:onespeed}) \\
 Mass gap & $\Ogap^{2} = \Veff''(\bar{\phi}) / \Kk$ &
 Curvature of the effective potential at the local vacuum state \\
 Effective inertia & $\mstar = \mstar(\Gg, \Kk)$ &
@@ -1317,7 +1376,7 @@ threshold.
 Requiring $E_{c}(\phi_{0}) \approx 0.511\,\mathrm{MeV}$ in the present vacuum
 state fixes
 \begin{equation}
-\xi(\phi_{0}) = \frac{\hbar c}{E_{c}} \approx 386\ \text{femtometres},
+\xi(\phi_{0}) = \frac{\hbar c}{E_{c}} \approx 386\ \text{femtometers},
 \end{equation}
 which is the reduced Compton wavelength of the electron. This is a derived
 consequence rather than a coincidence. A localized excitation of rest energy
@@ -1356,7 +1415,7 @@ consequence states.
 \smallskip
 \noindent
 \textbf{The electron's mass is a constant of the beat.} The value
-$0.511\,\mathrm{MeV}$, with $\xi_{0} \approx 386$~femtometres, remains a
+$0.511\,\mathrm{MeV}$, with $\xi_{0} \approx 386$~femtometers, remains a
 readout, but of the present beat rather than of the present moment: wherever
 the Ocean is in its ordinary state it is fixed for the whole beat by the
 condition in which the Ocean was left at the transition, and another beat may read differently. The scale is set by the amount $\rho$,
@@ -1371,6 +1430,10 @@ The conserved charge of the $U(1)$ symmetry is no threat to this: its density
 is proportional to $\rho^{2}\mu$, and it dilutes with expansion through $\mu$,
 not through $\rho$ (Section~\ref{sec:complex}). And the question is no longer
 how fast $m_{e}$ drifts but what sets the beat's constant at the transition.
+Under the one-speed principle (Section~\ref{sec:onespeed}) a uniform change of
+the carrying speed, across a beat or within one, would be invisible on its own,
+since every pattern scales with it; what these limits test is whether any
+pattern fails to scale exactly.
 
 \smallskip
 \noindent
@@ -1391,7 +1454,7 @@ local Lorentz invariance and must be reconciled with precision tests.
 
 \smallskip
 \noindent
-\textbf{Particle-like behaviour does not require smallness.} An excitation
+\textbf{Particle-like behavior does not require smallness.} An excitation
 appears particle-like because it exchanges energy, momentum and charge in whole
 units and at a single point. Both properties follow from the medium being a
 quantum field with local couplings, independently of the localization scale.
@@ -1409,10 +1472,14 @@ this, $\mstar$ and hence $\xi$ are not defined by the theory.
 \item \textbf{Stability.} Require $L_{,X} > 0$ and $\Kk = L_{,X} + 2X L_{,XX} > 0$;
 otherwise $c_{s}^{2} < 0$ (gradient instability) or the kinetic term flips sign
 (ghost).
-\item \textbf{Lorentz-violation bounds.} Show $c_{s} \to c_{0}$ in the local limit
-to the precision demanded by clock-comparison and photon/neutrino time-of-flight
-tests, and demonstrate that the $k^{4}$ term is suppressed at accessible
-energies. The $k^{4}$ term becomes significant for wavelengths near $\xi_{0}$,
+\item \textbf{Lorentz-violation bounds.} Under the one-speed principle
+(Section~\ref{sec:onespeed}) $c_{s}$ is the local $c_{0}$ by construction, and the
+test becomes whether light and matter share it; their speed limits agree to
+about one part in $10^{23}$ (Section~\ref{sec:nogo}). The $k^{4}$ term of the
+dispersion relation gives short-wavelength excitations of $\phi$ a group
+velocity above $c_{s}$, which the one-speed principle does not allow for
+anything that carries a signal; the one-speed law must remove or confine it, and
+must show it suppressed at accessible energies. The $k^{4}$ term becomes significant for wavelengths near $\xi_{0}$,
 that is at energies near $0.5\,\mathrm{MeV}$. Photons from distant gamma-ray
 bursts show no energy-dependent arrival times at energies far above this, so the
 $k^{4}$ term cannot act on the electromagnetic sector, nor on electrons, at the
@@ -1432,7 +1499,7 @@ That is now the position (Section~\ref{sec:threshold}, Consequences): $\xi$ is
 a constant of the beat, and the bounds confirm it.
 \item \textbf{The scale hierarchy.} Galactic-scale effects require the scalar's
 Compton range to be of order a kiloparsec, implying
-$\Ogap \sim 10^{-26}\,\mathrm{eV}$. But $\xi_{0} \approx 386$~femtometres
+$\Ogap \sim 10^{-26}\,\mathrm{eV}$. But $\xi_{0} \approx 386$~femtometers
 implies a stiffness scale near $0.5\,\mathrm{MeV}$. These differ by roughly
 thirty-two orders of magnitude. They are set by different operators ---
 $\Veff''$ versus $\Gg$ --- so this is not immediately inconsistent, but a
@@ -1524,7 +1591,9 @@ phenomena. A candidate direction is a multi-component order parameter, spinor
 or matrix-valued as in superfluid helium-3~A, which near topologically
 protected Fermi points supports chiral spin-$\tfrac{1}{2}$ quasiparticles and
 effective gauge fields with relativistic dispersion \cite{volovik2003}, and
-would also supply the second internal phase of item~(8). Its cost is
+would also supply the second internal phase of item~(8). Light's two
+transverse polarizations and the two tensor polarizations of gravitational
+waves make the same demand (Section~\ref{sec:substrate}). Its cost is
 foundational: in helium-3 those quasiparticles exist because the atoms beneath
 are fermions, so this route makes the Ocean fermionic at bottom.
 \item \textbf{Circulation sense is invariant under rotation.} In the winding
@@ -1534,7 +1603,7 @@ from the other side it has the other sense, so rotation would turn matter into
 antimatter, which observation forbids. The framework needs two properties, an
 orientation in space that rotation changes (the candidate for spin) and a
 circulation sense that only pair creation or annihilation changes. Item~(9)
-favours an internal-phase charge over a knotted pattern, and it cannot be the
+favors an internal-phase charge over a knotted pattern, and it cannot be the
 condensate's own phase $\theta$, whose current is the Ocean's own current; it
 requires a second internal phase, and so an order parameter with more than one
 component (item~(7)). Neither route is derived here.
@@ -1588,17 +1657,17 @@ singularity forms \\
 
 In the refractive reading of Section~\ref{sec:refractive}, a black hole is a
 region where waves are slowed enough that an outward-directed wave is turned
-back. Laboratory analogues make this concrete. A fluid flowing faster than its
+back. Laboratory analogs make this concrete. A fluid flowing faster than its
 own sound speed forms a horizon that sound cannot cross, and such a horizon has
 been made in an atomic Bose--Einstein condensate, where the spontaneous
-analogue of Hawking radiation was observed together with the entanglement of its
+analog of Hawking radiation was observed together with the entanglement of its
 pairs \cite{steinhauer2016}. In that system the shortest length scale is the
 healing length $\xi = \hbar/mc_{s}$, the same construction as
 Section~\ref{sec:threshold}. General Relativity itself admits an exact
 description of a stationary black hole as space flowing inward through a flat
 background, reaching the speed of light at the horizon \cite{hamilton2008}. For
 a rotating black hole that description has the river twist rather than swirl. A
-draining vortex in water is nonetheless an analogue of a rotating black hole,
+draining vortex in water is nonetheless an analog of a rotating black hole,
 and rotational superradiance --- waves extracting energy from the rotation --- has
 been observed in one \cite{torres2017}.
 
@@ -1652,7 +1721,7 @@ gradient of the Ocean's state, which brings outward travel to zero, stretches
 fluctuations of the medium into real outgoing ripples, the energy drawn from
 the black hole. A fluid flowing faster than its own speed of sound has a
 horizon of the same form, and is predicted to emit thermal sound by the same
-argument \cite{unruh1981}; a laboratory analogue has since observed the effect
+argument \cite{unruh1981}; a laboratory analog has since observed the effect
 \cite{steinhauer2016}; in the Ocean the gradient of state does the same work.
 The ripples carry energy and momentum together. For a rotating black hole they
 carry angular momentum several times faster than energy, so it spins down to a
@@ -1664,7 +1733,7 @@ black hole the radiation is isotropic and carries energy with no net momentum.
 
 The temperature is set by how steeply outward travel falls to zero at the
 horizon: the surface gravity in General Relativity, the velocity gradient in
-laboratory analogues, and the gradient of the Ocean's state here. The horizon is
+laboratory analogs, and the gradient of the Ocean's state here. The horizon is
 defined by that condition, so it does not change in character as the black hole
 shrinks; it moves inward. A shrinking black hole therefore becomes tighter, not
 faster: its gradient steepens and it radiates hotter and faster, giving the
@@ -1686,7 +1755,7 @@ calculation, which treated neutrinos as massless, gives $2 \times 10^{66}$ years
 for a solar mass \cite{page1976a}, and without massless neutrinos the figure is
 several times longer. Searches for final-stage bursts from small primordial
 black holes have found none and constrain their abundance. The mechanism is
-tested through laboratory analogues, which share the black hole's mechanism, a
+tested through laboratory analogs, which share the black hole's mechanism, a
 horizon at which outward travel stops, although their horizon is made by
 literal flow and the Ocean's by a gradient of state.
 
@@ -1700,8 +1769,8 @@ fusion. A magnetic field threading a spinning hole can draw off its rotational
 energy electromagnetically and beam it out in two opposite directions
 \cite{blandford1977}; the largest jets so powered reach millions of light-years,
 and the outflow heats and redistributes the surrounding gas, regulating star
-formation. The Fermi bubbles above and below the Milky Way's centre were most
-likely created by a large release of energy at the centre within the last ten
+formation. The Fermi bubbles above and below the Milky Way's center were most
+likely created by a large release of energy at the center within the last ten
 million years or so, either an accretion episode of the central black hole or a
 nuclear starburst, the discoverers finding difficulties with both \cite{su2010}.
 Mergers return a few per cent of the mass as gravitational waves, and Hawking
@@ -1732,7 +1801,8 @@ requires account. If they always coincide, that suggests the geometry is the
 medium's own state, which bears directly on the structural question of
 Section~\ref{sec:related}. The difference may also depend on wavelength: the
 $k^{4}$ term of the dispersion relation makes short-wavelength excitations of
-$\phi$ travel faster than $c_{s}$, so for them the medium horizon is not
+$\phi$ travel faster than $c_{s}$, which the one-speed principle of
+Section~\ref{sec:onespeed} must remove or confine, so for them the medium horizon is not
 absolute, and any such leakage must lie within imaging and ringdown limits and,
 by Section~\ref{sec:sec7open}, item~(3), cannot extend to the electromagnetic
 sector.
@@ -1744,15 +1814,15 @@ below current sensitivity.
 Two further obligations are recorded in Section~\ref{sec:program}. A black
 hole's entropy, the size of the state it can hold, is proportional to its
 horizon's area rather than its volume, which a medium holding state throughout
-its volume must explain. And a black hole travelling relative to the medium, as
+its volume must explain. And a black hole traveling relative to the medium, as
 a recoiling merger remnant does, should show asymmetric infall and possibly
 drag; General Relativity does not distinguish that from being carried by the
 flow, but a medium with a rest frame does.
 
-\subsection{A traveller falls in}
+\subsection{A traveler falls in}
 \label{sec:traveller}
 
-This subsection follows a single pattern, a human traveller in an ideal
+This subsection follows a single pattern, a human traveler in an ideal
 protective suit, into a black hole, and marks at each stage what is
 established, what is the framework's reading, and what is open. It is a living
 section, reviewed at each release, and its standings change as the items they
@@ -1764,36 +1834,48 @@ what is established; \textbf{[Open]} means it depends on unresolved items.
 every part of a body at once, so no suit resists it. Near a black hole of ten
 solar masses the head-to-foot difference in acceleration reaches about ten times
 Earth's gravity some $3800$~km out, while the horizon lies at about $30$~km: the
-traveller is torn apart long before arrival. The case followed here is the black
-hole at the centre of the Milky Way, Sagittarius~A*, of about $4.3$ million
+traveler is torn apart long before arrival. The case followed here is the black
+hole at the center of the Milky Way, Sagittarius~A*, of about $4.3$ million
 solar masses and horizon radius about $12.7$ million km, where the head-to-foot
 difference at the horizon is about a ten-thousandth of Earth's gravity.
+\textbf{[Framework]} What tears a traveler apart is not the swiftness of the
+Ocean's current but how steeply it changes across a body
+(Section~\ref{sec:fixedrules}). Near a stellar-mass black hole the current
+steepens over a few kilometers; at Sagittarius~A* it is nearly uniform across a
+body at the horizon, and the traveler crosses intact, carried by a swift
+current that is barely felt.
 
 \paragraph{Approach.} \textbf{[Established]} Outside the horizon the danger is
 the accretion flow, gas at millions of degrees radiating X-rays, which the suit
 is assumed to withstand. Around a rotating black hole frame dragging turns the
-traveller with it, and inside the ergosphere no pattern can remain at rest
+traveler with it, and inside the ergosphere no pattern can remain at rest
 relative to distant regions. At $1.5$ horizon radii light can orbit.
-\textbf{[Framework]} The traveller is a pattern travelling through a region
+\textbf{[Framework]} The traveler is a pattern traveling through a region
 where the Ocean's state increasingly slows outward travel. Outside the horizon
 outward travel is still possible, and so is escape.
 
-\paragraph{The horizon.} \textbf{[Established]} The traveller notices nothing at
+\paragraph{The horizon.} \textbf{[Established]} The traveler notices nothing at
 the horizon: no wall, flash or jolt, as the equivalence principle requires.
-Distant observers never see the crossing: the traveller's light reddens, slows
-and fades, and the last image dims at the edge. The traveller's own clock runs
-normally. \textbf{[Framework]} Falling freely, the traveller detects no Hawking
+Distant observers never see the crossing: the traveler's light reddens, slows
+and fades, and the last image dims at the edge. The traveler's own clock runs
+normally. \textbf{[Framework]} Falling freely, the traveler detects no Hawking
 radiation. At the horizon the Ocean's state brings outward travel to zero, and
 past it every direction of travel leads inward. The medium itself does not flow
 inward. In this framework's terms the horizon is where outward travel stops.
+\textbf{[Open]} In the candidate mechanism of Section~\ref{sec:timecurrent} the
+carrying speed falls to zero at an isotropic radius of about $2.9\,GM/c^{2}$
+rather than General Relativity's $0.5\,GM/c^{2}$; if that mechanism holds, the
+horizon's position, and with it this stage, change.
 
 \paragraph{Inside.} \textbf{[Established]} The longest possible time from
-horizon to centre is $\pi G M / c^{3}$: about $66$ seconds for Sagittarius~A*,
+horizon to center is $\pi G M / c^{3}$: about $66$ seconds for Sagittarius~A*,
 about $28$ hours for M87* at $6.5$ billion solar masses. Firing rockets shortens
-it. The outside sky remains visible, distorted; a falling traveller does not see
+it. The outside sky remains visible, distorted; a falling traveler does not see
 the whole future of the observable universe pass. Tides grow during the fall
-and become lethal about $280\,000$~km from the centre of Sagittarius~A*,
-stretching bodies, then molecules, then atoms.
+and become lethal about $280\,000$~km from the center of Sagittarius~A*,
+stretching bodies, then molecules, then atoms. \textbf{[Open]} These figures are
+General Relativity's; under the candidate mechanism they change with the
+horizon.
 
 \paragraph{The core.} \textbf{[Open]} General Relativity ends the fall at a
 singularity, where the theory fails. In this framework, with $\lambda > 0$ and
@@ -1801,16 +1883,16 @@ the medium in a stiff state, collapse may stop at a core of finite density set
 by the healing length (Section~\ref{sec:defocusing}). Separately, the
 localization floor is local (Section~\ref{sec:threshold}): if the core's state
 raises $\xi$, localized excitations are no longer supported there, and the
-traveller's localized patterns dissolve into coherent excitations rather than
+traveler's localized patterns dissolve into coherent excitations rather than
 being crushed. Whether compression raises or lowers $\xi$ is not known.
 
-\paragraph{What becomes of the traveller.} \textbf{[Framework]} The traveller's
+\paragraph{What becomes of the traveler.} \textbf{[Framework]} The traveler's
 patterns are scrambled until nothing distinguishes them from the black hole.
 The carried quantities, energy, momentum and charge, add to its mass, net
 rotation and charge. The state is preserved (Section~\ref{sec:preservation})
 and leaves as Hawking radiation over about $10^{87}$ years for Sagittarius~A*,
 unless a beat transition intervenes (Section~\ref{sec:acrossbeats}). Within
-about a minute the traveller is gone as a pattern; in principle the traveller
+about a minute the traveler is gone as a pattern; in principle the traveler
 is never gone as a state.
 
 % =========================================================================
@@ -1861,7 +1943,7 @@ energy and be resisted. The defocusing case is energy-coercive and the cutoff at
 $\xi$ holds. In the focusing case $\lambda < 0$ the self-interaction rewards
 further compression, the cutoff does not arrest the cascade, and concentration
 accelerates instead. The sign is therefore a stability requirement of the same
-standing as $L_{,X} > 0$ and $\Kk > 0$, not a modelling preference. With the
+standing as $L_{,X} > 0$ and $\Kk > 0$, not a modeling preference. With the
 complex field as baseline the potential belongs to the modulus $\rho$
 (Section~\ref{sec:complex}), and the argument is unchanged.
 
@@ -1977,17 +2059,17 @@ them.
 \label{sec:related}
 
 The proposal that the vacuum is a superfluid, and that dark matter and dark
-energy are two behaviours of it rather than two substances, is not new. This
+energy are two behaviors of it rather than two substances, is not new. This
 section states what is already established, so that the framework's actual
 claim can be isolated from the parts of it that are inherited.
 
-\subsection{Two families of superfluid-vacuum programme}
+\subsection{Two families of superfluid-vacuum programs}
 
 Existing work divides on whether spacetime geometry is fundamental.
 
-\paragraph{Emergent gravity.} Volovik's programme \cite{volovik2003} treats the
+\paragraph{Emergent gravity.} Volovik's program \cite{volovik2003} treats the
 quantum liquid as prior to spacetime: the metric, Lorentz invariance and gauge
-structure appear as low-energy collective behaviour of the condensate.
+structure appear as low-energy collective behavior of the condensate.
 Zloshchastiev's logarithmic superfluid vacuum theory \cite{zloshchastiev2020}
 derives an induced gravitational potential from the vacuum wavefunction and
 concludes that dark matter and dark energy are manifestations of the same
@@ -1996,7 +2078,7 @@ here. The mechanism is not: Zloshchastiev distinguishes his approach explicitly
 from models that work by modifying the stress-energy tensor of the Einstein
 equations.
 
-Volovik's programme also supplies an argument this framework can use.
+Volovik's program also supplies an argument this framework can use.
 Inhabitants of a superfluid, built from its own low-energy excitations, would
 perceive an effectively relativistic world and could not detect the underlying
 medium directly \cite{volovik2003}. The same argument would account for the
@@ -2014,7 +2096,7 @@ precedent for the galactic sector of Section~6. Berezhiani and Khoury \cite{bere
 construct an effective field theory in which dark matter is a superfluid with a
 galaxy-scale coherence length, described by phonons rather than, in the standard model's terms, collisionless
 particles, recovering MOND phenomenology on galactic scales. That model has
-since been disfavoured by Milky Way data \cite{lisanti2023}: it over-predicts
+since been disfavored by Milky Way data \cite{lisanti2023}: it over-predicts
 vertical accelerations of disk stars even while reproducing the rotation curve. Viscous cosmology
 \cite{dou2011} models the dark sector as a single fluid whose bulk viscosity
 produces a negative effective pressure and thereby mimics dark energy. The
@@ -2065,18 +2147,37 @@ is a separate species coupled to it. Superfluid vacuum theory is not. Its
 stated paradigm is a background quantum liquid of which ``elementary
 particles'', in its own terms, are excitations --- one substance, as here.
 
+Closest of all, on both what is fundamental and how gravity is recovered, is a
+line of Lorentz--Poincar\'e ether models outside the superfluid-vacuum
+literature. Arminjon's scalar ether theory \cite{arminjon2004, arminjon2006,
+arminjon2008, arminjon2016} takes a fluid ether as the only substance, with the
+elementary constituents of matter as organized flows in it; requires the
+ether's sound speed to be matter's speed limit, for that reason; makes clocks
+slow and rods contract in one ratio set by the local ether density; obtains
+gravitational waves from the ether's compressibility; and replaces the
+singularity of collapse with a bounce. Its isotropic version has the
+exponential metric, agrees with General Relativity at first post-Newtonian
+order, and does not produce frame dragging. Before it, Podlaha, Sj\"odin and
+Broekaert treated the ether's density as a refractive index and scaled rods,
+clocks and light together; Broekaert reproduces the four classical tests at
+first post-Newtonian order with the scaling this framework requires
+(Section~\ref{sec:weakfield}) \cite{broekaert2005}.
+
 What remains distinctive is narrower than earlier versions claimed. Superfluid
 vacuum theory obtains a single substance by making geometry emergent from the
 condensate, and this framework now takes the same position on what is
-fundamental, so that is no longer a point of difference. Two elements remain.
-The first is the route by which geometry is recovered: rather than deriving an
-acoustic metric from the condensate and then seeking Einstein's equations, the
-framework keeps Einstein's equation as the effective description and proposes a
-refractive account of why it holds (Section~\ref{sec:refractive}), whose
-decisive test is that the medium's response slows time and stretches space in
-equal measure for every excitation. Whether that route is genuinely different
-from the emergent programme's, or the same one approached from the other end,
-must be settled. The second is the mechanism of the partition, the covariant
+fundamental, so that is no longer a point of difference. Nor is the refractive
+route: the ether models above recover gravity's classical tests through a
+medium whose state scales rods, clocks and light together. Five elements
+remain. Four concern gravity. The carrying speed varies with the state, and that
+variation is gravity (Section~\ref{sec:onespeed}), where Arminjon holds the
+ether's sound speed fixed. Near a mass the Ocean is compressed rather than
+rarefied, and patterns fall by refraction rather than by a pressure push. The
+candidate mechanism of Section~\ref{sec:timecurrent}, a current along the time
+direction slowed by drag at Mach~1, has not been found in the literature
+reviewed. And that mechanism departs from the exponential metric beyond first
+order, with a horizon at finite radius. The fifth is the mechanism of the
+partition, the covariant
 criterion of Section~\ref{sec:threshold}: the dimensionless quantity
 $\Qq = \xi^{2} h^{\mu\nu} k_{\mu} k_{\nu}$ of~\eqref{eq:criterion}, with a
 smooth weighting $f(\Qq)$ splitting the mode integral between $\Tmat$ and
@@ -2118,8 +2219,7 @@ Section~2.3 is of Eckart--Landau type, which is known to be acausal and
 generically unstable in relativistic settings \cite{hiscock1985}. Current
 viscous cosmology uses causal second-order formulations of Israel--Stewart type
 \cite{israel1979}. A viable version of this framework must do the same.
-\item \textbf{Silence on vertical dynamics.} Section~6 states only a radial
-relation. Milky Way kinematics constrain the two components separately, and
+\item \textbf{Vertical dynamics.} Section~6's decomposition is radial. Milky Way kinematics constrain the two components separately, and
 they do not want the same thing: the baryonic distribution supplies too little
 gravity to account for the rotation curve but enough to account for the
 vertical velocity dispersions near the Sun, so substantial enhancement is
@@ -2133,19 +2233,26 @@ applies to any model: the enhancement of vertical acceleration must be
 suppressed relative to the radial enhancement. Whether this framework is
 exposed depends on whether $v_{\phi,\mathrm{eff}}$ tracks the baryonic
 acceleration field --- in which case it inherits the parallelism problem ---
-or constitutes an independent source. Section~6 now proposes the second, shear
-bound to the galaxy itself; the calculation that would show it is not done.
+or constitutes an independent source. Section~6 proposes the second, shear
+bound to the galaxy itself. Under the split of Section~\ref{sec:split}, that
+shear is a source of the geometry, not a force on stars. Slow patterns respond
+mainly to the slowing of their rhythm (Section~\ref{sec:weakfield}), which
+follows the overall amount of a source more than its direction. The lattice's
+anisotropy therefore does not by itself give an anisotropic pull: what must be
+shown is that its effective source is distributed so that the resulting
+acceleration is enhanced radially and not vertically. That calculation is not
+done.
 \item \textbf{The status of $c(\phi)$.} A variable effective propagation speed
 is natural in the emergent-gravity family, where the metric is acoustic. The
 refractive reading is now the framework's account of gravity
 (Section~\ref{sec:refractive}), which places it with that family on what is
 fundamental and incurs the family's chief obligation: to derive the effective
-geometry rather than assume it. What remains to settle is whether $c(\phi)$ is
-the effective speed of excitations, the refractive reading, or a genuine
-variable causal speed, and what causal structure follows in either case.
+geometry rather than assume it. Section~\ref{sec:onespeed} settles the reading:
+$c(\phi)$ is the single local carrying speed of every disturbance, the refractive
+reading, and not a second causal speed. What remains is to derive it.
 \item \textbf{The vacuum is already measured at the electron scale.} In quantum
 electrodynamics, vacuum polarization screens every charge out to the electron's
-reduced Compton wavelength --- the same 386~femtometres as $\xi_{0}$ --- and
+reduced Compton wavelength --- the same 386~femtometers as $\xi_{0}$ --- and
 contributes measurably to the Lamb shift and to the electron's anomalous
 magnetic moment, in agreement with theory to many significant figures. The
 vacuum also behaves as a nonlinear optical medium. Light-by-light scattering,
@@ -2164,7 +2271,7 @@ antihydrogen, trapped and laser-cooled at CERN \cite{baker2021}. Matter and
 antimatter agree to extreme precision: the antihydrogen 1S--2S transition
 matches hydrogen to about $2$ parts in $10^{12}$ \cite{alpha2018}; the
 antiproton charge-to-mass ratio matches the proton's to about $16$ parts in
-$10^{12}$ \cite{base2022}; antihydrogen falls towards the Earth, measured at
+$10^{12}$ \cite{base2022}; antihydrogen falls toward the Earth, measured at
 $0.75\,g$ with an uncertainty of about $0.2\,g$, consistent with $g$, and
 repulsive gravity is ruled out \cite{alphag2023}. The one measured difference is
 CP violation in the weak interaction, seen in kaons, B and charm mesons and, in
@@ -2184,7 +2291,11 @@ of CPT symmetry implies a violation of Lorentz invariance, and a medium with a
 rest frame is a natural source of both. The comparisons above are therefore
 among the most precise existing limits on the Ocean's preferred frame.
 Antimatter is not a separate obligation from Section~\ref{sec:sec7open},
-item~(3); it is one of the instruments that tests it.
+item~(3); it is one of the instruments that tests it. One check arises from the
+complex field itself: in a state with nonzero phase rate $\mu$, excitations of
+opposite charge under the Ocean's $U(1)$ differ in energy by $2\mu$
+(Section~\ref{sec:nogo}); if antimatter partners are such charge-conjugate
+excitations, these comparisons bound it.
 \end{enumerate}
 
 \subsection{The structural question}
@@ -2192,20 +2303,328 @@ item~(3); it is one of the instruments that tests it.
 If the vacuum is a medium possessing density, pressure and a rest frame, it is
 reasonable to ask why it requires a background spacetime to occupy. The
 emergent-gravity family answers that it does not, and that geometry is the
-medium's own collective behaviour. Earlier versions of this framework posited a
+medium's own collective behavior. Earlier versions of this framework posited a
 medium and a geometry as distinct structures coupled through $\kappa(\phi)$.
-Since version 3.7 the framework answers the question in favour of the medium. There is no
+Since version 3.7 the framework answers the question in favor of the medium. There is no
 background spacetime for the Ocean to occupy; the geometry of
 Equation~\eqref{eq:field} is how the medium's state is experienced by
 excitations of the medium, and $\kappa(\phi)$ expresses how strongly that state
 responds to concentrated energy. The position is now stated. It has not yet
 been derived, and deriving the effective geometry from the dynamics of the
 medium is the task it creates (Section~\ref{sec:program}). The derivation needs
-a strict split, or the medium is counted twice: the macroscopic background
-state of the condensate defines the effective metric from which $\Gmn$ is
-built, and only excitations and vortical stresses above that background act as
-sources. How $P(\phi)$, which describes the background's own pressure, enters
-under that split is part of the derivation.
+a strict split, or the medium is counted twice. Section~\ref{sec:split} states
+the split, the principle it rests on, and why the present form of the law cannot
+yet carry it.
+
+% =========================================================================
+\section{One Speed and the Split}
+\label{sec:split}
+
+Section~\ref{sec:related} ends with the task the medium-first position
+creates: deriving the effective geometry of Equation~\eqref{eq:field} from the
+medium, with a strict split between the background that defines the geometry
+and the excitations that act as sources. This section states the principle on
+which that split rests, shows why the present form of the Ocean's law cannot
+yet carry it, states the condition the weak-field limit imposes, and offers a
+candidate mechanism. It does not derive Equation~\eqref{eq:field}; that remains
+the central task of Section~\ref{sec:program}.
+
+\subsection{One speed}
+\label{sec:onespeed}
+
+The Ocean has one speed: the speed at which it carries a disturbance, written
+$c_{s}$ and called here the carrying speed. Everything runs at it --- light,
+the internal workings of every pattern, every signal. The Ocean's own flow is
+not a disturbance traveling through the Ocean, and has no such limit; ``faster
+than $c_{s}$'' is always measured against some other part of the Ocean, never
+against the water a pattern sits in. Where the flow outruns $c_{s}$ there is a
+horizon: disturbances still move at $c_{s}$ through the local medium, but the
+medium carries them away faster than they can make headway.
+
+What is called the speed of light is therefore not a constant of nature but the
+Ocean's local carrying speed. It is always measured with the same value
+because rulers and clocks are themselves patterns running at that speed; a
+change in $c_{s}$ is invisible locally by construction. Gravity is where $c_{s}$
+varies from place to place.
+
+There is one speed because there is one substance. A disturbance passes from
+place to place only by the Ocean handing it along, and the speed of the
+hand-off is set by two properties of the medium, how stiffly it resists being
+bent or compressed and how much inertia it has: $c_{s}^{2}$ is their ratio. At
+any place there is one stiffness and one inertia, and so one speed. A second
+speed would require a second substance, or a layer running beneath the Ocean,
+which would be the inherited stage returning.
+
+A localized pattern is a ripple circulating at $c_{s}$, confined. At rest all of
+its carrying speed goes into circulating. In travel part of it carries the
+pattern forward, and less remains for its internal rhythm, which slows by
+$\sqrt{1 - v^{2}/c_{s}^{2}}$. Relativistic time dilation is then a consequence
+of the medium, and a pattern can never reach $c_{s}$, because nothing would
+remain to circulate. This is the dynamical reading of relativity first proposed
+by Lorentz and FitzGerald. The step from ``matter is flows in the medium'' to
+``the medium's sound speed is matter's speed limit'' has a precedent: Arminjon's
+ether theory requires the ether's sound speed to equal $c$ for exactly this
+reason \cite{arminjon2008}. There that speed is fixed everywhere; in the Ocean
+it varies with the state, and its variation is gravity.
+
+\subsection{The rules are fixed}
+\label{sec:fixedrules}
+
+The Ocean's law is the same everywhere. What differs from place to place is the
+state a pattern sits in. Every pattern responds to the Ocean around it in two
+ways: it is carried by currents, and it is refracted by differences of state.
+Neither is felt from inside: a pattern riding even the swiftest current notices
+nothing, and its internal workings run as they would anywhere. This is the
+equivalence principle in the Ocean's terms.
+
+The response may depend on where a pattern is and what the Ocean is doing
+there, never on what the pattern is made of. Tightly and loosely wound patterns
+at the same place are carried and refracted identically; composition dependence
+of free fall is excluded at the level
+$\eta(\mathrm{Ti},\mathrm{Pt}) = [-1.5 \pm 2.3\,(\mathrm{stat}) \pm
+1.5\,(\mathrm{syst})] \times 10^{-15}$ \cite{microscope2022}.
+
+What breaks a pattern is not the speed of a current but its change across the
+pattern. A uniform current carries everything along unfelt; a pattern is torn
+when its front lies in faster flow than its back. A loosely bound pattern spans
+more of the Ocean and holds itself together more weakly, so it is torn sooner
+and farther out: stars before people, people before atoms, atoms before nuclei.
+That is tidal disruption (Section~\ref{sec:traveller}).
+
+\subsection{What sits on each side of the field equation}
+\label{sec:sides}
+
+The background state of the Ocean sets two things: the local carrying speed
+$c_{s}(x)$ and the flow $u^{\mu}(x)$. The effective geometry from which $\Gmn$
+is built is constructed from these alone, in the acoustic or river form. The
+background's own pressure $P(\phi)$ belongs to this side, as part of what sets
+$c_{s}$; it is not a source. The right-hand side of Equation~\eqref{eq:field}
+holds only what sits above the background: localized patterns ($\Tmat$),
+coherent ripples ($\delta\Tphi$), and the coarse-grained vortex stress $\Pimn$.
+Nothing is counted twice.
+
+A geometry built from $c_{s}$ and the flow alone fixes the light cones, and with
+them the paths of light. It cannot by itself fix the overall conformal factor
+that governs slow patterns: an acoustic geometry can match the Schwarzschild
+geometry only up to such a factor \cite{visser1998}. In the Ocean that factor is
+supplied by how patterns scale with the state (Section~\ref{sec:weakfield}).
+
+\subsection{Why the minimal law cannot carry the split}
+\label{sec:nogo}
+
+Two results, computed for this version and checked numerically, show that the
+simplest law consistent with Section~\ref{sec:complex} cannot deliver the split
+as it stands. That law, with the quartic potential of
+Section~\ref{sec:defocusing}, is
+\begin{equation}
+L = -(\partial\rho)^{2} + \rho^{2}\mu^{2} - \frac{\lambda}{4}\left(\rho^{2} - v^{2}\right)^{2},
+\qquad \mu^{2} \equiv -\nabla_{\alpha}\theta\,\nabla^{\alpha}\theta ,
+\label{eq:simplestlaw}
+\end{equation}
+with $\mu$ the phase rate of Equation~\eqref{eq:mu}. At long wavelength the
+modulus sits at $\bar{\rho}^{2} = v^{2} + 2\mu^{2}/\lambda$, leaving a
+single-field superfluid with pressure $P(\mu^{2}) = v^{2}\mu^{2} +
+\mu^{4}/\lambda$, whose derivative $P' \equiv dP/d(\mu^{2}) = \bar{\rho}^{2}$ is
+exactly the modulus squared.
+
+\paragraph{The phonon geometry gives the wrong light bending.}
+Splitting the phase into background and ripple, $\theta = \bar{\theta} +
+\delta\theta$, the ripple propagates in the disformal acoustic metric
+\cite{babichev2008, visser1998}
+\begin{equation}
+g^{\mathrm{eff}}_{\mu\nu} = \Omega^{2}\left[\gmn + \left(1 - c_{s}^{2}\right) u_{\mu} u_{\nu}\right],
+\qquad
+c_{s}^{2} = \frac{P'}{P' + 2\mu^{2}P''},
+\qquad
+\Omega^{2} = \frac{P'}{c_{s}} .
+\end{equation}
+With $a \equiv 2\mu^{2}/(\lambda v^{2})$, $c_{s}^{2} = (1 + a)/(1 + 3a)$. In the
+medium's rest frame $|g^{\mathrm{eff}}_{00}| = P' c_{s}$ and
+$g^{\mathrm{eff}}_{ij} = (P'/c_{s})\,\delta_{ij}$, so the post-Newtonian
+parameter that measures the curvature of space per unit slowing of time is
+\begin{equation}
+\gamma = -\frac{2 + 3a}{3a},
+\end{equation}
+always below $-1$: space contracts where clocks slow, the opposite of General
+Relativity's $\gamma = 1$. For any single-field superfluid of this kind,
+$\gamma = 1$ would require $P'$ to stay fixed while $c_{s}$ varies, which is
+impossible, since both move with $\mu^{2}$ alone. In the stiff limit $a \to 0$
+the time part does not change at first order, so light bends but slow patterns
+feel no pull; at large $a$ the metric is conformal and $\gamma \to -1$, with no
+light bending. With the modulus held rigidly at $v$, $P'' = 0$ and the ripple
+sees flat space. Matter and light cannot both be reading the acoustic geometry
+of the phase.
+
+\paragraph{Light and matter have different speed limits.}
+In units where the speed of the flat background in Equation~\eqref{eq:simplestlaw}
+is one, and in the frame turning with the phase, the small disturbances satisfy
+\begin{equation}
+\left(\omega^{2} - k^{2}\right)\left(\omega^{2} - k^{2} - M^{2}\right) = 4\mu^{2}\omega^{2},
+\qquad M^{2} = \lambda\bar{\rho}^{2} .
+\end{equation}
+A gapless branch travels at the $c_{s}$ above. A gapped branch, the candidate
+for matter, has rest rhythm $\omega_{0}^{2} = \lambda v^{2} + 6\mu^{2}$. At high
+$k$ both branches approach $\omega = k \pm \mu$: their speed limit is set by the
+flat background written into the law, not by the Ocean's state. Two
+consequences follow. A pattern's rhythm times its size equals its own speed
+limit, which here is fixed, so where its rhythm slows its size must grow; clocks
+and rulers move in opposite directions, and the lockstep of
+Section~\ref{sec:weakfield} cannot occur. And wherever the Ocean is not fully
+stiff, light is slower than matter's limit, so fast charged patterns would
+outrun light and radiate it away. Cosmic-ray protons near $10^{20}$~eV bound
+such a difference to about one part in $10^{23}$ \cite{colemanglashow1999}, and
+for electrons to about one part in $10^{15}$ \cite{steckerglashow2001}. Since
+$1 - c_{s} \approx a$ for small $a$, the Ocean under this law would have to be stiff to
+$a \lesssim 10^{-23}$, where $c_{s}$ stops responding to the state and gravity
+disappears.
+
+The diagnosis: Equation~\eqref{eq:simplestlaw} is written on a flat background,
+the stage removed in version 3.7, and matter still inherits its speed limit from
+it. The one-speed law that replaces it is the central research problem of this
+version (Section~\ref{sec:program}).
+
+\subsection{The weak-field condition}
+\label{sec:weakfield}
+
+Near a mass $c_{s}$ is slower. Light bends because $c_{s}$ varies along its
+path. Slow patterns fall because their internal rhythm is slower deeper in, and
+a pattern drifts toward where its rhythm, and so its energy, is lower:
+refraction for matter. The one-speed principle ties a pattern's rhythm and size
+together, rhythm times size equaling $c_{s}$, which makes the change invisible
+locally. It leaves open how the slowing is shared. The standard post-Newtonian
+account settles it: the equivalence principle alone gives half the observed
+deflection of starlight, and the curvature of space, measured by $\gamma$, gives
+the other half \cite{will2014}. General Relativity's light bending therefore
+requires an even split,
+\begin{equation}
+\text{rhythm} \;\propto\; \sqrt{c_{s}}, \qquad \text{size} \;\propto\; \sqrt{c_{s}} .
+\label{eq:evensplit}
+\end{equation}
+The same scaling --- a coordinate light speed falling as $\Phi^{2}$, rods and
+clocks each scaling as $\Phi$, inertia as $\Phi^{-3}$ --- was used by Broekaert,
+after Sj\"odin, to reproduce the four classical tests at first post-Newtonian
+order \cite{broekaert2005}; Equation~\eqref{eq:evensplit} is that condition
+stated for the Ocean. Large bodies follow automatically: a star is made of
+patterns, and if each scales alike the star falls as its parts do. Since a
+pattern's size is set by the healing length and its rhythm is $c_{s}/\xi$, the
+condition is $\xi \propto \sqrt{c_{s}}$. If a pattern's inertia tracks the
+Ocean's inertia, it is equivalently that near a mass the Ocean is both slightly
+softer and slightly heavier, inertia rising as $c_{s}^{-3/2}$ and stiffness
+falling as $c_{s}^{1/2}$. Until the one-speed law produces this,
+Equation~\eqref{eq:evensplit} is an input, and $\gamma = 1$ is put in rather than
+derived.
+
+\subsection{A candidate mechanism: the current through time}
+\label{sec:timecurrent}
+
+This subsection is a candidate, not a derivation. Ordinary sideways flow past a
+star cannot be the source of its gravity: the Sun travels at about
+$370\,\mathrm{km\,s^{-1}}$ relative to the microwave background, and gravity from
+flow past it would be lopsided, stronger on its flanks than ahead and behind,
+which the post-Newtonian preferred-frame parameters exclude at
+$\alpha_{1} \lesssim 10^{-4}$ and $\alpha_{2} \lesssim 2 \times 10^{-9}$
+\cite{will2014}. One current is the same whichever way a star travels: the flow
+that carries every pattern forward in time. On the one-speed principle every
+pattern moves through the Ocean at $c_{s}$ in total, all of it along time when
+at rest.
+
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{The star slows the current.} A star exists at every moment, so it
+lies along the current through time rather than across it, and a frictionless
+flow along such a body is undisturbed. The star must therefore drag on the
+current, through the medium's viscosity. The slowed current spreads sideways
+through three space directions, so the deficit falls off as $w \propto M/r$:
+Newton's inverse distance, with a strength set by the drag per pattern relative
+to the Ocean's viscosity.
+\item \textbf{Clocks slow by $w$.} Patterns are carried through time by the
+local current, so their rhythm slows by $w$. This is the half of gravity that
+makes things fall.
+\item \textbf{The current is at Mach~1.} In the undisturbed Ocean the current
+through time runs at exactly $c_{s}$. At Mach number $M$ the compressible
+Bernoulli relation for the Ocean's density $n$ reads $dn/n = -M^{2}\,dU/U$, so at
+$M = 1$ slowing by $w$ compresses the Ocean by $w$. Time slows and the Ocean
+compresses in equal measure, with nothing chosen.
+\item \textbf{One input: how compression changes $c_{s}$.} For
+Equation~\eqref{eq:evensplit}, $c_{s}$ must fall twice as fast as density
+rises, $c_{s} \propto n^{-2}$. Then, to first order,
+\begin{center}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+ & General Relativity & Candidate \\
+\midrule
+Clock rhythm & $1 - w$ & $1 - w$ \\
+Light speed seen from afar & $1 - 2w$ & $1 - 2w$ \\
+Pattern size ($= c_{s}/\text{rhythm}$) & $1 - w$ & $1 - w$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+The law $c_{s} \propto n^{-2}$ is the pressure--density law $p = p_{0} -
+K/n^{3}$, of the generalized Chaplygin form with exponent~3
+\cite{kamenshchik2001, bento2002}. Chaplygin laws relate pressure to energy
+density, so the correspondence holds only where that is proportional to $n$, and
+the exponent lies outside the range usually studied.
+\item \textbf{Second order: how the slowing builds up.} Write the current's
+speed as $U$, so that $|g_{00}| = U^{2}$, and $u \equiv GM/(rc^{2})$.
+Integrating the Bernoulli relation exactly with $c_{s} \propto n^{-2}$, normalized
+to the undisturbed Ocean, gives $n^{4} = 1/(2U^{2} - 1)$ and $c_{s} =
+\sqrt{2U^{2} - 1}$, so $g_{ij} = U^{2}/(2U^{2} - 1)\,\delta_{ij}$. If each layer of
+the Ocean subtracted a fixed amount from the current, $U = 1 - u$, the
+post-Newtonian parameter $\beta$ would be $\tfrac{1}{2}$ and Mercury's
+perihelion would advance $(2 + 2\gamma - \beta)/3 = 7/6$ times too fast. If each
+layer slows the current by a fraction of its own speed, so that it is $\ln U$
+that spreads by the inverse-distance law, $U = e^{-u}$ and $|g_{00}| = 1 - 2u +
+2u^{2}$: $\beta = 1$ exactly, with $\gamma = 1$ as before. The candidate then
+reproduces the deflection of light, the Shapiro delay and Mercury's perihelion
+advance. Its time part is that of the exponential metric of Yilmaz, which
+Arminjon's isotropic ether theory arrives at in full \cite{arminjon2006} and
+which underlies Broekaert's model \cite{broekaert2005}; beyond first order it
+differs from them in its spatial part and in light's speed,
+$\sqrt{2e^{-2u} - 1}$ against $e^{-2u}$.
+\item \textbf{Strong field: a departure.} The carrying speed $\sqrt{2e^{-2u} -
+1}$ falls to zero at $u = \ln\sqrt{2} \approx 0.35$, an isotropic radius of about
+$2.9\,GM/c^{2}$, where General Relativity's horizon lies at $0.5\,GM/c^{2}$. Near
+black holes the two must differ measurably, in shadow size and in the ringdown
+of mergers. This is a prediction to be confronted, and it could end the
+candidate. It also separates it from the exponential-metric models, in which
+light's speed vanishes only at $r \to 0$ and there are no horizons.
+\end{enumerate}
+
+Two inputs remain: the pressure--density law, and the fractional composition of
+the slowing, which in a viscous picture corresponds to an effective viscosity
+falling with the current's speed. Neither is derived. There is also a cost.
+Unified fluids whose pressure is a function of one density are excluded as
+the cosmic medium once $|d\ln p/d\ln n|$ exceeds about $10^{-5}$, because their
+sound speed erases the growth of structure on galactic scales
+\cite{sandvik2004}; the candidate needs that quantity near one. The escape the
+same authors name is a pressure not fixed by density alone. The Ocean has two
+state variables, the amount $\rho$ and the phase rate $\mu$
+(Section~\ref{sec:complex}), so the escape is available; that it works is to be
+shown. Bernoulli along the time direction is a heuristic, which a rigorous
+version must replace with one that respects the difference between time and
+space directions, and an exactly sonic flow is critical, the point at which
+ordinary flows choke.
+
+\subsection{What the Ocean must be made of}
+\label{sec:substrate}
+
+This version does not say what the Ocean is made of. Any substrate must satisfy
+four requirements: a single speed, so that no signal passes through it faster
+than $c_{s}$, which would return the stage one level down; a grain, if there is
+one, hidden below every tested scale; internal structure that can be twisted;
+and the ability to hold confined, circulating patterns.
+
+The third follows from light. Light's oscillation is entirely transverse, in two
+independent directions; crossed polarizers extinguish it. A complex field is
+one complex number at each point, a size and a phase, and a number has no
+direction, so every free ripple of it is sound-like and could not be polarized.
+If light is a ripple of the Ocean, each point must carry something with a
+direction that can be twisted, and under the one-speed principle its twisting
+and compressional ripples cannot travel at different speeds, as they do in a
+solid. The same gap appears twice more: gravitational waves are transverse, in
+two patterns, and spin-$\tfrac{1}{2}$ patterns need internal structure a single
+number cannot carry (Section~\ref{sec:sec7open}, item~(7)). Three independent
+demands point at one change, an Ocean with more inside each point than a size
+and a phase.
 
 % =========================================================================
 \section{Research Program and Testable Predictions}
@@ -2235,7 +2654,7 @@ expansion keeps it steady (Section~\ref{sec:threshold}, Consequences). This
 replaces the earlier task of confronting a predicted drift in $\xi$.
 \item \textbf{Resolve or explain the hierarchy} between the mass gap $\Ogap$
 required by galactic dynamics and the stiffness scale implied by
-$\xi_{0} \approx 386$~femtometres. The candidate route of
+$\xi_{0} \approx 386$~femtometers. The candidate route of
 Section~\ref{sec:sec7open}, item~(5), divides this into three tasks.
 \begin{itemize}
 \item \emph{Protection.} Write the scalar sector explicitly in the complex
@@ -2246,7 +2665,7 @@ matter coupling and the dissipative sector. If it does
 not, compute the gap that results.
 \item \emph{Size.} Determine what fixes the extent of a galactic solution,
 given that the medium supplies no kiloparsec scale of its own: which features of
-the full state of the disturbance set it --- energy, organised and random flow,
+the full state of the disturbance set it --- energy, organized and random flow,
 exchange with the surrounding medium --- and where their values originate.
 \item \emph{Rotation curves without per-galaxy freedom.} Derive
 $v_{\phi,\mathrm{eff}}(r)$ from the baryonic distribution alone, with no
@@ -2284,10 +2703,13 @@ rotation curve of Section~6, with stellar kinematics.
 first-order constitutive relation of Section~2.3 with a second-order
 Israel--Stewart or BDNK form, and verify that the resulting system is causal and
 stable in the weak-field limit.
-\item \textbf{Settle the status of $c(\phi)$} as either the effective speed of
-excitations or a genuine variable causal speed, and state the consequences for
-the framework's relation to emergent-gravity formulations
-(Section~\ref{sec:related}).
+\item \textbf{Write the one-speed law.} Rewrite the Ocean's law so that the
+carrying speed $c_{s}$ is its only speed, with no speed of a background surviving
+at short scales: tightly wound patterns must obey the same limit as long, gentle
+ripples, and the $k^{4}$ term must not give any signal a speed above $c_{s}$
+(Sections~\ref{sec:onespeed} and~\ref{sec:nogo}). Volovik's helium-3 work is the
+standard example of a medium whose excitations share one emergent speed
+\cite{volovik2003}.
 \item \textbf{Establish whether matter coupling constitutes a forcing term.}
 The known finite-time blowup constructions for viscous media require an external
 force injecting momentum; the unforced problem remains open. In this framework
@@ -2318,10 +2740,10 @@ $10^{-18}\,\mathrm{m}$; determine how $\xi(\phi)$ behaves at high
 concentration consistently with the collapse floor; and identify the structure
 that supplies spin~$\tfrac{1}{2}$.
 \item \textbf{Travel through the surroundings.} Determine the flow regimes of a
-disturbance travelling relative to the medium, including the superfluid
+disturbance traveling relative to the medium, including the superfluid
 critical speed. Travel through the Ocean below that speed is frictionless and
 leaves no trace; the microwave-background dipole shows the solar system
-travelling at about $370\,\mathrm{km\,s^{-1}}$ and the Milky Way at about
+traveling at about $370\,\mathrm{km\,s^{-1}}$ and the Milky Way at about
 $600\,\mathrm{km\,s^{-1}}$ relative to the frame in which that background is
 uniform, the natural candidate for the Ocean's local rest frame, and precision
 tests see nothing at those speeds, so the
@@ -2341,7 +2763,30 @@ $\alpha_{G}$ of~\eqref{eq:alphaG}, or identify the structure that sets it (Secti
 Section~\ref{sec:oneroot}: a gradient of state refracts without net flow, and a
 uniform change of state produces divergent or convergent flow. Derive
 Equation~\eqref{eq:field} with the background defining the metric and only
-excitations as sources (Section~\ref{sec:related}).
+excitations as sources (Section~\ref{sec:sides}), under the one-speed law,
+including how $P(\phi)$ enters $c_{s}$ and the conservation conditions that
+follow.
+\item \textbf{Derive the candidate mechanism's inputs.} The current through time
+(Section~\ref{sec:timecurrent}) reaches $\gamma = 1$ and $\beta = 1$ given two
+inputs: the pressure--density law $p = p_{0} - K/n^{3}$ and the fractional
+composition of the slowing. Derive both under the one-speed law, or show what
+replaces them; meet the bounds $\gamma - 1 = (2.1 \pm 2.3) \times 10^{-5}$ and
+$\beta - 1 = (-4.1 \pm 7.8) \times 10^{-5}$ \cite{will2014}; and show that the
+Ocean's second state variable keeps its cosmological pressure from being a
+function of density alone, as the exclusion of single-density unified fluids
+requires \cite{sandvik2004}.
+\item \textbf{The strength of gravity from the drag.} If the candidate mechanism
+holds, $G$ is set by the drag a pattern exerts on the current through time
+relative to the Ocean's viscosity. Determine whether that gives the observed
+$\alpha_{G}$ without structure near the Planck length.
+\item \textbf{Frame dragging.} Extend the candidate mechanism to a rotating
+source and show that it produces the gravitomagnetic effect measured by
+laser-ranged satellites and Gravity Probe B \cite{will2014}; the nearest
+precedent lacks it \cite{arminjon2016}.
+\item \textbf{One speed and the normal component.} A normal component, required
+for mutual friction, brings a second sound with a speed of its own
+\cite{visser1998}. Show that it carries no signal patterns can use, or that it
+shares $c_{s}$, or revise the coarse-grained account of $\Pimn$ (Section~2.3).
 \item \textbf{Gravity from the electron and the pressure.} Read the other way,
 the relation of Section~\ref{sec:coincidence} gives the strength of gravity
 from the electron mass and the cosmological constant,
@@ -2362,9 +2807,13 @@ healing length, whether the geometric and medium horizons coincide and how the
 medium horizon depends on wavelength, and what horizon-scale imaging and
 ringdown measurements constrain (Section~\ref{sec:blackholes}). Explain why a
 black hole's capacity for state scales with horizon area. Compute the infall
-asymmetry and drag for a black hole travelling relative to the medium, including
+asymmetry and drag for a black hole traveling relative to the medium, including
 the critical-speed regime, and compare with high-velocity merger remnants.
-Revise the stages of Section~\ref{sec:traveller} as these results arrive.
+In the candidate mechanism the carrying speed falls to zero at an isotropic
+radius of about $2.9\,GM/c^{2}$; compute the photon ring, shadow size and
+ringdown that follow and confront them with horizon-scale imaging and merger
+ringdowns. Revise the stages of Section~\ref{sec:traveller} as these results
+arrive.
 \item \textbf{Antimatter and circulation sense.} From the complex-field
 formulation, derive charge-conjugate partners of identical mass and magnetic
 moment and opposite charge, and confront the predicted CPT and Lorentz
@@ -2376,7 +2825,9 @@ that electric charge requires.
 \item \textbf{Order parameter.} Determine whether a multi-component order
 parameter can supply spin~$\tfrac{1}{2}$, a second internal phase and protected
 relativistic dispersion, and what it costs the framework's foundations
-(Section~\ref{sec:sec7open}, item~(7)).
+(Section~\ref{sec:sec7open}, item~(7)). Light's transverse polarizations and the
+tensor polarizations of gravitational waves make the same demand
+(Section~\ref{sec:substrate}).
 \item \textbf{Viscosity as scrambling.} Show that $\Pimn$ arises as the
 coarse-grained description of reversible dynamics (Section~2.3), together with
 the item on viscosities from vortex dynamics, and define the normal component,
@@ -2386,8 +2837,9 @@ crossing an expanding region goes, consistently with preservation, and confront
 any exchange term with the microwave background and light-element abundances
 (Section~\ref{sec:waveenergy}).
 \item \textbf{Galactic shear and coupling.} Compute the anisotropic $\Pimn$ of
-a flattened vortex lattice bound to a disc galaxy and confront its
-radial-to-vertical ratio with Milky Way kinematics; and specify how the travel
+a flattened vortex lattice bound to a disc galaxy and, in the geometry patterns
+read (Section~\ref{sec:sides}), the radial-to-vertical ratio of the acceleration
+it produces, and confront that ratio with Milky Way kinematics; and specify how the travel
 of stars and gas couples to the flow of the medium (Section~6).
 \item \textbf{Flow on the largest scales.} A smooth flow is invisible; only
 shear, gradients and eddies can be seen. Formulate source-free currents of the
@@ -2441,7 +2893,9 @@ coherent excitations of the medium. The distinction between matter and vacuum th
 becomes a statement about the medium's own excitation spectrum rather than an
 imposed energy cut.
 
-Two principles frame the account. One change of state, in two shapes, makes
+Three principles frame the account. The Ocean has one speed, at which every
+disturbance travels, and gravity is where that speed varies from place to place.
+One change of state, in two shapes, makes
 both gravity and expansion: a gradient of state refracts, and a uniform change
 of state flows. And the state of the Ocean is never destroyed, only its
 patterns scrambled; black holes recycle energy and keep no structure.
@@ -2599,6 +3053,28 @@ P.-H. Chavanis, \emph{Polytropes, logotropes, the universal value of the surface
 density of dark matter halos, and the value of the cosmological constant},
 arXiv:2603.21302.
 
+\bibitem{arminjon2004}
+M.~Arminjon, \emph{Gravity as Archimedes' thrust and a bifurcation in that
+theory}, Found. Phys. \textbf{34}, 1703 (2004); arXiv:physics/0404103.
+
+\bibitem{arminjon2006}
+M.~Arminjon, \emph{Space isotropy and weak equivalence principle in a scalar
+theory of gravity}, Braz. J. Phys. \textbf{36}, 177 (2006); arXiv:gr-qc/0412085.
+
+\bibitem{arminjon2008}
+M.~Arminjon, \emph{Ether theory of gravitation: why and how?}, in M.~C. Duffy and
+J.~Levy (eds.), \emph{Ether, Space-Time and Cosmology}, Vol.~1 (PD Publications,
+Liverpool, 2008), pp.~139--201; arXiv:gr-qc/0401021.
+
+\bibitem{arminjon2016}
+M.~Arminjon, \emph{Continuum dynamics and the electromagnetic field in the scalar
+ether theory of gravitation}, Open Phys. \textbf{14}, 395 (2016); arXiv:1612.07996.
+
+\bibitem{broekaert2005}
+J.~Broekaert, \emph{A modified Lorentz-transformation based gravity model
+confirming basic GRT experiments}, Found. Phys. \textbf{35}, 839 (2005);
+arXiv:gr-qc/0309023.
+
 \bibitem{hiscock1985}
 W.~A. Hiscock and L.~Lindblom, \emph{Generic instabilities in first-order
 dissipative relativistic fluid theories}, Phys. Rev. D \textbf{31}, 725 (1985).
@@ -2647,6 +3123,46 @@ effect of gravity on the motion of antimatter}, Nature \textbf{621}, 716
 LHCb Collaboration, \emph{Observation of charge--parity symmetry breaking in
 baryon decays}, Nature \textbf{643}, 1223 (2025); arXiv:2503.16954.
 
+\bibitem{microscope2022}
+P.~Touboul \emph{et al.} (MICROSCOPE Collaboration), \emph{MICROSCOPE mission:
+final results of the test of the equivalence principle}, Phys. Rev. Lett.
+\textbf{129}, 121102 (2022); arXiv:2209.15487.
+
+\bibitem{visser1998}
+M.~Visser, \emph{Acoustic black holes: horizons, ergospheres, and Hawking
+radiation}, Class. Quantum Grav. \textbf{15}, 1767 (1998); arXiv:gr-qc/9712010.
+
+\bibitem{babichev2008}
+E.~Babichev, V.~Mukhanov and A.~Vikman, \emph{k-Essence, superluminal
+propagation, causality and emergent geometry}, JHEP \textbf{0802}, 101 (2008);
+arXiv:0708.0561.
+
+\bibitem{colemanglashow1999}
+S.~Coleman and S.~L. Glashow, \emph{High-energy tests of Lorentz invariance},
+Phys. Rev. D \textbf{59}, 116008 (1999); arXiv:hep-ph/9812418.
+
+\bibitem{steckerglashow2001}
+F.~W. Stecker and S.~L. Glashow, \emph{New tests of Lorentz invariance following
+from observations of the highest energy cosmic gamma rays}, Astropart. Phys.
+\textbf{16}, 97 (2001); arXiv:astro-ph/0102226.
+
+\bibitem{will2014}
+C.~M. Will, \emph{The confrontation between general relativity and experiment},
+Living Rev. Relativ. \textbf{17}, 4 (2014); arXiv:1403.7377.
+
+\bibitem{kamenshchik2001}
+A.~Kamenshchik, U.~Moschella and V.~Pasquier, \emph{An alternative to
+quintessence}, Phys. Lett. B \textbf{511}, 265 (2001); arXiv:gr-qc/0103004.
+
+\bibitem{bento2002}
+M.~C. Bento, O.~Bertolami and A.~A. Sen, \emph{Generalized Chaplygin gas,
+accelerated expansion and dark energy--matter unification}, Phys. Rev. D
+\textbf{66}, 043507 (2002); arXiv:gr-qc/0202064.
+
+\bibitem{sandvik2004}
+H.~B. Sandvik, M.~Tegmark, M.~Zaldarriaga and I.~Waga, \emph{The end of unified
+dark matter?}, Phys. Rev. D \textbf{69}, 123524 (2004); arXiv:astro-ph/0212114.
+
 \end{thebibliography}
 
 \vfill
@@ -2655,11 +3171,12 @@ baryon decays}, Nature \textbf{643}, 1223 (2025); arXiv:2503.16954.
 \noindent
 \footnotesize
 \textbf{Reference basis.} Revised from an earlier formalism supplied by the
-author. That document defines the Ocean metric, the
-vacuum viscosity tensor, the scalar pressure term, the effective coupling
-$\kappa(\phi)$, the VSL interpretation, and the proposed $0.511\,\mathrm{MeV}$
-matter threshold. The matter-threshold section of that document is superseded
-by Section~\ref{sec:threshold} of this document.
+author, which defined the Ocean metric, the vacuum viscosity tensor, the scalar
+pressure term, the effective coupling $\kappa(\phi)$, a variable-speed-of-light
+reading of $c(\phi)$, and a $0.511\,\mathrm{MeV}$ matter threshold. Two of these
+are superseded: the threshold by Section~\ref{sec:threshold}, and the
+variable-speed-of-light reading by Section~\ref{sec:onespeed}, where $c(\phi)$
+is the Ocean's one carrying speed rather than a second causal speed.
 
 \end{document}
 """

@@ -2,7 +2,7 @@
   "title": "Scalar-Tensor Hydrodynamics: Gravity as the Response of a Vacuum Medium. A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology",
   "upload_type": "publication",
   "publication_type": "preprint",
-  "version": "3.8",
+  "version": "3.9",
   "language": "eng",
   "access_right": "open",
   "license": "cc-by-4.0",
@@ -11,7 +11,7 @@
       "name": "Hays, Keith"
     }
   ],
-  "description": "<p>A theoretical proposal built on one premise: there is no empty space. The vacuum is treated as a single continuous medium, the Ocean, with its own stress-energy, pressure, internal flow and dissipative response, and with no edges and no outside. What are conventionally called particles are treated as localized excitations of the medium, and gravity is proposed to be the medium's response to concentrated energy. Einstein's equation is retained as the effective description of that response.</p><p>The formalism adds to the Einstein tensor a dynamical scalar-field sector, a vacuum viscous stress, a field-dependent pressure in place of a fixed cosmological constant, and a state-dependent effective coupling. A refractive account of gravity is stated together with its decisive tests: every excitation must respond in exactly the same proportion, time must slow and space stretch in equal measure, and gravitational waves must travel at the speed of light.</p><p>The medium is written as a complex field whose amount sets the electron scale and whose phase rate sets the pressure and the rest frame. The matter sector is partitioned by a localization criterion derived from the medium's own excitation spectrum. The crossover is set by the healing length, which recovers the electron rest energy as a calibration rather than an input; the electron's mass, and the strength of gravity with it, are constants of the present beat. A cyclic Heartbeat cosmology is treated separately within the present beat and across beats. Black holes are described through a refractive horizon: nothing accumulates, infalling patterns are stripped, and energy is recycled rather than drained. The galactic sector, the conservation of the medium's state, and the vacuum and matter-antimatter effects already measured are addressed.</p><p>This is a proposal, not an established theory. The document states its own falsification conditions explicitly and carries an itemized research program, several items of which could terminate the framework.</p>",
+  "description": "<p>A theoretical proposal built on one premise: there is no empty space. The vacuum is treated as a single continuous medium, the Ocean, with its own stress-energy, pressure, internal flow and dissipative response, and with no edges and no outside. What are conventionally called particles are treated as localized excitations of the medium, and gravity is proposed to be the medium's response to concentrated energy. The medium has one speed, at which every disturbance travels, and gravity is where that speed varies from place to place. Einstein's equation is retained as the effective description of that response.</p><p>The formalism adds to the Einstein tensor a dynamical scalar-field sector, a vacuum viscous stress, a field-dependent pressure in place of a fixed cosmological constant, and a state-dependent effective coupling. A refractive account of gravity is stated together with its decisive tests: every excitation must respond in exactly the same proportion, time must slow and space stretch in equal measure, and gravitational waves must travel at the speed of light. Version 3.9 states the split between the medium's background, which sets the geometry, and what sits above it, which sources it; shows that the minimal law of the medium cannot carry that split, because it bends light the wrong way and gives light and matter different speed limits; states the weak-field condition in the medium's terms; and offers a candidate mechanism, a current through time slowed by drag, that reproduces General Relativity's post-Newtonian parameters γ = β = 1 given two stated inputs and departs from General Relativity in the strong field, with a horizon at a different radius.</p><p>The medium is written as a complex field whose amount sets the electron scale and whose phase rate sets the pressure and the rest frame. The matter sector is partitioned by a localization criterion derived from the medium's own excitation spectrum. The crossover is set by the healing length, which recovers the electron rest energy as a calibration rather than an input; the electron's mass, and the strength of gravity with it, are constants of the present beat. A cyclic Heartbeat cosmology is treated separately within the present beat and across beats. Black holes are described through a refractive horizon: nothing accumulates, infalling patterns are stripped, and energy is recycled rather than drained. The galactic sector, the conservation of the medium's state, and the vacuum and matter-antimatter effects already measured are addressed.</p><p>This is a proposal, not an established theory. The document states its own falsification conditions explicitly and carries an itemized research program, several items of which could terminate the framework.</p>",
   "keywords": [
     "scalar-tensor gravity",
     "modified gravity",
@@ -23,7 +23,9 @@
     "dark matter",
     "dark energy",
     "healing length",
-    "k-essence"
+    "k-essence",
+    "post-Newtonian",
+    "acoustic metric"
   ],
   "notes": "Built reproducibly from build_ocean_formalism.py; requires pdflatex."
 }
