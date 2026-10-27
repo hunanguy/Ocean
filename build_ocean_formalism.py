@@ -13,6 +13,7 @@ Requires: pdflatex on PATH (TeX Live or MiKTeX).
 """
 
 import argparse
+import hashlib
 import shutil
 import subprocess
 import sys
@@ -174,8 +175,20 @@ from pathlib import Path
 #        11.8; turnaround times stated for infall from far away.
 #        Research program revised. Two references added (EHT Sgr A* Paper VI;
 #        Klein 1949), each read before citing.
+#   3.11 Read-completeness markers. Each part of the paper (front matter,
+#        conventions and glossary, Sections 1-13, references) carries a
+#        checksum token: the first six hex digits of the SHA-256 of its LaTeX
+#        source. Every page footer gives the page, the page count and the
+#        part with its token; each part ends with a line giving its token; a
+#        closing reading manifest lists every part, its first page and token,
+#        and a document digest (SHA-256 over the document name and all part
+#        hashes), followed by "End of document". A reader's note after the
+#        abstract explains the scheme. The digest is also written to the PDF
+#        subject metadata and to <DOCNAME>.manifest.txt for the README and
+#        Zenodo description.
 
-DOCNAME = "Ocean_Scalar_Tensor_Hydrodynamics_v3_10"
+DOCNAME = "Ocean_Scalar_Tensor_Hydrodynamics_v3_11"
+VERSION = "3.11"
 
 PREAMBLE = r"""
 \documentclass[11pt,a4paper]{article}
@@ -193,12 +206,15 @@ PREAMBLE = r"""
 \usepackage{enumitem}
 \usepackage{microtype}
 \usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
 \usepackage[colorlinks=true,linkcolor=black,urlcolor=black,citecolor=black]{hyperref}
 
 \hypersetup{
   pdftitle={Scalar-Tensor Hydrodynamics: Gravity as the Response of a Vacuum Medium. A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology},
   pdfauthor={Keith Hays},
-  pdfsubject={Theoretical proposal, revised formalism},
+  pdfsubject={Theoretical proposal, revised formalism. Document digest @@DIGEST@@; a complete reading ends at the reading manifest and the line End of document},
   pdfkeywords={scalar-tensor, vacuum viscosity, modified gravity, emergent gravity, superfluid vacuum, cyclic cosmology}
 }
 
@@ -221,12 +237,60 @@ PREAMBLE = r"""
 \newcommand{\Qq}{\mathcal{Q}}
 
 \setlist{itemsep=2pt,topsep=4pt}
+
+% --- read-completeness markers ---------------------------------------------
+% Each part of the paper sets a mark holding its label and checksum token;
+% the footer shows the page, the page count, and the part the page opens in
+% and, if another part begins on it, the last part that does. Each part also
+% ends with a visible line giving its token, so a part shorter than a page is
+% still marked. The tokens and the document digest are computed by the build
+% script from the LaTeX source of each part. Uses the mark classes of LaTeX
+% 2022-06 or later.
+\newcommand{\oceanversion}{@@VERSION@@}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyfoot[L]{\scriptsize Ocean v\oceanversion}
+\fancyfoot[C]{\scriptsize page \thepage\ of \pageref*{LastPage}}
+\NewMarkClass{oceanpart}
+\makeatletter
+% A part that opens on a fresh page (after \clearpage) records that page, so
+% the footer does not list the previous part there.
+\gdef\ocean@fresh{0}
+\newcommand{\oceanfreshpage}{\xdef\ocean@fresh{\the\value{page}}}
+\newcommand{\oceanfootpart}{%
+  \protected@edef\ocean@top{\TopMark{oceanpart}}%
+  \ifnum\value{page}=\ocean@fresh\relax
+    \let\ocean@top\@empty
+  \fi
+  \ifx\ocean@top\@empty
+    \protected@edef\ocean@top{\FirstMark{oceanpart}}%
+  \fi
+  \protected@edef\ocean@last{\LastMark{oceanpart}}%
+  \ifx\ocean@top\ocean@last
+    part \ocean@last
+  \else
+    parts \ocean@top\ \textendash\ \ocean@last
+  \fi}
+\makeatother
+\fancyfoot[R]{\scriptsize\oceanfootpart}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[L]{\scriptsize Ocean v\oceanversion}%
+  \fancyfoot[C]{\scriptsize page \thepage\ of \pageref*{LastPage}}%
+  \fancyfoot[R]{\scriptsize\oceanfootpart}}
+\renewcommand{\sectionmark}[1]{}
+\renewcommand{\subsectionmark}[1]{}
+\newcommand{\oceanpart}[3]{\InsertMark{oceanpart}{#1 #2}\label{part:#3}}
+\newcommand{\oceanpartend}[2]{\par\nopagebreak\smallskip
+  \noindent\hfill{\scriptsize\color{gray}End of #1 \textperiodcentered\ token #2}\par\medskip}
 \renewcommand{\arraystretch}{1.25}
 
 \title{\Large Scalar--Tensor Hydrodynamics\\[4pt]
 \normalsize Gravity as the Response of a Vacuum Medium:\\
 A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology}
-\date{Revised Formalism --- Version 3.10}
+\date{Revised Formalism --- Version 3.11 (draft)}
 \author{Keith Hays}
 """
 
@@ -266,6 +330,18 @@ This document is a theoretical proposal, not an established physical theory. The
 equations below define a research program whose consistency, stability,
 conservation laws, and observational predictions must be demonstrated.
 \end{abstract}
+
+\medskip
+\noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule}{\small
+\textbf{A note for readers, including automated ones.}
+This document has \pageref*{LastPage} pages in @@NPARTS@@ parts. Each page's
+footer gives its page number, the page count and the part it belongs to, with
+that part's checksum token; each part ends with a line repeating its token. The
+last page is a reading manifest listing every part, its first page and its
+token, followed by a document digest and the words ``End of document''. A
+complete reading reaches that line. A summary or review that cannot give the
+document digest, or that is missing any page number or part token, was made
+from an incomplete reading and should say so.}}
 
 % =========================================================================
 \section*{Preface: What This Paper Is For}
@@ -3495,11 +3571,156 @@ is the Ocean's one carrying speed rather than a second causal speed.
 """
 
 
+# --- read-completeness markers ---------------------------------------------
+# The body is divided into parts at fixed boundaries. Each part's checksum is
+# the SHA-256 of its LaTeX source exactly as written in BODY (with the part
+# count filled in), before any marker is added; its token is the first six hex
+# digits. The document digest is the SHA-256 of the document name followed by
+# every part's full hash in order, shown as three groups of four hex digits.
+# Change any part and its token and the digest change.
+
+PART_STARTS = [
+    # (label shown to readers, unique line that begins the part)
+    ("Preface", r"\begin{document}"),
+    ("Glossary", r"\clearpage"),
+] + [(f"§{i}", None) for i in range(1, 14)] + [
+    ("References", r"\begin{thebibliography}{99}"),
+]
+
+
+def split_parts(body: str):
+    """Return [(label, text)] covering BODY from \\begin{document} to just
+    before \\end{document}, split at the part boundaries."""
+    lines = body.split("\n")
+    starts = []
+    sec = 0
+    for idx, line in enumerate(lines):
+        if line == r"\begin{document}":
+            starts.append(("Preface", idx))
+        elif line == r"\clearpage" and len(starts) == 1:
+            starts.append(("Glossary", idx))
+        elif line.startswith(r"\section{"):
+            sec += 1
+            starts.append((f"§{sec}", idx))
+        elif line == r"\begin{thebibliography}{99}":
+            starts.append(("References", idx))
+    end = lines.index(r"\end{document}")
+    labels = [lab for lab, _ in starts]
+    expected = [lab for lab, _ in PART_STARTS]
+    if labels != expected:
+        raise RuntimeError(f"part boundaries changed: {labels}")
+    parts = []
+    for k, (lab, i) in enumerate(starts):
+        j = starts[k + 1][1] if k + 1 < len(starts) else end
+        parts.append((lab, "\n".join(lines[i:j])))
+    return parts, "\n".join(lines[:starts[0][1]]), "\n".join(lines[end:])
+
+
+def part_title(label: str, text: str) -> str:
+    if label.startswith("§"):
+        line = text.split("\n", 1)[0]
+        title = line[len(r"\section{"):]
+        depth, out = 1, []
+        for ch in title:
+            depth += (ch == "{") - (ch == "}")
+            if depth == 0:
+                break
+            out.append(ch)
+        return "".join(out)
+    return {"Preface": "Abstract, reader's note and preface",
+            "Glossary": "Conventions and glossary",
+            "References": "References and reference basis"}[label]
+
+
+def build_document():
+    """Return (tex_source, manifest_rows, digest)."""
+    nparts = len(PART_STARTS)
+    body = BODY.replace("@@NPARTS@@", str(nparts))
+    parts, head, tail = split_parts(body)
+    rows, hashes, out = [], [], [head]
+    for k, (label, text) in enumerate(parts):
+        h = hashlib.sha256(text.encode("utf-8")).hexdigest()
+        hashes.append(h)
+        token = h[:6]
+        tag = f"p{k}"
+        disp = label.replace("§", r"\S")
+        first, rest = (text.split("\n", 1) + [""])[:2]
+        if label == "Preface":
+            # mark after \maketitle so the title page carries it
+            rest = rest.replace(r"\maketitle", r"\maketitle" + "\n"
+                                + rf"\oceanpart{{{disp}}}{{{token}}}{{{tag}}}", 1)
+            out.append(first + "\n" + rest)
+        else:
+            fresh = r"\oceanfreshpage" if first == r"\clearpage" else ""
+            out.append(first + "\n" + fresh
+                       + rf"\oceanpart{{{disp}}}{{{token}}}{{{tag}}}"
+                       + "\n" + rest)
+        out.append(rf"\oceanpartend{{{disp}}}{{{token}}}" + "\n")
+        rows.append((label, part_title(label, text), tag, token, h))
+    digest_full = hashlib.sha256(
+        (DOCNAME + "".join(hashes)).encode("utf-8")).hexdigest()
+    digest = "-".join(digest_full[i:i + 4] for i in (0, 4, 8))
+
+    table = "\n".join(
+        rf"{lab.replace(chr(167), chr(92) + 'S')} & {title} & "
+        rf"\pageref*{{part:{tag}}} & \texttt{{{tok}}} \\"
+        for lab, title, tag, tok, _ in rows)
+    manifest = rf"""
+\clearpage
+\oceanfreshpage
+\section*{{Reading manifest}}
+\InsertMark{{oceanpart}}{{Manifest}}
+\noindent
+Every part of this document, the page on which it begins and its checksum
+token. Each token is the first six hexadecimal digits of the SHA-256 hash of
+that part's \LaTeX{{}} source; the document digest is the SHA-256 of the
+document name and all part hashes in order. The same digest is given in the
+repository README and the archive record, so a reading can be checked without
+the document.
+
+\medskip
+\begin{{center}}
+\begin{{tabular}}{{llrl}}
+\toprule
+Part & Title & Page & Token \\
+\midrule
+{table}
+\bottomrule
+\end{{tabular}}
+\end{{center}}
+
+\medskip
+\begin{{center}}
+\large Document digest: \texttt{{{digest}}}\\[6pt]
+\normalsize Version {VERSION} \textperiodcentered\ {nparts} parts \textperiodcentered\
+\pageref*{{LastPage}} pages
+\end{{center}}
+
+\vspace{{2em}}
+\begin{{center}}
+\textbf{{End of document}}
+\end{{center}}
+"""
+    preamble = (PREAMBLE.lstrip().replace("@@DIGEST@@", digest)
+                .replace("@@VERSION@@", VERSION))
+    tex = preamble + "\n".join(out) + manifest + "\n" + tail
+    return tex, rows, digest
+
+
 def write_tex(outdir: Path) -> Path:
-    """Emit the LaTeX source file and return its path."""
+    """Emit the LaTeX source file and the reading-manifest text file."""
     outdir.mkdir(parents=True, exist_ok=True)
+    tex, rows, digest = build_document()
     tex_path = outdir / f"{DOCNAME}.tex"
-    tex_path.write_text(PREAMBLE.lstrip() + BODY, encoding="utf-8")
+    tex_path.write_text(tex, encoding="utf-8")
+    lines = [f"{DOCNAME} — reading manifest",
+             f"Version {VERSION}; {len(rows)} parts",
+             f"Document digest: {digest}", "",
+             "Part | Token | SHA-256 | Title"]
+    lines += [f"{lab} | {tok} | {h} | {title}" for lab, title, _, tok, h in rows]
+    (outdir / f"{DOCNAME}.manifest.txt").write_text("\n".join(lines) + "\n",
+                                                   encoding="utf-8")
+    print(f"document digest {digest}")
     return tex_path
 
 
