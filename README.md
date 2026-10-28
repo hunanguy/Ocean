@@ -96,7 +96,7 @@ Stated in the paper, repeated here so that they are visible before reading:
 Please cite the archived release rather than the repository.
 
 - **All versions** — `10.5281/zenodo.23142440`. Resolves to the latest release. Use this when citing the work as an evolving artifact.
-- **Version 3.11** — DOI to be added once Zenodo issues it.
+- **Version 3.11** — `10.5281/zenodo.23718695`.
 - **Version 3.10** — `10.5281/zenodo.23586999`.
 - **Version 3.9** — `10.5281/zenodo.23549277`.
 - **Version 3.8** — `10.5281/zenodo.23488580`.
