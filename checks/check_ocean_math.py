@@ -273,17 +273,10 @@ def _():
     return verdict(ok, "; ".join(f"a={a:g}: numerical/series {r:.5f}, B M^2 / 4a^2 = {q:.3f}" for a, r, q in out)
                    + "; positive, and -> 4a^2 as a -> 0")
 
-@check("§2.2, §11.1, §12", "NUMBER",
-       "Stiffness a <~ 1e-23 with sqrt(lambda) v = 0.511 MeV bounds mu <~ 1e-6 eV",
-       anchor=r"$\mu \lesssim 10^{-6}\,\mathrm{eV}$")
-def _():
-    mu = 0.511e6*math.sqrt(1e-23/2)
-    return verdict(0.5e-6 < mu < 2e-6, f"mu < {mu:.2e} eV")
-
-@check("§7.7(3)", "NUMBER", "k^4 coefficient 4a^2 with a ~ 1e-23", anchor=r"$4a^{2} \lesssim 10^{-46}$")
+@check("§7.7(3)", "NUMBER", "k^4 coefficient 4a^2 with a ~ 1e-23", anchor=r"$4a^{2} \lesssim 4 \times 10^{-46}$")
 def _():
     val = 4*(1e-23)**2
-    return verdict(True, f"4a^2 = {val:.0e}: the same order as the stated 10^-46, a factor 4 above it", note=True)
+    return verdict(abs(val - 4e-46) < 1e-50, f"4a^2 = {val:.0e} for a = 1e-23")
 
 # --- §9.1 ---------------------------------------------------------------------
 @check("§9.1, Eq. (27)", "FORMULA", "V'' = lambda(3 phi^2 - v^2), negative for |phi| < v/sqrt(3)",
@@ -417,19 +410,14 @@ def _():
     xi = hbar*c/(0.51099895*MeV)
     return verdict(close(xi*1e15, 386, 0.002), f"{xi*1e15:.2f} fm")
 
-@check("§7.5, Eq. (23)", "NUMBER", "hbar/(c xi_0) = m_e", anchor=r"m \;\gtrsim\; \frac{\hbar}{c_{0}\, \xi_{0}} \;=\; m_{e} .")
-def _():
-    xi = hbar*c/(0.51099895*MeV)
-    return verdict(close(hbar/(c*xi), me, 1e-6), f"{hbar/(c*xi):.6e} kg vs m_e {me:.6e} kg")
-
 @check("§7.7(5), Eq. (25)", "NUMBER", "alpha_G = G m_e^2/(hbar c) = (l_P/xi_0)^2 ~ 1.75e-45",
        anchor=r"\;\approx\; 1.75 \times 10^{-45},")
 def _():
     aG = G*me**2/(hbar*c); xi = hbar/(me*c)
     return verdict(close(aG, 1.75e-45, 0.003) and close((lP/xi)**2, aG, 1e-9), f"{aG:.4e}; (l_P/xi_0)^2 = {(lP/xi)**2:.4e}")
 
-@check("§7.7(5)", "NUMBER", "Planck length ~1.6e-35 m, about 1e22 below xi_0",
-       anchor=r"\approx 1.6 \times 10^{-35}$~m about $10^{22}$ below $\xi_{0}$")
+@check("§7.7(5)", "NUMBER", "Planck length ~1.6e-35 m, about 1e22 below the electron's localization length xi_e",
+       anchor=r"\approx 1.6 \times 10^{-35}$~m about $10^{22}$ below $\xi_{e}$")
 def _():
     xi = hbar/(me*c)
     return verdict(close(lP, 1.6e-35, 0.02) and 1e22 <= xi/lP < 1e23, f"l_P = {lP:.3e} m; xi_0/l_P = {xi/lP:.2e}")
@@ -446,12 +434,11 @@ def _():
     spacing = (kB*273.15/101325)**(1/3); lo, hi = 160e3/spacing, 800e3/spacing
     return verdict(3e13 < lo and hi < 3e14, f"'hundreds of miles' (100-500 miles) / {spacing*1e9:.2f} nm = {lo:.1e} to {hi:.1e}")
 
-@check("Preface, §7.7(5)", "NUMBER", "Galactic scale ~1e32 times xi_0; kpc Compton gap ~1e-26 eV; 32 orders",
-       anchor=r"implying $\Ogap \sim 10^{-26}\,\mathrm{eV}$")
+@check("Preface, §7.7(5)", "NUMBER", "A kiloparsec is about 1e55 times the dent's width (Planck length / 3.5): more than fifty orders",
+       anchor=r"A galaxy really is about $10^{55}$ times")
 def _():
-    xi = hbar/(me*c); r1 = kpc/xi; gap = hbar*c/kpc/eV; r2 = 0.511e6/gap
-    return verdict(3e31 < r1 < 3e32 and 3e-27 < gap < 3e-26,
-                   f"kpc/xi_0 = {r1:.1e}; hbar c/kpc = {gap:.1e} eV (order 1e-26); a whole 30 kpc galaxy would be 2e33")
+    w = lP/3.54; r = kpc/w
+    return verdict(3e54 < r < 3e55, f"kpc / dent width = {r:.1e}")
 
 @check("§7.7(7)", "NUMBER", "Electron size limit 1e-18 m is several hundred thousand times below xi_0",
        anchor=r"several hundred thousand times smaller")
@@ -459,21 +446,8 @@ def _():
     xi = hbar/(me*c); r = xi/1e-18
     return verdict(1e5 < r < 1e6, f"{r:.2e}")
 
-@check("§7.7(5)", "NUMBER", "Circulation per line hc^2/mu equals h/m_e at mu = m_e c^2; lines about 640 km apart (220 km/s at 8 kpc, rigid)",
-       anchor=r"would put the lines about $640\,\mathrm{km}$ apart; one at $10\,\mathrm{keV}$ about $4600\,\mathrm{km}$")
-def _():
-    kap = h*c*c/(me*c*c); Om = 220e3/(8*kpc); s_ = math.sqrt(kap/(2*Om)); s10 = math.sqrt(h*c*c/(1e4*eV)/(2*Om))
-    return verdict(close(kap, h/me, 1e-12) and close(s_/1e3, 640, 0.02) and close(s10/1e3, 4600, 0.02),
-                   f"circulation {kap:.4e} m^2/s (= h/m_e); spacing {s_/1e3:.1f} km; at 10 keV {s10/1e3:.0f} km")
-
-@check("§7.7(5)", "NUMBER", "At the minimal law's bound (mu ~ 1e-6 eV) the solar-neighbourhood lines would be about three AU apart",
-       anchor=r"about three astronomical units. In every case the medium is smooth on galactic scales")
-def _():
-    kap = h*c*c/(1e-6*eV); Om = 220e3/(8*kpc); s_ = math.sqrt(kap/(2*Om))/AU
-    return verdict(2.5 < s_ < 3.5, f"{s_:.2f} AU")
-
-@check("§7.7(5)", "FORMULA", "Circulation per line from the paper's flow u = -grad(theta)/mu: one turn of the phase gives 2 pi/mu (hc^2/mu in SI)",
-       anchor=r"carries a circulation $hc_{0}^{2}/\mu$, set by the phase rate")
+@check("§11.8", "FORMULA", "Circulation per line from the paper's flow u = -grad(theta)/mu: one turn of the phase gives 2 pi/mu (hc^2/mu in SI)",
+       anchor=r"with circulation $hc_{0}^{2}/\mu$ \cite{andersson2021}")
 def _():
     mu0 = 3.0; out = []
     for R in [20.0, 200.0]:
@@ -557,14 +531,14 @@ def _():
     return verdict(0.5e-4 < a < 2e-4 and close(b, 28, 0.02) and close(cc, 12, 0.02),
                    f"{a:.1e} s; {b:.1f} s; {cc:.1f} h (turnaround density far above the horizon density)")
 
-@check("§11.9", "NUMBER", "rho_c >~ 1e18 kg/m^3 with rho_c c^2 ~ hbar c/l^4 gives l <~ 0.8 fm, ~500 times below xi_0",
-       anchor=r"then $\ell \lesssim 0.8$~femtometers")
+@check("§11.9", "NUMBER", "rho_c >~ 2.4e23 kg/m^3 (J0337) with rho_c c^2 ~ hbar c/l^4 gives l <~ 0.035 fm, ~1e4 below the electron's 386 fm",
+       anchor=r"then $\ell \lesssim 0.035$~femtometers, some ten thousand times finer than the electron's")
 def _():
-    l = (hbar/(1e18*c))**0.25; xi = hbar/(me*c)
-    return verdict(close(l*1e15, 0.8, 0.05) and close(xi/l, 500, 0.05), f"l = {l*1e15:.2f} fm; xi_0/l = {xi/l:.0f}")
+    l = (hbar/(2.4e23*c))**0.25; xi = hbar/(me*c)
+    return verdict(close(l*1e15, 0.035, 0.03) and 0.8e4 < xi/l < 1.3e4, f"l = {l*1e15:.4f} fm; xi_e/l = {xi/l:.0f}")
 
-@check("§11.9", "NUMBER", "n = 1 return: five solar masses merging after ten billion years needs l <~ 6e-19 m; Sgr A* return ~1e22 years",
-       anchor=r"taking five solar masses and ten billion years, with $n = 1$ the step must be $\ell \lesssim 6 \times 10^{-19}$~m")
+@check("§11.9", "NUMBER", "q = 1 return: five solar masses merging after ten billion years needs l <~ 6e-19 m; Sgr A* return ~1e22 years",
+       anchor=r"taking five solar masses and ten billion years, with $q = 1$ the step must be $\ell \lesssim 6 \times 10^{-19}$~m")
 def _():
     lmax = (5*GMsun/c**2)**2/(c*10e9*yr); tau = (4.3e6*GMsun/c**2)**2/(c*6e-19)/yr
     return verdict(close(lmax, 6e-19, 0.1) and 1e21 < tau < 1e23, f"l < {lmax:.1e} m; Sgr A* {tau:.1e} years")
@@ -627,6 +601,60 @@ def _():
     vb, _, z0 = run(False); _, vc, z1 = run(True); _, _, zf = run(True, falloff=0.5, T=0.25)
     ok = abs(vb - 159) < 1 and abs(vc - 229) < 1 and abs(z0*1e3 - 574) < 3 and abs(z1*1e3 - 583) < 3 and 9 < zf < 12
     return verdict(ok, f"v_bar {vb:.1f} km/s, v_c {vc:.1f}; heights {z0*1e3:.0f} and {z1*1e3:.0f} pc ({(z1/z0-1)*100:+.1f}%); falling-off swirl: {zf:.1f} kpc")
+
+@check("§6", "NUMBER", "A galaxy's own travel tilts the Ocean by about its potential/c^2 times the orbital speed: a few times 1e-4 km/s, against 118",
+       anchor=r"a few times $10^{-4}\,\mathrm{km\,s^{-1}}$")
+def _():
+    kpc = 3.0857e19; Ms = 1.989e30
+    u = G*6e10*Ms/(c**2*8.1*kpc); s_self = 4*u*229.0
+    return verdict(1e-4 < s_self < 1e-3, f"u = {u:.2e}; (2 + 2 gamma) u v_c = {s_self:.1e} km/s, {118/s_self:.0e} times short")
+
+@check("§6", "NUMBER", "A swirl the same at every height needs, at the Sun's radius, a momentum about 4e4 times the model's stars and gas",
+       anchor=r"a momentum about $4 \times 10^{4}$")
+def _():
+    kpc = 3.0857e19; Ms = 1.989e30; M = 6e10*Ms; a, b, R = 3*kpc, 0.28*kpc, 8.1*kpc
+    # first-order law: lap s = -(16 pi G / c^2) p ; vector Laplacian of V phi_hat (V const) is -V/R^2 phi_hat
+    p_need = c**2*118.2e3/(16*math.pi*G*R**2)
+    rho = b*b*M/(4*math.pi)*(a*R*R + (a + 3*b)*(a + b)**2)/((R*R + (a + b)**2)**2.5*b**3)   # Miyamoto-Nagai, z = 0
+    ratio = p_need/(rho*229e3)
+    return verdict(3e4 < ratio < 5e4, f"needed {p_need:.2e} kg m^-2 s^-1; stars and gas {rho*229e3:.2e} ({rho/Ms*(kpc/1e3)**3:.3f} Msun/pc^3 at 229 km/s); ratio {ratio:.1e}")
+
+@check("§6", "FORMULA", "A source-free tilt flat in the plane grows as V(1 + z^2/2R^2) and gains a radial turning -V z/R^2",
+       anchor=r"as $V(1 + z^{2}/2R^{2})$")
+def _():
+    # azimuthal field s_phi(R, z); vector Laplacian lap = s_RR + s_R/R - s/R^2 + s_zz, by finite differences
+    V = 118.0; h = 1e-3
+    def s_phi(R, z): return V*(1 + z*z/(2*R*R))
+    def lap(R, z):
+        return ((s_phi(R+h, z) - 2*s_phi(R, z) + s_phi(R-h, z))/h**2 + (s_phi(R+h, z) - s_phi(R-h, z))/(2*h*R)
+                - s_phi(R, z)/R**2 + (s_phi(R, z+h) - 2*s_phi(R, z) + s_phi(R, z-h))/h**2)
+    worst = max(abs(lap(R, 0.0))/(V/R**2) for R in (4.0, 8.1, 15.0))          # source-free in the plane
+    flat = abs(lap(8.1, 0.0)) ; const = -V/8.1**2                               # a swirl the same at every height instead
+    BR = -(s_phi(8.1, 0.5+h) - s_phi(8.1, 0.5-h))/(2*h); ok = worst < 1e-5 and abs(BR + V*0.5/8.1**2) < 1e-6
+    return verdict(ok, f"residual in the plane {worst:.1e} of V/R^2 (a constant swirl leaves {const:.3f}); radial turning at z = 0.5 kpc {BR:.4f} = -V z/R^2")
+
+@check("§6", "SIMULATION", "Source-free swirl in the model Milky Way: vertical pull +9% at 0.5 kpc, +15% at 1 kpc; star at 30 km/s rises 558 vs 574 pc",
+       anchor=r"rises to $558$~pc against $574$")
+def _():
+    from scipy.integrate import solve_ivp
+    Gk = 4.30091e-6; a, b, Mb, R0, V = 3.0, 0.28, 6e10, 8.1, 118.0; GMk = Gk*Mb
+    def acc_b(x):
+        zb = math.sqrt(x[2]**2 + b*b); D = (x[0]**2 + x[1]**2 + (a + zb)**2)**1.5
+        return -GMk*np.array([x[0]/D, x[1]/D, x[2]*(a + zb)/(zb*D)])
+    def tilt(x):
+        R = math.hypot(x[0], x[1]); Vh = V*(1 + x[2]**2/(2*R*R))
+        return Vh*np.array([-x[1]/R, x[0]/R, 0.0])
+    def rhs(t, y):
+        x, u = y[:3], y[3:]; hh = 1e-5; v = tilt(x); Jm = np.zeros((3, 3))
+        for k in range(3):
+            e_ = np.zeros(3); e_[k] = hh; Jm[:, k] = (tilt(x + e_) - tilt(x - e_))/(2*hh)
+        cu = np.array([Jm[2, 1] - Jm[1, 2], Jm[0, 2] - Jm[2, 0], Jm[1, 0] - Jm[0, 1]])
+        return np.r_[u, acc_b(x) + Jm @ v - np.cross(u - v, cu)]
+    vb = math.sqrt(-acc_b(np.array([R0, 0, 0]))[0]*R0); vc = (V + math.sqrt(V*V + 4*vb*vb))/2
+    zs = np.abs(solve_ivp(rhs, [0, 0.5], [R0, 0, 0, 0, vc, 30.0], rtol=1e-9, atol=1e-11, max_step=0.002).y[2]).max()
+    fr = [(vc - V)*V*zz/R0**2/(-acc_b(np.array([R0, 0, zz]))[2]) for zz in (0.5, 1.0)]
+    ok = abs(zs*1e3 - 558) < 3 and abs(fr[0] - 0.09) < 0.01 and abs(fr[1] - 0.15) < 0.01
+    return verdict(ok, f"height {zs*1e3:.0f} pc; vertical pull +{fr[0]*100:.1f}% at 0.5 kpc, +{fr[1]*100:.1f}% at 1 kpc; radial x{(vc/vb)**2:.2f}")
 
 # --- §11.8: frame dragging ----------------------------------------------------------
 J_earth = 0.3307*5.9722e24*6.371e6**2*7.2921e-5
@@ -737,7 +765,7 @@ def _():
     return verdict(all(abs(r - 1) < 1e-3 for r in rates), "rate / (B/2): " + ", ".join(f"{r:.5f}" for r in rates))
 
 @check("§11.8", "SIMULATION", "Read point by point, quantized lines turn no pattern's travel in either sense",
-       anchor=r"a gyroscope smaller than the spacing does not turn")
+       anchor=r"Read point by point, they do not turn a gyroscope")
 def _():
     from scipy.integrate import solve_ivp
     a = 1.0; kap = 0.02; rc = 1e-3
@@ -770,7 +798,7 @@ def _():
     return verdict(1e3 < shared/spin < 1e4, f"ratio {shared/spin:.0f} at Gravity Probe B's height, travel 370 km/s")
 
 @check("§11.8", "SIMULATION", "Lines read over one spacing turn a gyroscope at B/2 (Larmor), reverse with the lines, independent of spin; point by point: nothing (mixed senses: rotor_mixed.py)",
-       anchor=r"they carry it exactly. Checked numerically for this version, a gyroscope whose")
+       anchor=r"they carry it exactly. Checked numerically, a gyroscope whose")
 def _():
     import importlib.util as iu
     spec = iu.spec_from_file_location("rotor_lines", Path(__file__).with_name("rotor_lines.py"))
@@ -780,35 +808,66 @@ def _():
     ok = abs(one - 1) < 2e-3 and abs(rev + 1) < 2e-3 and abs(pt) < 0.02 and abs(fast - 1) < 2e-3
     return verdict(ok, f"turning/(B/2): one spacing {one:+.4f}; reversed {rev:+.4f}; spin x3 {fast:+.4f}; point by point {pt:+.4f}")
 
-@check("§11.8", "NUMBER", "With mu = m_e c^2 the lines near the Earth lie about 100-150 km apart at the surface, about 300-400 km at LAGEOS; about an AU at the minimal law's bound",
-       anchor=r"near the Earth would lie about 100 to 150~km apart at the surface and about 300 to 400~km apart at the height of LAGEOS; at $10\,\mathrm{keV}$, about 700 to 1100~km and 2000 to 2800~km")
+@check("§12.7", "NUMBER", "Share of capacity at the Earth's surface 1.4e-9 and at the Moon 2.3e-11; the Moon's turning (c^2/2) grad(share) = 2.70e-3 m/s^2",
+       anchor=r"$(c_{0}^{2}/2)\nabla(\text{share})$ is $2.70 \times 10^{-3}\,\mathrm{m\,s^{-2}}$")
 def _():
-    out = {}
-    for name, p in [("pole", [0, 0, 6.371e6]), ("equator", [6.371e6, 0, 0]), ("LAGEOS", [1.227e7, 0, 0]), ("LAGEOS pole", [0, 0, 1.227e7])]:
-        z = np.linalg.norm(curl(tilt_swirl, np.array(p, float)))
-        out[name] = (math.sqrt(h/me/z)/1e3, math.sqrt(h*c*c/(1e-6*eV)/z)/AU, math.sqrt(h*c*c/(1e4*eV)/z)/1e3)
-    ok = 95 < out["pole"][0] < 155 and 95 < out["equator"][0] < 155 and 350 < out["LAGEOS"][0] < 450 and 250 < out["LAGEOS pole"][0] < 350 \
-         and all(0.3 < v[1] < 3 for v in out.values()) \
-         and 700 < out["pole"][2] < 760 and 1000 < out["equator"][2] < 1100 and 1950 < out["LAGEOS pole"][2] < 2050 and 2750 < out["LAGEOS"][2] < 2850
-    return verdict(ok, "; ".join(f"{k}: {v[0]:.0f} km, {v[2]:.0f} km at 10 keV (minimal-law bound: {v[1]:.1f} AU)" for k, v in out.items()))
+    GM = 3.986004418e14; R = 6.371e6; d = 3.844e8
+    sh = lambda r: 2*GM/(r*c*c)
+    turn = 0.5*c*c*2*GM/(d*d*c*c)
+    return verdict(close(sh(R), 1.4e-9, 0.01) and close(sh(d), 2.3e-11, 0.01) and close(turn, 2.70e-3, 0.005),
+                   f"share {sh(R):.3e} (surface), {sh(d):.3e} (Moon); turning {turn:.4e} m/s^2 = GM/d^2")
 
-@check("§6", "NUMBER", "A flat swirl of 118 km/s at 8.1 kpc needs lines about 1200 km apart; the Sun is about a thousand spacings across",
-       anchor=r"twice as far apart), and a star like the Sun is about a thousand spacings across; at a phase rate of $10\,\mathrm{keV}$ they lie about $9000\,\mathrm{km}$ apart and the Sun is about 150 spacings across")
+@check("§7.5, §7.7(5)", "NUMBER", "Dent (3.5 E_P) against the electron's 0.511 MeV, and the healing length against 386 fm: nearly 1e23",
+       anchor=r"healing length, which lies nearly $10^{23}$ times below it")
 def _():
-    z = 118e3/(8.1*kpc); s_ = math.sqrt(h/me/z); n = 1.3927e9/s_
-    ratio = (118/8.1)/(2*220/8.0); s10 = math.sqrt(h*c*c/(1e4*eV)/z); n10 = 1.3927e9/s10
-    return verdict(close(s_/1e3, 1200, 0.05) and 700 < n < 1500 and 0.2 < ratio < 0.3 and 1.7 < ratio**-0.5 < 2.2
-                   and close(s10/1e3, 9000, 0.05) and 140 < n10 < 170,
-                   f"spacing {s_/1e3:.0f} km (vorticity V/R of a flat swirl); Sun = {n:.0f} spacings; turning {ratio:.3f} of rigid, spacing x{ratio**-0.5:.2f}; at 10 keV {s10/1e3:.0f} km, Sun = {n10:.0f}")
+    EP = math.sqrt(hbar*c**5/G)/eV; r = 3.54*EP/0.51099895e6
+    return verdict(5e22 < r < 1.2e23, f"ratio {r:.2e}")
 
-@check("§12", "NUMBER", "Minimal law with a 0.511 MeV dent: a ~ 8e-4 at mu = 10 keV; a = 2 and sound speed about two-thirds at mu = m_e c^2",
-       anchor=r"a phase rate of $10\,\mathrm{keV}$ gives $a \approx 8 \times 10^{-4}$, and one at the electron's rest energy gives $a = 2$ and a sound speed about two-thirds of")
+@check("§11.8", "FORMULA", "Phase around a spinning hole: theta = mu(t + F), Delta F' = 2 M r_+ solves the wave equation (Boyer-Lindquist) and is regular at r_+; no phi dependence, so zero circulation",
+       anchor=r"$\theta = \mu_{\infty}[t + F(r)]$ with $\Delta F' = 2Mr_{+}$")
 def _():
-    a = 2*(0.511)**2/(0.511)**2; cs = math.sqrt((1 + a)/(1 + 3*a)); a10 = 2*(0.01/0.51099895)**2
-    return verdict(a == 2 and abs(cs - 2/3) < 0.02 and close(a10, 8e-4, 0.06), f"a = {a:g}; c_s = {cs:.3f}; at 10 keV a = {a10:.2e}")
+    M = 1.0; worst = 0; reg = []
+    for a in [0.0, 0.5, 0.9, 0.998]:
+        rp = M + math.sqrt(M*M - a*a)
+        r = np.linspace(rp*1.05, 40, 20001); dr = r[1] - r[0]; D = r*r - 2*M*r + a*a
+        box = np.gradient(D*(2*M*rp/D), dr)
+        worst = max(worst, np.abs(box[5:-5]).max())
+        x = rp*(1 + 1e-7); Dx = x*x - 2*M*x + a*a
+        rm = M - math.sqrt(M*M - a*a); lim = -2*rp/(rp - rm)
+        reg.append(abs((2*M*rp - (x*x + a*a))/Dx - lim)/abs(lim))
+    return verdict(worst < 1e-9 and max(reg) < 1e-4, f"wave-equation residual {worst:.1e}; at r_+ F' - (r^2+a^2)/Delta tends to the finite -2r_+/(r_+ - r_-) (largest relative miss {max(reg):.1e})")
+
+@check("§12.3", "NUMBER", "Clock at the Earth's surface: sqrt(1 - share) slows it by half the share, about 7e-10",
+       anchor=r"half that, about $7 \times 10^{-10}$")
+def _():
+    sh = 2*3.986004418e14/(6.371e6*c*c); slow = 1 - math.sqrt(1 - sh)
+    return verdict(close(slow, 7e-10, 0.01) and close(slow, sh/2, 1e-6), f"slowing {slow:.3e} = share/2")
+
+@check("§12.7", "FORMULA", "Induced gravity count: carriers -8, 15 builds per family +15/2, conformal joining field 0: str[k1] = -1/2; cutoff 3.5 E_P; 16 per family gives 0",
+       anchor=r"Twelve carriers give $-8$; three families of fifteen builds give $+\tfrac{15}{2}$")
+def _():
+    from fractions import Fraction as F
+    k_vec, k_weyl, k_conf = F(-2, 3), F(-1, 6), F(0)
+    s15 = 12*k_vec + 4*k_conf - 3*15*k_weyl; s16 = 12*k_vec + 4*k_conf - 3*16*k_weyl
+    ratio = math.sqrt(2*math.pi/float(-s15)); EP = math.sqrt(hbar*c**5/G)/eV
+    return verdict(s15 == F(-1, 2) and s16 == 0 and close(ratio, 3.5, 0.02) and 3.5e28 < ratio*EP < 4.8e28,
+                   f"str = {s15} (15/family), {s16} (16/family); cutoff {ratio:.2f} E_P = {ratio*EP:.2e} eV")
+
+@check("§12.7", "NUMBER", "Ocean's own sound speed with the dent at the Planck scale: a ~ 1e-120 for a flow rate below the expansion rate",
+       anchor=r"$a \lesssim 10^{-120}$")
+def _():
+    EP = math.sqrt(hbar*c**5/G)/eV; mu = 1.43e-33   # expansion rate H0 ~ 1.4e-33 eV, an upper scale for today's rate
+    a = 2*(mu/(3.5*EP))**2
+    return verdict(1e-125 < a < 1e-118, f"a = {a:.1e} at a rate of order the expansion rate", note=False)
+
+@check("§12.4", "NUMBER", "Baryon-to-photon ratio from the microwave background and from the light elements agree (Fields et al. 2020)",
+       anchor=r"$(6.148 \pm 0.191) \times 10^{-10}$ from the light elements")
+def _():
+    z = abs(6.148 - 6.104)/math.hypot(0.058, 0.191)
+    return verdict(z < 1, f"difference {z:.2f} standard deviations")
 
 @check("§10.4(5)", "FORMULA", "mu is the cost of one more unit of Ocean charge for any law (de/dn = mu); opposite charges differ by 2 mu; antihydrogen 1S-2S (2e-12) bounds it below ~5e-7 eV",
-       anchor=r"The comparisons above put that below about $5 \times 10^{-7}\,\mathrm{eV}$")
+       anchor=r"differ in rest energy by $2\mu$ per unit")
 def _():
     worst = 0
     for P in [lambda m: m*m + m**4, lambda m: m*m + 0.3*m**6, lambda m: m*m/(1 + m*m)]:
@@ -818,8 +877,8 @@ def _():
     bound = 2e-12*0.51099895e6/2
     return verdict(worst < 1e-4 and 4e-7 < bound < 6e-7, f"|de/dn - mu|/mu <= {worst:.1e} for three laws; bound mu < {bound:.1e} eV")
 
-@check("§10.4(5)", "SIMULATION", "In the minimal law a ripple in the amount at rest carries no Ocean charge; fast ripples (omega ~ k +/- mu) do",
-       anchor=r"a ripple in the amount at rest, the candidate for the electron, carries no Ocean charge")
+@check("§12.7", "SIMULATION", "In the minimal law a ripple in the amount at rest carries no Ocean charge; fast ripples (omega ~ k +/- mu) do",
+       anchor=r"in the minimal law a ripple in the amount at rest carries no Ocean charge")
 def _():
     lam = v = 1.0; mu = 0.3; rb = math.sqrt(v*v + 2*mu*mu/lam)
     def Lq(q):
@@ -895,18 +954,40 @@ def _():
     clash = PAPER.has(r"M^{2} = \lambda\bar{\rho}^{2}")
     return ("FAIL", "M^2 = lambda rho_bar^2 in Eq. (32) while M is a mass elsewhere") if clash else ("PASS", "M is a mass throughout")
 
-@check("§3", "CONSISTENCY", "'Where this paper writes a single real field phi, the first of these is the equation meant'",
-       anchor=r"the first of these is the equation meant")
+@check("§3", "FORMULA", "The single-field equation omits the phase term -rho mu^2, which moves the settled amount by the fraction a/2",
+       anchor=r"which moves the settled amount from $v$ by the fraction $a/2$")
 def _():
-    return "NOTE", ("overstated: Eq. (12) with phi -> rho lacks the phase term -rho mu^2 (smaller by ~1e-23 in the stiff Ocean) and differs in "
-                    "normalization; correction drafted, deferred by Keith 27 October")
+    lam, v = 1.0, 1.0; out = []
+    for a in (1e-3, 1e-6):
+        mu2 = a*lam*v*v/2
+        rho = math.sqrt(v*v + 2*mu2/lam)                    # settled amount of Eq. (14): lam rho (rho^2 - v^2)/2 = rho mu^2
+        resid = 0.5*lam*rho*(rho*rho - v*v) - rho*mu2
+        out.append((a, rho/v - 1, resid))
+    ok = all(abs(sh/(a/2) - 1) < 1e-3 and abs(r) < 1e-12 for a, sh, r in out)
+    return verdict(ok, "; ".join(f"a={a:g}: shift {sh:.3e} (a/2 = {a/2:.1e})" for a, sh, _ in out))
 
-@check("§7.2, Eq. (17)", "CONSISTENCY", "Quadratic action written for one real field while the text derives two branches",
-       anchor=r"the Ocean has two")
+@check("§7.2, Eq. (18)", "FORMULA", "Two coupled fields: the quadratic action is the minimal law's expansion; branches c_s^2 = (1+a)/(1+3a), gap^2 = lambda v^2 + 6 mu^2, k^4 term 4a^2",
+       anchor=r"+ 4\bar{\rho}\,\mu\,\delta\rho\, u^{\mu}\partial_{\mu}\delta\theta \Big].")
 def _():
-    one_field = PAPER.has(r"Expanding the Lagrangian $L(\phi, X)$ of Section~\ref{sec:Tphi} to second order in $\delta\phi$")
-    return ("NOTE", "Eq. (17) is a single-field action (one branch); the text gives two branches, which needs delta rho and delta theta "
-                    "(raised by Argon)") if one_field else ("PASS", "written for the complex field")
+    lam, v, mu = 1.0, 1.0, 0.07; rb = math.sqrt(v*v + 2*mu*mu/lam); a = 2*mu*mu/(lam*v*v)
+    # minimal law in the rest frame, unit carrying speed: L = rho_t^2 - rho_x^2 + rho^2 (theta_t^2 - theta_x^2) - lam/4 (rho^2 - v^2)^2
+    def L(x):  # x = (r, r_t, r_x, th_t, th_x): perturbations about rho = rb, theta_t = mu
+        r, rt, rx, tt, tx = x; rho = rb + r
+        return rt*rt - rx*rx + rho*rho*((mu + tt)**2 - tx*tx) - lam/4*(rho*rho - v*v)**2
+    h = 1e-4; H = np.zeros((5, 5)); e = np.eye(5)*h
+    for i in range(5):
+        for j in range(5):
+            H[i, j] = (L(e[i]+e[j]) - L(e[i]-e[j]) - L(-e[i]+e[j]) + L(-e[i]-e[j]))/(4*h*h)
+    want = np.zeros((5, 5)); want[0, 0] = -2*lam*rb*rb; want[1, 1] = 2; want[2, 2] = -2; want[3, 3] = 2*rb*rb; want[4, 4] = -2*rb*rb
+    want[0, 3] = want[3, 0] = 4*rb*mu          # 2 x (quadratic-form coefficients of Eq. S2complex)
+    ok1 = np.allclose(H, want, atol=1e-5)
+    # branches of (w^2 - k^2)(w^2 - k^2 - lam rb^2) = 4 mu^2 w^2
+    def w2(k):
+        A = lam*rb*rb + 4*mu*mu; return [(2*k*k + A - s*math.sqrt(A*A + 16*mu*mu*k*k))/2 for s in (1, -1)]
+    gap2 = w2(0.0)[1]; k = 1e-3; cs2 = w2(k)[0]/k**2
+    kk = 1e-2; quart = (w2(kk)[0] - cs2*kk**2)/kk**4*(lam*v*v)
+    ok = ok1 and close(gap2, lam*v*v + 6*mu*mu, 1e-9) and close(cs2, (1 + a)/(1 + 3*a), 1e-5) and close(quart, 4*a*a/(1 + 3*a)**3, 0.01)
+    return verdict(ok, f"action from the minimal law: {'matches' if ok1 else 'MISMATCH'}; gap^2 {gap2:.6f} vs {lam*v*v+6*mu*mu:.6f}; c_s^2 {cs2:.6f} vs {(1+a)/(1+3*a):.6f}; k^4 term {quart:.2e} = 4a^2/(1+3a)^3 {4*a*a/(1+3*a)**3:.2e}, 4a^2 to leading order")
 
 # ================================================================ run
 def main():

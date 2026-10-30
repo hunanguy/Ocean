@@ -1,0 +1,23 @@
+Ocean_Scalar_Tensor_Hydrodynamics_v3_12 — reading manifest
+Version 3.12; 18 parts
+Document digest: ca71-872a-82db
+
+Part | Token | SHA-256 | Title
+Preface | a70279 | a70279c36da62d9eb4c87a6799f1b45f85873689fe278921733194f6a1969416 | Abstract, reader's note and preface
+Glossary | 692b89 | 692b8902671e59f64eb6b40b9a782dfd4f31a7848d1547132de714f2543bb3d7 | Conventions and glossary
+§1 | c6c077 | c6c0779c0e761cd400d3d8e10e9dcb6737454dc20ff357a73d34342708d051c7 | The Field Equation
+§2 | dd4ba8 | dd4ba85d22e067f19dda72ee10090bcdaef77fd65b31ca8f764f74f3eee08d9b | Tensor Definitions
+§3 | d37c4e | d37c4e539ab168ea7b2558592362489d86c0540a799e9e944047f05c3687a424 | Scalar-Field Dynamics
+§4 | bf999b | bf999b49f1a3e8348d694907aa9df3e309fd07237befa336e57bd260852c0461 | The Ocean Interpretation
+§5 | cd0a4a | cd0a4aa12741cb5a8269c4f2ea26b400fdde0c96a6442cc98fe1fae0c4a7a625 | Cosmological Heartbeat
+§6 | 824d10 | 824d1076fb9158e84c774e25a5b1cea64d2a31a5c18ec2e6a226d0ce2f7a332a | Galactic Dynamics
+§7 | f72705 | f72705eb2c307cd721a029e394e3eea318305670a62049bbb279206279981aba | The Localization Threshold
+§8 | e2cf88 | e2cf88238540a5622ccba071c816c93d175e830fbf2f64d49e1b825d0a6d138b | Limiting Regimes
+§9 | e0ec99 | e0ec9975076528173c694076ee20f2608805af5d8d68ea38e3d914a39b0d077c | Conservation and Consistency Conditions
+§10 | b62bd0 | b62bd0379b4d3b4c14a55f76cd8b4ea76e9f09407b4b2c002f989979a76d3a1f | Relation to Existing Work
+§11 | 5ab9ee | 5ab9ee29969a1989670fa9f9dce1d767b32291f44248f8312a7029a8520f71b5 | One Speed and the Split
+§12 | ca7ea3 | ca7ea39ef36c575608e4c95bba2a3697fbe36c017e6b91d5334293b528f260c6 | The Rebuild and the Law
+§13 | ad7aa2 | ad7aa270b97a088226ec9cfe29dc0da9bfa6ce825175d56eded4c023a7418cb9 | Open Items
+§14 | 873db2 | 873db2cfc035a318641ccdd5cb6ae1f45936fff520c3d7897a5c66fc68281a55 | Research Program and Testable Predictions
+§15 | ef5186 | ef5186d610b5976672d9ba6c108805e620cfbdf5439ebb05145f7ca641c5a626 | Summary of the Revised Formalism
+References | 5045e9 | 5045e9f57b8e048f8b796e2c15fa155ec8fc2463de472e6dd93f7ba384b8ece1 | References and reference basis
