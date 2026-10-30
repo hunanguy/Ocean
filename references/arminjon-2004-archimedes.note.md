@@ -2,7 +2,7 @@
 
 **Citation.** M. Arminjon, "Gravity as Archimedes' thrust and a bifurcation in that theory", Found. Phys. 34, 1703 (2004) (confirmed by Arminjon 2006, ref. 22); arXiv:physics/0404103 (v3). Read 21 October 2026 via alphaXiv: pp. 1, 3–10, 12–14, 16, 19–20, 22. Full text not stored.
 
-**Cited by.** L1.
+**Cited in 3.12.** §10.2, What is inherited (Arminjon's scalar ether theory: a fluid ether as the only substance).
 
 **What it gives.**
 1. *History:* Euler's interpretation of Newtonian gravity as the pressure gradient of a fluid ether, the pressure falling toward a mass.

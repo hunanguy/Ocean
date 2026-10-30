@@ -2,7 +2,7 @@
 
 **Citation.** A. J. S. Hamilton and J. P. Lisle, "The river model of black holes", Am. J. Phys. 76, 519 (2008); arXiv:gr-qc/0411060 (v2, 31 Aug 2006). Already cited in 3.8 §8.1 as hamilton2008 (from 3.7). Read 21 October 2026 via alphaXiv: abstract, §I–II (pp. 1–5), §III H–I and summary (pp. 11, 13), appendix (p. 15). Full text not stored; arXiv ID above.
 
-**Cited by.** 3.8 §8.1 (river description; flat background has no observable meaning). For 3.9: U1 (flow unlimited), U3 (steepness, not speed), W2 note.
+**Cited in 3.12.** §8.1, Black holes (the river model: space flowing inward through a flat background, reaching the speed of light at the horizon; its flat background has no observable meaning).
 
 **Claims our text makes, and what the paper says.**
 

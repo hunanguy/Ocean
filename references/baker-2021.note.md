@@ -2,7 +2,7 @@
 
 **Citation.** C. J. Baker et al. (ALPHA Collaboration), "Laser cooling of antihydrogen atoms", Nature 592, 35–42 (2021); published online 31 March 2021. DOI 10.1038/s41586-021-03289-6. Open access, CC BY 4.0. Read in full from the PDF supplied by the user (18 pages including Methods and Extended Data).
 
-**Cited by.** D5 (§10.4(5)), for "laser-cooled".
+**Cited in 3.12.** §10.4 (antihydrogen trapped and laser-cooled at CERN).
 
 **Claims our text makes, and what the paper says.**
 

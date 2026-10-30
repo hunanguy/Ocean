@@ -2,7 +2,7 @@
 
 **Citation.** M. Ahmadi et al. (ALPHA Collaboration), "Characterization of the 1S–2S transition in antihydrogen", Nature 557, 71–75 (2018); published online 4 April 2018. DOI 10.1038/s41586-018-0017-2. Open access, CC BY 4.0. Read in full from the PDF supplied by the user (9 pages including Methods and Extended Data).
 
-**Cited by.** D5 (§10.4(5), matter and antimatter).
+**Cited in 3.12.** §10.4, Known deficiencies (antimatter is measured: the antihydrogen 1S–2S transition matches hydrogen to about 2 parts in 10¹²).
 
 **Claims our text makes, and what the paper says.**
 

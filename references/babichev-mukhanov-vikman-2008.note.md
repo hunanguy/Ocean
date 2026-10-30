@@ -2,7 +2,7 @@
 
 **Citation.** E. Babichev, V. Mukhanov and A. Vikman, "k-Essence, superluminal propagation, causality and emergent geometry", JHEP 0802, 101 (2008); arXiv:0708.0561. Journal reference confirmed 22 October 2026 from the arXiv record (JHEP 0802:101, 2008; DOI 10.1088/1126-6708/2008/02/101). Read 21 October 2026 via alphaXiv: §2 (pp. 4–7), §3 (pp. 8–10), §4 (p. 12), §7–8 (p. 21), appendices A, B, D (pp. 23, 25–26, 29). Full text not stored.
 
-**Cited by.** N3 (the disformal emergent metric of a single-field P(X) medium).
+**Cited in 3.12.** §11.4, Why the minimal law cannot carry the split (the disformal acoustic metric in which the ripple of the phase propagates, with Visser 1998).
 
 **Claims, and what the paper says.**
 

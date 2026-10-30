@@ -2,7 +2,9 @@
 
 **Citation.** A. Kamenshchik, U. Moschella and V. Pasquier, "An alternative to quintessence", Phys. Lett. B 511, 265 (2001) (volume and page confirmed by Bento et al. 2002 and Sandvik et al. 2004); arXiv:gr-qc/0103004. Read in full 21 October 2026 via alphaXiv (8 pp.). Full text not stored.
 
-**Cited by.** W2 (the pressure–density law is of Chaplygin form).
+**Cited in 3.12.** §11.6, The current through time (with Bento et al. 2002, as the generalized Chaplygin pressure–density law).
+
+**In 3.12.** Cited as a law the step does not need: the Ocean is stiff, so near a mass its rulers and clocks change, not its amount, and no pressure–density law enters. The point for W2 below does not arise in 3.12.
 
 **Claims, and what the paper says.**
 

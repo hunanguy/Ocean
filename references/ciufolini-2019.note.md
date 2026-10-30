@@ -2,7 +2,7 @@
 
 **Citation.** I. Ciufolini, A. Paolozzi, E. C. Pavlis, G. Sindoni, J. Ries, R. Matzner, R. Koenig, C. Paris, V. Gurzadyan and R. Penrose, "An improved test of the general relativistic effect of frame-dragging using the LARES and LAGEOS satellites", Eur. Phys. J. C 79, 872 (2019); arXiv:1910.09908. Read in full 25 October 2026 via alphaXiv. Full text not stored.
 
-**Cited by.** 3.11 §11.8 (LAGEOS, LAGEOS 2 and LARES, opening and table). Working note: claude/v3.11-item1-frame-dragging.md.
+**Cited in 3.12.** §11.8, Frame dragging (LAGEOS, LAGEOS 2 and LARES to about two per cent; General Relativity's rates for the three orbit planes, 30.68, 31.50 and 118.50 mas/yr, which the rule matches).
 
 **What the paper finds.**
 1. 7 years of laser ranging to LARES (2012) and 26 years to LAGEOS (1976) and LAGEOS 2 (1992); GRACE gravity model GGM05S with 7-day variations; orbit estimator GEODYN.

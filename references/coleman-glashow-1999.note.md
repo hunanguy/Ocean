@@ -2,7 +2,7 @@
 
 **Citation.** S. Coleman and S. L. Glashow, "High-energy tests of Lorentz invariance", Phys. Rev. D 59, 116008 (1999) (confirmed by Stecker & Glashow 2001, ref. 3); arXiv:hep-ph/9812418. Read 21 October 2026 via alphaXiv: pp. 1–2, 4, 10, 15–17, 19–20, 22–27. Full text not stored.
 
-**Cited by.** N4 (light and matter must share one speed limit).
+**Cited in 3.12.** §11.4 (cosmic-ray protons near 10²⁰ eV bound a difference between light's and matter's speed limits to about one part in 10²³; the stiff Ocean meets it).
 
 **What the paper gives.** Lorentz violation is framed as different maximal attainable speeds for different species in a preferred frame.
 

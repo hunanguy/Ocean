@@ -4,7 +4,7 @@
 
 **What was read.** Extended Data Table 2 in full, from a screenshot Keith supplied, 25 October 2026. Abstract-level details (data span, satellites, Chern–Simons bound) from the article page and the GFZ press release, not from the main text. The main text has not been read: the paper is paywalled and Nature's site blocks the page reader. Full text not stored.
 
-**Cited by.** 3.11 §11.8 (LARES-2, opening and table). Working note: claude/v3.11-item1-frame-dragging.md, §2.
+**Cited in 3.12.** §11.8 (LARES-2: 1.001 ± 0.001 (stat) ± 0.002 (syst) of General Relativity's value).
 
 **What the table gives.**
 1. (a) Frame-dragging nodal drift of the LARES-2 + LAGEOS combination over 14 days: 2.352 ± 0.0019 mas (t = 1238). Converted: 61.36 mas/yr, matching the GR prediction of about 61.36 mas/yr for the combination (Ciufolini et al. 2023). Residual K₁ tide amplitude −13.54 ± 0.21 mas, fitted and removed.

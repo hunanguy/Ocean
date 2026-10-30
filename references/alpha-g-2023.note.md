@@ -2,7 +2,7 @@
 
 **Citation.** E. K. Anderson et al. (ALPHA Collaboration), "Observation of the effect of gravity on the motion of antimatter", Nature 621, 716–722 (2023); published online 27 September 2023. DOI 10.1038/s41586-023-06527-1. Open access, CC BY 4.0. Read in full from the PDF supplied by the user (23 pages including Methods and Extended Data).
 
-**Cited by.** D5 (§10.4(5), matter and antimatter).
+**Cited in 3.12.** §10.4 (antihydrogen falls toward the Earth at 0.75 g with an uncertainty of about 0.2 g; repulsive gravity ruled out).
 
 **Claims our text makes, and what the paper says.**
 

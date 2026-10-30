@@ -2,7 +2,9 @@
 
 **Citation.** M. Visser, "Acoustic black holes: horizons, ergospheres, and Hawking radiation", Class. Quantum Grav. 15, 1767 (1998); arXiv:gr-qc/9712010 (v2, 15 Dec 1997). Journal reference confirmed 22 October 2026: the arXiv record gives DOI 10.1088/0264-9381/15/6/024, and Parentani (arXiv:gr-qc/0204079, ref. [4]) cites it as Class. Quant. Grav. 15 (1998) 1767. Read 21 October 2026 via alphaXiv: pp. 1–5, 7–10, 13–16, 18, 21, 23, 29; arXiv v2 PDF supplied by Keith 22 October. Full text not stored.
 
-**Cited by.** N3 (acoustic metric, as the general concept); S1 (geometry built from c_s and the flow).
+**Cited in 3.12.** §11.3, What sits on each side (an acoustic geometry matches Schwarzschild only up to a conformal factor; in the Ocean the factor comes from how patterns scale); §11.4 (the acoustic metric, with Babichev et al. 2008 for the relativistic form); §14 (a normal component brings a second sound with a speed of its own).
+
+**In 3.12.** The second point below is in §14 as a condition on any carrier that needs a normal component: its second sound must carry no signal patterns can use, or must share the one speed.
 
 **Claims, and what the paper says.**
 

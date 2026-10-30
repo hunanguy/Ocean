@@ -2,6 +2,8 @@
 
 **Citation.** T. Jacobson, S. Liberati and D. Mattingly, "A strong astrophysical constraint on the violation of special relativity by quantum gravity", Nature 424, 1019 (2003) (journal reference from memory); arXiv:astro-ph/0212190. Read in full 21 October 2026 via alphaXiv (12 pp.). Full text not stored.
 
+**Cited in 3.12.** Not cited. §11.4 cites Coleman & Glashow 1999 and Stecker & Glashow 2001 for the speed-limit bounds.
+
 **Why read.** The v3.9 proposal cited it for N4's electron–photon speed bound.
 
 **What it actually constrains.** Planck-suppressed, energy-dependent Lorentz violation, dispersion terms of order p³/M with M ≈ 10¹⁹ GeV. Crab synchrotron emission at 100 MeV gives η > −7 × 10⁻⁸ for electrons. The authors state that energy-independent (lower-order) speed differences are constrained elsewhere, citing Coleman & Glashow and Stecker & Glashow.

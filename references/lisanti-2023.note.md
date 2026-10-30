@@ -2,7 +2,7 @@
 
 **Citation.** M. Lisanti, M. Moschella, N. J. Outmezguine and O. Slone, "A preference for cold dark matter over superfluid dark matter in local Milky Way data", arXiv:1911.12365v2 (16 January 2023). Read 22–23 October 2026 via alphaXiv: pp. 1–2, 4–6, 9, 12. Full text not stored. Cited in 3.8 and 3.9 as lisanti2023 (this note is part of the backfill of older citations).
 
-**Cited by.** §6, §10.4(2); T5 and R20 of the v3.10 working list.
+**Cited in 3.12.** §6, Galactic Dynamics (a contribution parallel to the baryonic field is excluded by vertical kinematics; the eddy's tilt turns travel further radially and not vertically, the criterion superfluid dark matter fails; a prediction to be confronted with the full Milky Way analysis); §10.1 (superfluid dark matter disfavored); §10.4 (enhancement required radially, essentially none vertically); §14 (with Lisanti 2019).
 
 **What the paper finds.**
 1. *The criterion.* Milky Way data require a substantial enhancement of the radial acceleration but essentially none in the vertical direction locally: "the enhancement in the vertical acceleration must be suppressed compared to that in the radial direction" — stated as a criterion for any dark-matter model (Conclusions).

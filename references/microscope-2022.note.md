@@ -2,7 +2,7 @@
 
 **Citation.** P. Touboul et al. (MICROSCOPE Collaboration), "MICROSCOPE mission: final results of the test of the Equivalence Principle", Phys. Rev. Lett. 129, 121102 (2022); arXiv:2209.15487. Journal reference confirmed 22 October 2026: DOI 10.1103/PhysRevLett.129.121102 (TU Delft research portal). Read 21 October 2026 via alphaXiv: pp. 1–5 (full paper body). Full text not stored.
 
-**Cited by.** U3 (every pattern responds alike, independently of composition).
+**Cited in 3.12.** §11.2, The rules are fixed (a difference of free fall excluded at η(Ti, Pt) = [−1.5 ± 2.3 (stat) ± 1.5 (syst)] × 10⁻¹⁵).
 
 **Claims, and what the paper says.**
 

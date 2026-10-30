@@ -2,7 +2,9 @@
 
 **Citation.** M. C. Bento, O. Bertolami and A. A. Sen, "Generalized Chaplygin gas, accelerated expansion and dark energy–matter unification", Phys. Rev. D 66, 043507 (2002); arXiv:gr-qc/0202064. Journal reference confirmed 22 October 2026: the same authors cite it as Phys. Rev. D66 (2002) 043507 in arXiv:astro-ph/0407239, ref. [2]. Read in full 21 October 2026 via alphaXiv (5 pp.). Full text not stored.
 
-**Cited by.** W2.
+**Cited in 3.12.** §11.6, The current through time (with Kamenshchik et al. 2001, as the generalized Chaplygin pressure–density law).
+
+**In 3.12.** Cited as a law the step does not need: the Ocean is stiff, so near a mass its rulers and clocks change, not its amount, and no pressure–density law enters.
 
 **Claims, and what the paper says.**
 

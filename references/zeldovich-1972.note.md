@@ -4,7 +4,7 @@
 
 **Relation to Zel'dovich 1971.** The 1971 note (JETP Lett. 14, 180 [Pis'ma ZhETF 14, 270]) first pointed out the effect. It has not been obtained, and it is the original credit. This 1972 paper is the author's full account: it explains the mechanism, gives an energy-based proof, extends the effect to a collapsing rotating body (the Kerr metric), and estimates its size for electromagnetic waves. B3 cites both. Braidotti et al. 2023, stored separately, reports the first electromagnetic observation.
 
-**Cited by.** B3 (superradiance).
+**Cited in 3.12.** §8.1, Black holes (superradiance, with Torres et al. 2017). The 1971 note is not cited.
 
 **Claims our text makes, and what the paper says.**
 

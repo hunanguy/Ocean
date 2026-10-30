@@ -2,7 +2,9 @@
 
 **Citation.** N. Andersson and G. L. Comer, "Relativistic fluid dynamics: physics for many different scales", Living Reviews in Relativity 24, 3 (2021); DOI 10.1007/s41114-021-00031-6 (confirmed from the Southampton eprints record, 27 October 2026); arXiv:2008.12069. Read 27 October 2026 via alphaXiv: pp. 1, 53, 128, 134, 137–140, 142–143, 151–152.
 
-**Cited by.** 3.11 §7.7(5) (the circulation per line, hc₀²/μ). Working note: claude/v3.11-circulation-quantum.md.
+**Cited in 3.12.** §11.8, Frame dragging (quantized lines of the phase, each with circulation hc₀²/μ).
+
+**In 3.12.** The lines are the alternative §11.8 sets aside. They carry the turning only when read over at least one line spacing, a reading scale that is assumed, and are fine enough only if the phase turns at 10 keV or more, which no stiff Ocean allows. Frame dragging is carried by the re-made tilt, with no whirl of the phase.
 
 **What the paper gives.**
 1. A relativistic fluid's momentum per particle is μ_a = μu_a (Eq. 5.18, p. 53), conjugate to the particle flux; vorticity is defined from it, ω_ab = 2∇_[a μ_b] (Eq. 5.23).

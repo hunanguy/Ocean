@@ -2,7 +2,7 @@
 
 **Citation.** Event Horizon Telescope Collaboration, "First Sagittarius A* Event Horizon Telescope Results. VI. Testing the Black Hole Metric", Astrophys. J. Lett. 930, L17 (2022); DOI 10.3847/2041-8213/ac6756; arXiv:2311.09484. Journal reference confirmed 22 October 2026 from the arXiv record. Read 22 October 2026 via alphaXiv: abstract and introduction (pp. 1, 3), §3.4–3.5 and Table 2 (pp. 12–13), §4.3 and §5 opening with the fiducial bounds (pp. 22–23), §6.3–6.4 (p. 33). Full text not stored.
 
-**Cited by.** T1 and R12 of the v3.10 working list (the black-hole shadow).
+**Cited in 3.12.** §8.2, A traveler falls in (the shadow of Sagittarius A* within about ten per cent of General Relativity's); §11.6 (a shadow 4.6 per cent larger lies outside one of the two allowed ranges); §11.7, The strong field (fractional deviation −0.04 +0.09/−0.10 or −0.08 ± 0.09, no evidence of a surface; the Kerr shadow varies by about eight per cent with spin and viewing angle).
 
 **What the paper finds.**
 1. *The observed image size of Sgr A* is within about 10 per cent of the Kerr prediction*, using the stellar-dynamics mass-to-distance priors (Keck and VLTI) from the orbit of S0-2.

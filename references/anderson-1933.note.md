@@ -2,7 +2,7 @@
 
 **Citation.** C. D. Anderson, "The positive electron", Phys. Rev. 43, 491 (1933). Received 28 February 1933; issue of 15 March 1933. Read in full from the PDF supplied on 18 October 2026: pp. 491–494 of text plus the figure plates. Page 492 was image-only and was read from the page image.
 
-**Cited by.** D5 (§10.4(5)).
+**Cited in 3.12.** §10.4 (the positron, the first antimatter partner observed).
 
 **Claim our text makes.** *Every charged localized excitation has an antimatter partner, observed directly: the positron [Anderson 1933] …*
 

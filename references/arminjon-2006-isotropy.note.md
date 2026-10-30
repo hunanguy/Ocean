@@ -2,7 +2,7 @@
 
 **Citation.** M. Arminjon, "Space isotropy and weak equivalence principle in a scalar theory of gravity", Braz. J. Phys. 36, 177 (2006) (journal reference confirmed by Arminjon 2016, ref. 11); arXiv:gr-qc/0412085 (v3). Read 21 October 2026 via alphaXiv: §§1–2, 3.1–3.2, 5, 7.2, 8 (pp. 1, 3–6, 8, 13, 15–18, 20–22). Full text not stored.
 
-**Cited by.** L1 (nearest precedents), W1, W2.
+**Cited in 3.12.** §10.2 (Arminjon's scalar ether theory); §11.6, The current through time (the exponential metric of Yilmaz, which Arminjon's isotropic theory has in full).
 
 **What the theory is.** A preferred-frame, bimetric scalar theory. The medium ("ether") is the only substance and particles are organized flows in it. The scalar field β ≡ ρ_e/ρ_e^∞ ≤ 1 (local ether density over its value far from masses) dilates clock periods and contracts rods in the same ratio, now isotropically: g₀₀ = β², g_ij = β⁻² δ_ij. The field obeys the flat wave equation □ψ = 4πGσ/c² with β = e^(−ψ). The pressure–density law is p_e = c²ρ_e. Gravity is the "Archimedes' thrust" of the ether's pressure gradient, g = −c² ∇β/β. Motion follows an extension of Newton's second law; geodesic motion holds only in static fields, so it is not a metric theory in the PPN sense.
 

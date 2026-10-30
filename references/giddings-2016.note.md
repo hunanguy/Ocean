@@ -2,7 +2,7 @@
 
 **Citation.** S. B. Giddings, "Hawking radiation, the Stefan–Boltzmann law, and unitarization", Phys. Lett. B 754, 39 (2016). Read from arXiv:1511.08221v3 (12 Jan 2016), full text, all 9 pages.
 
-**Cited by.** B3 (§8.1).
+**Cited in 3.12.** §8.1, Black holes (the radiation emerges from a region comparable in size to the hole, typical wavelength about eighty times the horizon radius).
 
 **Claims our text makes, and what the paper says.**
 

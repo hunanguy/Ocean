@@ -2,7 +2,7 @@
 
 **Citation.** M. Su, T. R. Slatyer and D. P. Finkbeiner, "Giant gamma-ray bubbles from Fermi-LAT: AGN activity or bipolar Galactic wind?", Astrophys. J. 724, 1044 (2010). Read from arXiv:1005.5480v3 (18 Oct 2010), full text. The stored copy includes figure-axis residue from extraction; all prose was read, including §§1–9 and the reference list.
 
-**Cited by.** B10 (§8.1).
+**Cited in 3.12.** §8.1, Black holes (the Fermi bubbles: a large release of energy at the Galactic centre within about the last ten million years, accretion or starburst, with difficulties for both). The wording follows the assessment below.
 
 **Claim our text made.** *The Fermi bubbles above and below the Milky Way's centre are most likely the remnant of such an outburst [an outburst of the central black hole] a few million years ago.*
 

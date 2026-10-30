@@ -2,7 +2,7 @@
 
 **Citation.** W. G. Unruh, "Experimental Black-Hole Evaporation?", Phys. Rev. Lett. 46, 1351–1353 (1981); received 8 December 1980. DOI 10.1103/PhysRevLett.46.1351. Read in full from the APS PDF supplied by the user (3 pages).
 
-**Cited by.** B3 (Hawking radiation as the refractive horizon's output).
+**Cited in 3.12.** §8.1, Black holes (a fluid flowing faster than its sound speed has a horizon of the same form and emits thermal sound).
 
 **Claims our text makes, and what the paper says.**
 

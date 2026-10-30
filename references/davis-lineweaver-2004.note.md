@@ -2,7 +2,7 @@
 
 **Citation.** T. M. Davis and C. H. Lineweaver, "Expanding confusion: common misconceptions of cosmological horizons and the superluminal expansion of the universe", Publ. Astron. Soc. Aust. 21, 97 (2004). Read from arXiv:astro-ph/0310808v2 (13 Nov 2003), full text, all 25 pages including appendices.
 
-**Cited by.** E1 (§5.1).
+**Cited in 3.12.** §5.1, Within the present beat (galaxies now receding faster than light remain visible; the claims of items 1–2 are in the same paragraph). Item 4 stays uncited in 3.12.
 
 **Claims our text makes, and what the paper says.**
 

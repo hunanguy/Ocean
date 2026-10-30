@@ -2,7 +2,7 @@
 
 **Citation.** R. D. Blandford and R. L. Znajek, "Electromagnetic extraction of energy from Kerr black holes", Mon. Not. R. Astron. Soc. 179, 433–456 (1977); received 1976 July 15. DOI 10.1093/mnras/179.3.433. Read in full from the scanned PDF supplied by the user (24 pages, OCR'd); equations are garbled in the OCR text, so check formulae against the PDF.
 
-**Cited by.** B10 (black holes recycle energy).
+**Cited in 3.12.** §8.1, Black holes (a magnetic field threading a spinning hole draws off its rotational energy and beams it out in two opposite directions).
 
 **Claims our text makes, and what the paper says.**
 

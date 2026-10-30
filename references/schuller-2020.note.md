@@ -2,7 +2,9 @@
 
 **Citation.** F. P. Schuller, "Constructive gravity: foundations and applications", rapporteur article for the Constructive Gravity session, 15th Marcel Grossmann Meeting (Rome, 2018); arXiv:2003.09726. Read in full on 21 October 2026 from the arXiv text.
 
-**Cited by.** Nothing yet. Read as a lead for "Derive gravity from the medium" (§11; R13, R16, R19, S1).
+**Cited in 3.12.** Not cited. Read as a lead for deriving gravity from the medium.
+
+**In 3.12.** The k⁴ term comes from the coupling of the two fields, with relative size about 4a², and carries no signal in the stiff Ocean (§7.2; §13.2, item 3). Whether it meets condition (a) of point 3 below is not checked.
 
 **What it says.**
 - Constructive gravity ("gravitational closure") calculates the gravitational action from a given matter action S_matter[A, G) on a geometry G of choice.

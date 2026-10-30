@@ -2,7 +2,7 @@
 
 **Citation.** D. N. Page, "Particle emission rates from a black hole. II. Massless particles from a rotating hole", Phys. Rev. D 14, 3260–3273 (1976); received 12 May 1976. DOI 10.1103/PhysRevD.14.3260. Read in full from the APS PDF supplied by the user (14 pages; OCR layer, tables and equations partly garbled).
 
-**Cited by.** B3 (Hawking radiation and spin-down). Paper I (Page 1976a, PRD 13, 198) is stored separately and covers B4 and B10.
+**Cited in 3.12.** §8.1, Black holes (a hole spins down to a nearly non-rotating state before giving up most of its mass).
 
 **Claims our text makes, and what the paper says.**
 

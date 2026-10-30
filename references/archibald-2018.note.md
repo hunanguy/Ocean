@@ -8,6 +8,6 @@ inner white-dwarf companion, the inner orbit would be polarised. Result: Δ = m_
 the white dwarfs' is negligible.
 
 **How we used it.** Any rule that counts less than all of a body's energy toward the draw, depending on
-how densely packed the energy is, makes Δ nonzero for a neutron star but not a white dwarf. In 3.12 (§11.9,
-§11.10): a density-triggered loosening of the Ocean's grip would act inside neutron stars, so the triple
+how densely packed the energy is, makes Δ nonzero for a neutron star but not a white dwarf. In 3.12 (cited §11.9;
+used §11.10): a density-triggered loosening of the Ocean's grip would act inside neutron stars, so the triple
 pulsar places the turnaround density above about 2.4 × 10²³ kg m⁻³, and a fine scale ℓ ≲ 0.035 fm.

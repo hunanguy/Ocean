@@ -2,7 +2,7 @@
 
 **Citation.** C. W. F. Everitt et al., "Gravity Probe B: Final Results of a Space Experiment to Test General Relativity", Phys. Rev. Lett. 106, 221101 (2011); arXiv:1105.3456. Read in full 25 October 2026 via alphaXiv (full text). Full text not stored.
 
-**Cited by.** 3.11 §11.8 (Gravity Probe B, opening and table). Working note: claude/v3.11-item1-frame-dragging.md.
+**Cited in 3.12.** §11.8, Frame dragging (Gravity Probe B: −37.2 ± 7.2 mas/yr against General Relativity's −39.2).
 
 **What the paper finds.**
 1. Four cryogenic gyroscopes in a 642 km polar orbit, referenced to the guide star IM Pegasi; data 28 August 2004 to 14 August 2005.

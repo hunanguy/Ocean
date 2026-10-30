@@ -2,7 +2,7 @@
 
 **Citation.** H. B. Sandvik, M. Tegmark, M. Zaldarriaga and I. Waga, "The end of unified dark matter?", Phys. Rev. D 69, 123524 (2004); arXiv:astro-ph/0212114. Journal reference confirmed 22 October 2026: Bento, Bertolami & Sen (arXiv:astro-ph/0407239, ref. [13]) cite it as Phys. Rev. D69 (2004) 123524. Read in full 21 October 2026 via alphaXiv (5 pp.); arXiv v2 PDF supplied by Keith 22 October. Full text not stored.
 
-**Cited by.** W2 (caveat), R31.
+**Cited in 3.12.** §11.6, The current through time (single-density unified fluids are excluded once |d ln p/d ln n| exceeds about 10⁻⁵; the Ocean has two state variables); §14 (the second state variable must keep the cosmological pressure from being a function of density alone).
 
 **What the paper finds.**
 

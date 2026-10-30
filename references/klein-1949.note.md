@@ -2,7 +2,7 @@
 
 **Citation.** O. Klein, "On the thermodynamical equilibrium of fluids in gravitational fields", Rev. Mod. Phys. 21, 531–533 (1949); DOI 10.1103/RevModPhys.21.531. Read in full on 23 October 2026 from the PDF supplied by Keith (3 pages; scanned, OCR read against the page text). Full text not stored.
 
-**Cited by.** §11.6, item (iii) of the v3.10 draft ("The Ocean stays in step"); R5 of the v3.10 working list.
+**Cited in 3.12.** §11.6, The current through time (a fluid at rest in a gravitational field: its chemical potential, including the mass energy, times √|g₀₀| is the same everywhere; the Ocean's chemical potential is its phase rate).
 
 **What the paper shows.**
 1. *Two equilibrium conditions for a fluid at rest in a static gravitational field.* Abstract: "apart from the Tolman condition T(g₄₄)^½ = const., [equilibrium is] governed by the condition α(g₄₄)^½ = const., where α is the chemical potential of the fluid (including mass energy)". This is the relativistic generalization of Gibbs's condition μ + Mφ = const.

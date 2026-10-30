@@ -2,7 +2,7 @@
 
 **Citation.** A. Garat and R. H. Price, "Nonexistence of conformally flat slices of the Kerr spacetime", arXiv:gr-qc/0002013 (2 February 2000); published in Physical Review D 61, 124011 (2000); DOI 10.1103/PhysRevD.61.124011 (confirmed from the arXiv record, 26 October 2026). Read in full 26 October 2026 via alphaXiv (5 pages).
 
-**Cited by.** 3.11 §11.8 ("Beyond first order"). Working note: claude/v3.11-item1-frame-dragging.md, §1.
+**Cited in 3.12.** §11.8 (no axisymmetric slicing of the spinning hole that reduces to the non-spinning case keeps the rulers shrunk equally beyond first order in spin; at first order no obstruction).
 
 **What the paper gives.**
 1. Question: is there a slicing of the spinning-hole (Kerr) geometry whose 3-geometry is conformally flat, i.e. rulers shrunk equally in every direction?

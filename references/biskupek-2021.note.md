@@ -2,7 +2,7 @@
 
 **Citation.** L. Biskupek, J. Müller and J.-M. Torre, "Benefit of new high-precision LLR data for the determination of relativistic parameters", Universe 7(2), 34 (2021); arXiv:2012.12032. Open access (MDPI). Read in full on 20 October 2026, from the arXiv preprint (v1, 22 December 2020).
 
-**Cited by.** G1 (§7.6): G is a constant of the beat.
+**Cited in 3.12.** §7.6, Consequences (lunar laser ranging: Ġ/G = (−5.0 ± 9.6) × 10⁻¹⁵ per year).
 
 **What the paper does.** It analyses 27,485 lunar laser ranging normal points, April 1970 to April 2020, including many new infrared measurements from OCA. It fits relativistic parameters together with the Earth–Moon model, letting G vary in time as G(t) = G₀(1 + (Ġ/G₀)Δt + ½(G̈/G₀)Δt²).
 

@@ -2,6 +2,8 @@
 
 **Citation.** M. C. Braidotti, A. Vinante, M. Cromb, A. Sandakumar, D. Faccio and H. Ulbricht, "Amplification of electromagnetic waves by a rotating body", arXiv:2310.12191v1 (18 October 2023), with supplementary material. Read in full from the PDF supplied on 18 October 2026. Journal publication status not checked; confirm before citing.
 
+**Cited in 3.12.** Not cited. §8.1 cites Zel'dovich 1972 with Torres et al. 2017 for superradiance.
+
 **Not the paper requested.** It was supplied as "Zel'dovich 1971" but is a 2023 experimental paper that cites Zel'dovich, JETP Lett. 14, 180 (1971), as its reference [1]. The original stays unread; B3's citation of Zel'dovich 1971 keeps its (verify) mark. The title we list for the original ("Generation of waves by a rotating body") is not confirmed by this paper, which gives only the journal reference.
 
 **What it says that bears on our text.**

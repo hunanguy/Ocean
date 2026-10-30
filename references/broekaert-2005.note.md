@@ -2,7 +2,7 @@
 
 **Citation.** J. Broekaert, "A modified Lorentz-transformation based gravity model confirming basic GRT experiments", Found. Phys. 35, 839 (2005) (confirmed by Arminjon 2006, ref. 40); arXiv:gr-qc/0309023 (v2). Read 21 October 2026 via alphaXiv: pp. 1–9, 13–14, 16. Full text not stored.
 
-**Cited by.** W1, L1.
+**Cited in 3.12.** §10.2 (the four classical tests at first post-Newtonian order with the scaling the framework requires); §11.5, The weak-field condition (the scaling, after Sjödin, of which the even split is the stated condition); §11.6 (the exponential metric underlies his model).
 
 **What it gives.** A scalar model, after Sjödin, with a spatially variable speed of light and rods and clocks scaled to keep the locally measured speed invariant:
 - rods: dx = dx′Φ; clocks: dt = dt′/Φ; light: c(r) = c′Φ²;

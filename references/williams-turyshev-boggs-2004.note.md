@@ -2,7 +2,7 @@
 
 **Citation.** J. G. Williams, S. G. Turyshev and D. H. Boggs, "Progress in lunar laser ranging tests of relativistic gravity", arXiv:gr-qc/0411113 (v2, 29 December 2004); published in Physical Review Letters 93, 261101 (2004); DOI 10.1103/PhysRevLett.93.261101 (confirmed from the arXiv record, 26 October 2026). Read in full 26 October 2026 via alphaXiv (4 pages).
 
-**Cited by.** 3.11 §11.8 ("Travel through the Ocean leaves no trace": the lunar orbit's de Sitter turning). Working note: claude/v3.11-item1-frame-dragging.md, §11.
+**Cited in 3.12.** §11.8, Frame dragging (the lunar orbit's turning by its travel through the Sun's slowed Ocean, measured as General Relativity gives it, to 0.6 per cent).
 
 **What the paper gives.**
 1. Data: 15,553 lunar laser ranging normal points, March 1970 to April 2004; post-fit scatter about 2 cm over the last ten years.

@@ -2,7 +2,7 @@
 
 **Citation.** R. Lange, N. Huntemann, J. M. Rahm, C. Sanner, H. Shao, B. Lipphardt, Chr. Tamm, S. Weyers and E. Peik, "Improved limits for violations of local position invariance from atomic clock comparisons", Phys. Rev. Lett. 126, 011102 (2021). Read from arXiv:2010.06620v2 (7 Jan 2021), full text.
 
-**Cited by.** E4 (§7 / §5.1).
+**Cited in 3.12.** §7.6, Consequences (atomic clocks: drift of the proton-to-electron mass ratio, a few parts in 10¹⁷ per year).
 
 **Claim our text makes.** *Particle-mass ratios are constrained to about 10⁻¹⁷ per year by atomic clocks.*
 

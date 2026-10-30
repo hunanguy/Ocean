@@ -2,7 +2,9 @@
 
 **Citation.** G. E. Volovik, "Superfluid analogies of cosmological phenomena", arXiv:gr-qc/0005091 (v3, 3 October 2000); published in Physics Reports (2001); DOI 10.1016/S0370-1573(00)00139-3 (confirmed from the arXiv record, 26 October 2026). Physics Reports 351, 195 (2001): volume confirmed 27 October 2026 from the ScienceDirect issue listing (vol. 351, issue 4) returned for the article's identifier, and volume and first page from an independent citation, J. Dziarmaga, arXiv:gr-qc/0112041, ref. [2] ("G.E. Volovik, Phys.Rep.351, 195 (2001)"). Read 26 October 2026 via alphaXiv: pp. 1, 6, 9, 31, 43–44, 55, 82, 105, 109 (contents, §II B, §II E, §V A 3, §VII C–D, the rotating-vacuum section around Eq. 171, §X C, §XIV B 1, reference list).
 
-**Cited by.** 3.11 §11.8 ("What it requires": the helium-3-A alternative, Mermin–Ho). Working note: claude/v3.11-item1-frame-dragging.md, §7.
+**Cited in 3.12.** §11.8, Frame dragging (helium-3-A: the flow is the twist of an internal set of directions, its turning continuous by the Mermin–Ho relation, acting on the excitations as a gravimagnetic field).
+
+**In 3.12.** Cited as the parallel to the re-made tilt, which carries frame dragging, not as an alternative the Ocean would need: no quantized lines and no whirl of the phase are required.
 
 **What the paper gives.**
 1. In superfluid ⁴He the superfluid velocity is the gradient of the phase, v_s = (ħ/m)∇Φ, "and thus the flow of vacuum is curl-free: ∇ × v_s = 0. This is not however a rule: ... the superfluid vacuum flow of ³He-A can have a continuous vorticity" (p. 6).

@@ -2,7 +2,7 @@
 
 **Citation.** M. Arminjon, "Ether theory of gravitation: why and how?", in M. C. Duffy and J. Levy (eds.), *Ether, Space-Time and Cosmology*, Vol. 1 (PD Publications, Liverpool, 2008), pp. 139–201 (confirmed by Arminjon 2016, ref. 21); arXiv:gr-qc/0401021 (v2, 2007). Read 21 October 2026 via alphaXiv: pp. 1–2, 7–8, 11, 16, 18, 20–21, 25, 28, 42, 49–52. Full text not stored.
 
-**Cited by.** L1 (as the review of the field).
+**Cited in 3.12.** §10.2 (Arminjon's scalar ether theory); §11.1, One speed (the ether's sound speed must equal c because it is matter's speed limit; there that speed is fixed, in the Ocean it varies with the state).
 
 **What it gives.**
 1. *A review of Lorentz–Poincaré ether models of gravity:* Podlaha & Sjödin (ether density increases toward the mass and acts as the refractive index for light; clocks slow and rods contract at rest in the ether); Sjödin's Lagrangian; Broekaert's Hamiltonian reproducing the four classical tests at 1PN; Winterberg (a flowing substratum whose motion fixes rod contraction and clock dilation); crystal-substratum and condensate models.

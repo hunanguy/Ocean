@@ -2,6 +2,10 @@
 
 **Citation.** D. N. Page, "Particle emission rates from a black hole: Massless particles from an uncharged, nonrotating hole", Phys. Rev. D 13, 198 (1976); received 18 August 1975. Read in full from the scanned PDF supplied on 18 October 2026 (pp. 198–206), using OCR plus the page images. OCR garbles exponents, so the figures below were checked against the rendered pages and the paper's own unit conversions.
 
+**Cited in 3.12.** §8.1, Black holes (2 × 10⁶⁶ years for a solar mass with massless neutrinos, several times longer without; electron–positron pairs below about 10¹⁴ kg and hadrons in the final stage).
+
+**In 3.12.** The text states the massless-neutrino assumption, as the caveat below asks. Paper II (Page 1976b) is cited separately for spin-down.
+
 **Not the paper B3 cites.** B3 cites Page's Paper II, "… Massless particles from a rotating hole", Phys. Rev. D 14, 3260 (1976), for spin-down before mass loss. This is Paper I, which treats only a non-rotating hole. On rotation it says only that emission at maximal rotation decreases a* = J/M², and that it was "not yet known" whether a* keeps decreasing near zero (§I). Paper II is still needed for B3's spin-down claim.
 
 **What it supports elsewhere.**
