@@ -4,6 +4,7 @@
 # rebuild. Delete the next line if you would rather ship the .tex in the
 # Zenodo archive alongside the PDF.
 Ocean_Scalar_Tensor_Hydrodynamics_*.tex
+Ocean_Appendix_A_*.tex
 
 # --- pdflatex intermediates -----------------------------------------------
 *.aux

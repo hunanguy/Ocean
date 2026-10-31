@@ -403,9 +403,27 @@ from pathlib import Path
 #        two branches, c_s^2 = (1+a)/(1+3a), gap^2 = lambda v^2 + 6 mu^2, k^4
 #        term 4a^2); Section 11.9's exponent renamed q; Section 7.7(3)
 #        4a^2 < 4e-46.
+#   3.12.1 Appendix A, the rebuild of a spinning black hole (Argon's text,
+#        Keith, 31 October): Sagittarius A* through the steps of the Earth's
+#        rebuild (Section 12.3), a comparison table of the two regimes, and
+#        what the account settles and leaves open. Corrected against 3.12:
+#        charge's long-range field must be the plexus (Section 8.1); Hawking
+#        radiation as ripples of the medium, any patterns made afresh as pairs,
+#        about 1.4e-14 K for Sgr A* (Section 8.1); psi^2 as the count of the
+#        Ocean's rulers in a unit step (Section 11.7); the grip loosens, collapse
+#        stops at rho_c, 28 s for a pattern falling from rest far away (Section
+#        11.9); the orbit plane turned by the gyroscope's term (Section 11.8);
+#        "the rules of Section 12.7" (eleven, not twelve); stripping by tide and
+#        load. Pointers to it from Sections 8.1, 8.2, 11.8 and 12.3. The
+#        appendix is its own part in the manifest. Title page: "(draft)"
+#        removed. No other change from 3.12.
+#        The build also writes Appendix A as a standalone PDF from the same
+#        text (APPENDIX_A), its section and equation numbers taken from the
+#        compiled paper's .aux; it carries the paper's Appendix A token.
 
-DOCNAME = "Ocean_Scalar_Tensor_Hydrodynamics_v3_12"
-VERSION = "3.12"
+DOCNAME = "Ocean_Scalar_Tensor_Hydrodynamics_v3_12_1"
+VERSION = "3.12.1"
+APPDOC = "Ocean_Appendix_A_Spinning_Black_Hole_v3_12_1"
 
 PREAMBLE = r"""
 \documentclass[11pt,a4paper]{article}
@@ -524,7 +542,7 @@ PREAMBLE = r"""
 \title{\Large Scalar--Tensor Hydrodynamics\\[4pt]
 \normalsize Gravity as the Response of a Vacuum Medium:\\
 A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology}
-\date{Revised Formalism --- Version 3.12 (draft)}
+\date{Revised Formalism --- Version 3.12.1}
 \author{Keith Hays}
 """
 
@@ -2122,6 +2140,8 @@ growth is the growth of that organization. Nothing piles up. Mass is the total
 energy of the circulation; the black hole's spin in the sense of General
 Relativity is the net circulation after many contributions on different axes
 cancel. A non-rotating black hole is not still; its circulations sum to zero.
+Appendix~\ref{sec:holerebuild} follows a spinning black hole through the
+rebuild, step by step.
 
 \paragraph{Stripping is the no-hair theorem.}
 Infalling patterns are scrambled until only the black hole's mass, net rotation
@@ -2346,6 +2366,7 @@ own clock nothing changes, because the traveler's rebuild and its clock are the
 same making of time. The energy the traveler borrows from the surrounding Ocean
 for each rebuild grows with the fall and is returned as the traveler moves on,
 until, past the horizon, the rebuild can only carry the traveler inward.
+The black hole's own rebuild is followed in Appendix~\ref{sec:holerebuild}.
 
 \paragraph{What becomes of the traveler.} \textbf{[Framework]} The traveler's
 patterns are scrambled until nothing distinguishes them from the black hole.
@@ -3260,7 +3281,8 @@ the tilts of the traveling parts add up. Outside a body of spin $\mathbf{J}$,
 checked numerically by adding the tilts of the parts of a
 two-layer model Earth. The turning of this tilt, $\nabla \times \mathbf{s}$, has
 the pattern of a bar magnet's field: along the spin near the poles, against it
-near the equator, and falling off as the cube of distance.
+near the equator, and falling off as the cube of distance. For a spinning black
+hole the rebuild is followed step by step in Appendix~\ref{sec:holerebuild}.
 
 \paragraph{What it does.} In Equation~\eqref{eq:readflow} a pattern traveling
 through turning Ocean is turned sideways by $-\mathbf{w} \times (\nabla \times
@@ -3603,6 +3625,8 @@ the Moon's measured fall toward the Earth. Nothing reaches across to move it.
 \item \emph{The loan is returned,} and the Earth just built is the one
 reclaimed next.
 \end{enumerate}
+A spinning black hole runs through the same steps at the other extreme
+(Appendix~\ref{sec:holerebuild}).
 
 \subsection{Antimatter is the reclaiming}
 \label{sec:antimatter}
@@ -4378,6 +4402,7 @@ the relevant limits and demonstrating quantitative agreement with observations.
 
 
 % =========================================================================
+@@APPENDIX_A@@% =========================================================================
 \begin{thebibliography}{99}
 \footnotesize
 
@@ -4729,6 +4754,259 @@ viscosity tensor is kept but carries nothing in the settled Ocean
 """
 
 
+# --- Appendix A -------------------------------------------------------------
+# One source for both PDFs: the paper takes this text as its Appendix A part,
+# and the standalone appendix is generated from the same text after the paper
+# is compiled (cross-references to the paper filled in from its .aux). The
+# standalone carries the paper's Appendix A token, the hash of this text.
+APPENDIX_A = r"""\clearpage
+\appendix
+\section{The Rebuild of a Spinning Black Hole}\label{sec:holerebuild}
+
+\paragraph{Purpose and scope.} Section~\ref{sec:earthrebuild} traces the
+continuous rebuild of a bound matter configuration---the Earth---through steps
+0 to 12, showing how its $4\times 10^{51}$ confined patterns borrow binding
+energy from the surrounding Ocean, slow local clocks by half their capacity
+share, tilt the surroundings through their spin, and send their record outward
+at the carrying speed $c_s$. This appendix applies the same generative
+accounting to the extreme regime of the framework: a spinning black hole,
+illustrated using Sagittarius~A* at the center of the Milky Way. It unites the
+black-hole mechanics of Sections~\ref{sec:blackholes} and~\ref{sec:traveller},
+the strong-field geometry and frame-dragging rules of
+Sections~\ref{sec:strongfield}--\ref{sec:edge}, and the rebuild law of
+Section~\ref{sec:rebuild} into a single continuous account.
+
+\subsection{The rebuild of Sagittarius A*}
+
+Sagittarius~A*, seen from inside the Ocean, is not a gathered object and holds
+no confined patterns of its own. It is a vast, self-sustaining circulation of
+the Ocean's energy---about $4.3\times 10^6$ solar masses of load---whose outer
+point of no return spans roughly $12.7\times 10^6\text{ km}$ in areal radius in
+the non-spinning limit, turning in place, sitting in the Milky Way's central
+eddy, and traveling with the galaxy at about $600\text{ km s}^{-1}$ relative to
+the frame in which the microwave background is uniform. Its rebuild, described
+at one moment (the rebuild is continuous; the order below is an order of
+description, not of ticks), runs as follows.
+
+\begin{enumerate}
+\setcounter{enumi}{-1}
+\item \textbf{What keeps it running.} The Ocean's flow powers a dynamo; the
+dynamo keeps the plexus running, the Ocean-wide waves that carry the re-made
+state; the flow's left twist is the twist every build carries. Across the black
+hole and its point of no return, the Ocean stays one connected state. Seen from
+afar, its phase turns at one rate everywhere, $\theta = \mu_\infty [t + F(r)]$,
+keeping in step near the edge not by turning infinitely fast and not by
+breaking into quantized vortex lines, but by flowing gently inward across the
+point of no return.
+
+\item \textbf{Reclaiming and stripping.} Every part of the circulation just made
+is taken down, with a right twist. For any confined pattern that has fallen
+across the point of no return, this reclaiming is also its stripping. As the
+load rises and tides steepen across an infalling body, the pattern's form, its
+kind, its version, its lepton or baryon count, and its circulation sense
+(whether it entered as a build of matter or a reclaiming of antimatter) are
+unmade without annihilation. The black hole is the one setting in the Ocean
+where the matter/antimatter distinction is undone without a build meeting its
+partner.
+
+\item \textbf{Handed forward.} What the reclaiming takes down supplies the
+build. Only the conserved carried quantities that couple to the Ocean's
+long-range state---total energy (mass $M$), net circulation (spin $J$), and
+electric charge ($Q$, whose long-range field in the Ocean must be the plexus
+that carries light)---are handed forward to the outside record, as the no-hair
+theorem requires. The fine-grained state is never destroyed; it is handed
+forward into the interior flow while the fallen patterns are scrambled.
+
+\item \textbf{Building.} Each part of the circulation is built, with a left
+twist, on the plexus. Outside the core, no confined patterns belong to the black
+hole itself; what is built at each place is the re-made state---its ten numbers
+of energy (one), motion (three), and pushes (six)---turning in place.
+
+\item \textbf{The build meets its own reclaiming.} Throughout the smooth
+circulation, the build and its reclaiming match, so the antimatter side stays
+hidden. Right at the point of no return, however, the steep gradient of the
+Ocean's state---which brings outward travel to zero---stretches fluctuations of
+the medium into real outgoing ripples, the energy drawn from the hole. What
+leaves is energy, not what fell in: any localized patterns among the ripples
+are made afresh by the Ocean, as pairs. That is Hawking radiation: emerging
+from a region comparable in size to the hole (with a typical wavelength about
+eighty times the horizon radius), cold (about $1.4\times 10^{-14}\text{ K}$ for
+Sagittarius~A*, and reduced further by spin), shedding angular momentum faster
+than energy, and returning the hole's energy and state to the Ocean over
+immense times.
+
+\item \textbf{The motion is part of the build.} Outside the point of no return,
+the net circulation of the hole's Ocean is handed forward in each rebuild as a
+continuous sideways tilt $s$ of the re-made state. Inside the ergosphere, that
+sideways tilt exceeds the local carrying speed $c_s$, so every rebuild carries
+whatever sits there sideways with the spin; no pattern can be rebuilt at rest
+relative to distant regions, though outward travel and escape remain possible.
+Past the outer point of no return, the direction in which time is made points
+inward: every rebuild carries every pattern toward the center.
+
+\item \textbf{The scoop and rotational extraction.} A planet or star borrows
+only a small fraction of its mass from the surrounding Ocean as binding energy
+(about four parts in $10^{10}$ for the Earth). At the black hole, the scoop is
+total: at the point of no return, the loan equals the entire rest energy of
+whatever reaches it. Nothing inside can be rebuilt farther out unless the loan
+is paid. Outside the point of no return but inside the ergosphere, however, a
+wave or pattern can be split so that one part falls in carrying tilt against
+the hole's spin, paying back part of the rotational loan and allowing the
+escaping part to leave with more energy than it brought in. That is rotational
+superradiance and, when threaded by magnetic fields of the accretion flow, the
+Blandford--Znajek beaming of jets along the spin axis \cite{blandford1977}.
+
+\item \textbf{Slower where there is more to rebuild.} The rebuild uses a share
+of the Ocean's capacity for rebuilding ($c_0^4 / 2G$). For a non-spinning hole
+in isotropic coordinates, the clock rate seen from afar is
+\[
+U = \frac{1 - GM/(2 r c_0^2)}{1 + GM/(2 r c_0^2)} = \sqrt{1 - \text{share}},
+\]
+while $\psi^2 = \left(1 + GM/(2 r c_0^2)\right)^2$ of the Ocean's own rulers fit
+in a unit step of $r$. At the photon orbit (areal radius $3GM/c_0^2$),
+two-thirds of the capacity is in use. At the point of no return (isotropic
+radius $GM/2c_0^2$, areal radius $2GM/c_0^2$), the share reaches one: seen from
+afar, a clock's pace reaches zero and no more time is made there, which is why
+the last image of a falling traveler reddens, dims, and never crosses. On the
+spot, a falling traveler's own clock and its rebuild are the same making of
+time, so the traveler crosses intact (experiencing a head-to-foot tidal
+difference of only about $10^{-4}\,g$ at the edge of Sagittarius~A*) and
+notices nothing at the horizon.
+
+\item \textbf{The surroundings are rebuilt with everything the hole carries.}
+Its energy sets the deep slowing of clocks and squeezing of rulers; its net
+circulation $J$ sets the re-made tilt $s$ that turns the surroundings
+continuously from the hole's own angular rate at the edge to the first-order
+gravitomagnetic field
+\[
+s = \frac{2G}{c_0^2} \frac{J \times r}{r^3}
+\]
+far away, with zero circulation on every loop of the scalar phase $\theta$.
+Because the tilt carries both the clock share ($2uV$) and the ruler share
+($2\gamma u V$ with $\gamma = 1$) of the hole's $600\text{ km s}^{-1}$ travel
+with the Milky Way, that bulk travel through the Ocean leaves no local turning
+trace on nearby orbits. When two black holes merge, the rapid rearrangement of
+their six push numbers ripples outward through the plexus at $c_s$ as the two
+transverse stretch-and-squeeze polarizations of gravitational waves, ringing
+down as the newly merged circulation settles.
+
+\item \textbf{The core turns the flow through.} Past the point of no return,
+forward in time points inward, and a falling pattern at Sagittarius~A* has at
+most $\pi GM/c_0^3 \approx 66\text{ s}$ on its own clock before reaching the
+center. The Ocean's stiffness ($\lambda > 0$) cannot turn this inward march
+around, because for any medium with $\epsilon + p \ge 0$ inside a point of no
+return, contraction once under way only speeds up
+($dH/dt = -4\pi G(\epsilon + p) \le 0$). Instead, the Ocean's grip
+$\kappa(\phi)$, how strongly its rulers and clocks respond to what is in them,
+loosens under extreme compression, so that collapse slows, stops at $\rho_c$
+and reverses, about $28\text{ s}$ after crossing the edge for a pattern falling
+in from rest far away:
+\[
+G_{\text{eff}} = G\left(1 - \frac{\rho}{\rho_c}\right), \qquad
+H^2 = \frac{8\pi G}{3}\rho\left(1 - \frac{\rho}{\rho_c}\right).
+\]
+Nothing piles up or is crushed to a point. The rebuild stops the collapse short
+of a singularity and turns the inward flow around into an outward flow-through.
+Time is recycled with it: inward on the way in, outward again on the way out.
+
+\item \textbf{The record spreads at the one speed.} Outside the point of no
+return, what the black hole has just been---its mass, its spin tilt, its charge,
+and its travel with the galaxy---spreads outward through the plexus at $c_s$,
+aimed at where the hole is now. From inside the point of no return, no
+immediate record can spread outward, because the inward flow of the rebuild
+outruns $c_s$; the reversed core flow must work its way back across the steep
+region near the edge by a random walk across the fine scale $\ell$, taking of
+order $\tau \sim (GM/c_0^2)^{q+1}/(c_0 \ell^q) \gtrsim 10^{22}\text{ years}$
+seen from afar for Sagittarius~A* before leaking out thermalized.
+
+\item \textbf{Others rebuild themselves reading it.} The star S0-2, orbiting
+close to Sagittarius~A*, reads the outside record across its body. Its near side
+is built more slowly than its far side, turning its travel inward; because the
+slowing composes in layers ($U \approx e^{-u}$ to second order, giving
+$\beta = 1$ and $\gamma = 1$), its pericenter advances by
+$(2 + 2\gamma - \beta)/3 = 1$ of General Relativity's rate, while the sideways
+tilt $s$ turns its orbital plane, by the same term that turns a gyroscope's axis
+at $\frac{1}{2}\nabla \times s$. Light grazing $1.5$ horizon radii is rebuilt so
+much more slowly on its inner flank that its path refracts into a closed orbit,
+casting the shadow of radius $3\sqrt{3}\,GM/c_0^2$ observed from the Earth.
+
+\item \textbf{The loan is held, and the circulation just built is the one
+reclaimed next.} Unlike the Earth, which returns its small binding-energy loan
+to the Ocean as it moves on at each moment, the black hole holds its total scoop
+inside the point of no return from rebuild to rebuild, until early accretion and
+jet extraction outside, slow flow-through from the loosened core, Hawking
+radiation at the edge, or the global reclaiming at the end of the beat returns
+all of its energy and state to the Ocean.
+\end{enumerate}
+
+\clearpage
+\subsection{Comparison of regimes: bound matter and a spinning black hole}
+
+Table~\ref{tab:comparison} summarizes how the same rules of
+Section~\ref{sec:lawrules} operate across a bound planetary pattern (the Earth,
+Section~\ref{sec:earthrebuild}) and a horizon-scale circulation
+(Sagittarius~A*).
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\raggedright\arraybackslash}p{3.0cm} X X@{}}
+\toprule
+Rebuild Feature & The Earth (Section~\ref{sec:earthrebuild}) & Spinning Black Hole (Sagittarius A*) \\
+\midrule
+Composition & $\sim 4\times 10^{51}$ confined patterns on gapped plexus waves & No confined patterns held; pure organized circulation of the re-made state \\
+Phase \& Flow ($\theta, u^\mu$) & Smooth background turn; no horizon inflow required & Smooth across the edge via gentle inward flow (Eq.~\eqref{eq:phaseedge}); zero phase circulation \\
+Reclaiming \& Sense & Matches build locally ($< 10^{-45}$ mismatch); radioactive $\beta$-decays release unmatched $\bar{\nu}_e$ & Strips infalling patterns of kind, version, and matter/antimatter sense without annihilation \\
+Capacity Share & $1.4\times 10^{-9}$ at the surface; clocks slow by $\sim 7\times 10^{-10}$ & Reaches $1$ at the point of no return ($2GM/c_0^2$); clock rate $U \to 0$ seen from afar \\
+The Scoop (Loan) & Gravitational binding energy ($\sim 4\times 10^{-10}\,M_\oplus$), returned as the Earth moves on & Total rest energy locked inside the horizon; spin loan extractable in the ergosphere \\
+Frame-Dragging Tilt & Re-made tilt $s$ turns GP-B gyroscopes by $-39.2\text{ mas yr}^{-1}$ & Tilt exceeds $c_s$ in the ergosphere, enforcing co-rotation; falls off as $2G(J\times r)/(c_0^2 r^3)$ \\
+Interior Regularity & Hydrostatic pressure ($360\text{ GPa}$ at center) supported by confined matter patterns & Stiffness cannot halt collapse; loosening of grip $\kappa(\phi)$ at $\rho_c$ turns collapse into flow-through \\
+Return of State & Continuous as the pattern travels; geoneutrinos and heat escape freely & Early jets/accretion outside; Hawking radiation ($10^{87}\text{ yr}$) and core random walk ($\gtrsim 10^{22}\text{ yr}$) \\
+\bottomrule
+\end{tabularx}
+
+\smallskip
+\refstepcounter{table}\label{tab:comparison}
+\parbox{\textwidth}{\small Table~\thetable: Comparison of the continuous
+rebuild process for a bound matter body and a spinning black hole under the
+law of Section~\ref{sec:lawrules}.}
+\end{center}
+
+\subsection{What this account settles and what remains open}
+
+Writing the spinning black hole in the rebuild's terms makes three structural
+features of the framework explicit:
+\begin{enumerate}
+\item \textbf{No vortex lines are required for Kerr-like frame dragging.}
+Because motion is part of the re-made state handed forward in Step 5 and Step 8,
+the sideways shift $s$ is carried continuously by the plexus around the spinning
+hole while the scalar phase $\theta$ remains curl-free
+($\nabla \times \nabla \theta = 0$) all the way across the outer point of no
+return. This removes the need for a high present-day chemical potential $\mu$
+to pack quantized vortices together, preserving the extreme stiffness
+($a \le 10^{-120}$) required by the Planck-scale dent.
+\item \textbf{Unitarity and the no-hair theorem coexist in Step 1 and Step 2.}
+Stripping is not the destruction of fine-grained state. It is the reclaiming of
+confined plexus patterns scrambled by the tide and the load, handing only the
+conserved quantities ($M, J, Q$) to the outside record while carrying the
+fine-grained state through the core turnaround (Step 9) and horizon
+pair-stretching (Step 4).
+\item \textbf{Two open tasks from Section~\ref{sec:program} govern the exact
+interior and near-horizon profile.} First, while the isotropic rules
+$\nabla \cdot (\psi^2 \nabla U) = 0$ and $\nabla^2 \psi = 0$ give the exact
+Schwarzschild geometry outside a non-spinning mass and Step 8 gives the
+Lense--Thirring tilt to first order in spin $J$, extending the rebuild rules
+beyond first order in spin---where the Ocean's rulers cannot shrink
+isotropically in all three spatial directions---is required to derive the exact
+Kerr shadow distortion and merger ringdown spectrum. Second, deriving the exact
+functional form of the loosening grip $\kappa(\phi)$ at $\rho_c$ from the
+plexus action will fix the exponent $q$ of the random-walk return delay in
+Step 10.
+\end{enumerate}
+
+"""
+
+
 # --- read-completeness markers ---------------------------------------------
 # The body is divided into parts at fixed boundaries. Each part's checksum is
 # the SHA-256 of its LaTeX source exactly as written in BODY (with the part
@@ -4742,6 +5020,7 @@ PART_STARTS = [
     ("Preface", r"\begin{document}"),
     ("Glossary", r"\clearpage"),
 ] + [(f"§{i}", None) for i in range(1, 16)] + [
+    ("Appendix A", r"\appendix"),
     ("References", r"\begin{thebibliography}{99}"),
 ]
 
@@ -4757,7 +5036,12 @@ def split_parts(body: str):
             starts.append(("Preface", idx))
         elif line == r"\clearpage" and len(starts) == 1:
             starts.append(("Glossary", idx))
-        elif line.startswith(r"\section{"):
+        elif line == r"\appendix":
+            # the part opens at the page break just before \appendix, so the
+            # previous part's end line stays on its own page
+            starts.append(("Appendix A",
+                           idx - 1 if lines[idx - 1] == r"\clearpage" else idx))
+        elif line.startswith(r"\section{") and starts[-1][0] != "Appendix A":
             sec += 1
             starts.append((f"§{sec}", idx))
         elif line == r"\begin{thebibliography}{99}":
@@ -4787,13 +5071,15 @@ def part_title(label: str, text: str) -> str:
         return "".join(out)
     return {"Preface": "Abstract, reader's note and preface",
             "Glossary": "Conventions and glossary",
+            "Appendix A": "The Rebuild of a Spinning Black Hole",
             "References": "References and reference basis"}[label]
 
 
 def build_document():
     """Return (tex_source, manifest_rows, digest)."""
     nparts = len(PART_STARTS)
-    body = BODY.replace("@@NPARTS@@", str(nparts))
+    body = (BODY.replace("@@NPARTS@@", str(nparts))
+            .replace("@@APPENDIX_A@@", APPENDIX_A))
     parts, head, tail = split_parts(body)
     rows, hashes, out = [], [], [head]
     for k, (label, text) in enumerate(parts):
@@ -4809,7 +5095,7 @@ def build_document():
                                 + rf"\oceanpart{{{disp}}}{{{token}}}{{{tag}}}", 1)
             out.append(first + "\n" + rest)
         else:
-            fresh = r"\oceanfreshpage" if first == r"\clearpage" else ""
+            fresh = r"\oceanfreshpage" if first in (r"\clearpage", r"\appendix") else ""
             out.append(first + "\n" + fresh
                        + rf"\oceanpart{{{disp}}}{{{token}}}{{{tag}}}"
                        + "\n" + rest)
@@ -4865,6 +5151,134 @@ Part & Title & Page & Token \\
     return tex, rows, digest
 
 
+# --- standalone Appendix A ---------------------------------------------------
+
+APPENDIX_PREAMBLE = r"""\documentclass[11pt,a4paper]{article}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[colorlinks=true,linkcolor=black,urlcolor=black,citecolor=black]{hyperref}
+\hypersetup{
+  pdftitle={Appendix A: The Rebuild of a Spinning Black Hole},
+  pdfauthor={Keith Hays},
+  pdfsubject={Appendix A of Scalar-Tensor Hydrodynamics, version @@VERSION@@. Part token @@TOKEN@@, as in the paper's reading manifest (document digest @@DIGEST@@)}
+}
+\DeclareRobustCommand{\hbar}{{\mathchar'26\mkern-9mu h}}
+\renewcommand{\Lambda}{\varLambda}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Scalar-Tensor Hydrodynamics --- Companion Appendix}
+\fancyhead[R]{\small Version @@VERSION@@}
+\fancyfoot[L]{\small Ocean v@@VERSION@@}
+\fancyfoot[C]{\small page \thepage\ of \pageref*{LastPage}}
+\fancyfoot[R]{\small part Appendix A @@TOKEN@@}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+\begin{document}
+
+\begin{center}
+    {\LARGE \textbf{Appendix A: The Rebuild of a Spinning Black Hole}}\\[0.6em]
+    {\large Companion to \textit{Scalar-Tensor Hydrodynamics} (Version @@VERSION@@)}\\[0.4em]
+    {\normalsize Keith Hays}\\[0.4em]
+    {\small Part token \texttt{@@TOKEN@@} of the paper, whose document digest is \texttt{@@DIGEST@@}}
+\end{center}
+
+\vspace{0.5em}
+\hrule
+\vspace{0.8em}
+
+\appendix
+\setcounter{section}{1}
+"""
+
+APPENDIX_HEAD = ("\\clearpage\n\\appendix\n"
+                 "\\section{The Rebuild of a Spinning Black Hole}"
+                 "\\label{sec:holerebuild}\n")
+
+# Page breaks for the standalone layout only. They change no words, so the
+# standalone still carries the paper's token for this text.
+APPENDIX_STANDALONE_BREAKS = [
+    r"\item \textbf{Two open tasks from Section~\ref{sec:program}",
+]
+
+
+def read_labels(aux_path: Path) -> dict:
+    """Label -> printed number, from the paper's .aux."""
+    labels = {}
+    for line in aux_path.read_text(encoding="utf-8", errors="replace").splitlines():
+        if not line.startswith(r"\newlabel{"):
+            continue
+        key_end = line.index("}")
+        key = line[len(r"\newlabel{"):key_end]
+        rest = line[key_end + 1:]
+        if not rest.startswith("{{"):
+            continue
+        depth, out = 0, []
+        for ch in rest[1:]:
+            if ch == "{":
+                depth += 1
+                if depth == 1:
+                    continue
+            elif ch == "}":
+                depth -= 1
+                if depth == 0:
+                    break
+            out.append(ch)
+        labels[key] = "".join(out)
+    return labels
+
+
+def build_appendix(labels: dict, token: str, digest: str) -> str:
+    """The standalone Appendix A, from APPENDIX_A, with the paper's numbers."""
+    import re
+    if not APPENDIX_A.startswith(APPENDIX_HEAD):
+        raise RuntimeError("Appendix A no longer opens as expected")
+    text = APPENDIX_A[len(APPENDIX_HEAD):]
+    local = set(re.findall(r"\\label\{([^}]*)\}", text))
+
+    def fill(m):
+        kind, key = m.group(1), m.group(2)
+        if key in local:
+            return m.group(0)
+        if key not in labels:
+            raise RuntimeError(f"Appendix A refers to {key}, not in the paper")
+        return f"({labels[key]})" if kind == "eqref" else labels[key]
+    text = re.sub(r"\\(ref|eqref)\{([^}]*)\}", fill, text)
+    for anchor in APPENDIX_STANDALONE_BREAKS:
+        anchor = re.sub(r"\\ref\{([^}]*)\}", lambda m: labels[m.group(1)], anchor)
+        if text.count(anchor) != 1:
+            raise RuntimeError(f"standalone break anchor not found: {anchor}")
+        text = text.replace(anchor, "\\clearpage\n" + anchor)
+
+    keys = []
+    for group in re.findall(r"\\cite\{([^}]*)\}", text):
+        keys += [k.strip() for k in group.split(",")]
+    bib = []
+    for key in dict.fromkeys(keys):
+        start = BODY.index(rf"\bibitem{{{key}}}")
+        end = BODY.find("\n\n", start)
+        bib.append(BODY[start:end].strip())
+    references = ""
+    if bib:
+        references = ("\\begin{thebibliography}{9}\n\\small\n"
+                      + "\n\n".join(bib) + "\n\\end{thebibliography}\n")
+
+    head = (APPENDIX_PREAMBLE.replace("@@VERSION@@", VERSION)
+            .replace("@@TOKEN@@", token).replace("@@DIGEST@@", digest))
+    tail = (references + "\n\\vspace{1em}\n\\hrule\n\\vspace{0.5em}\n"
+            + rf"{{\small \textit{{End of Appendix A}} \textperiodcentered\ "
+            + rf"token \texttt{{{token}}}}}" + "\n\n\\end{document}\n")
+    return head + text + tail
+
+
 def write_tex(outdir: Path) -> Path:
     """Emit the LaTeX source file and the reading-manifest text file."""
     outdir.mkdir(parents=True, exist_ok=True)
@@ -4879,7 +5293,7 @@ def write_tex(outdir: Path) -> Path:
     (outdir / f"{DOCNAME}.manifest.txt").write_text("\n".join(lines) + "\n",
                                                    encoding="utf-8")
     print(f"document digest {digest}")
-    return tex_path
+    return tex_path, rows, digest
 
 
 def compile_pdf(tex_path: Path, passes: int = 3) -> Path:
@@ -4920,16 +5334,28 @@ def main() -> int:
     args = parser.parse_args()
 
     outdir = Path(args.outdir).resolve()
-    tex_path = write_tex(outdir)
+    tex_path, rows, digest = write_tex(outdir)
     print(f"wrote {tex_path}")
 
     if args.no_pdf:
+        print("standalone Appendix A not written: it takes its section and "
+              "equation numbers from the compiled paper")
         return 0
 
     pdf_path = compile_pdf(tex_path)
+    print(f"wrote {pdf_path}")
+
+    # standalone Appendix A, from the same text, numbered from the paper
+    token = next(tok for lab, _, _, tok, _ in rows if lab == "Appendix A")
+    labels = read_labels(tex_path.with_suffix(".aux"))
+    app_path = outdir / f"{APPDOC}.tex"
+    app_path.write_text(build_appendix(labels, token, digest), encoding="utf-8")
+    print(f"wrote {app_path}")
+    app_pdf = compile_pdf(app_path, passes=2)
+    print(f"wrote {app_pdf} (part token {token})")
+
     if not args.keep_aux:
         clean_aux(outdir)
-    print(f"wrote {pdf_path}")
     return 0
 
 

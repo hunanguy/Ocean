@@ -14,32 +14,33 @@ From that premise the paper asks whether dark matter and dark energy are two sub
 
 | File | Description |
 |---|---|
-| `Ocean_Scalar_Tensor_Hydrodynamics_v3_12.pdf` | The paper. 59 pages, including a non-technical preface, a glossary and a bibliography. Document digest `ca71-872a-82db`. |
-| `Ocean_Scalar_Tensor_Hydrodynamics_v3_12.manifest.txt` | The reading manifest, written by the build: every part of the paper with its checksum token and the document digest. |
-| `build_ocean_formalism.py` | Generates the LaTeX source and compiles it. The source of truth. |
+| `Ocean_Scalar_Tensor_Hydrodynamics_v3_12_1.pdf` | The paper. 64 pages, including a non-technical preface, a glossary, Appendix A and a bibliography. Document digest `a764-2c56-a31a`. |
+| `Ocean_Appendix_A_Spinning_Black_Hole_v3_12_1.pdf` | Appendix A on its own: the rebuild of a spinning black hole (Sagittarius A*), 5 pages. Built from the same text as the paper's Appendix A, and carrying that part's token, `132e4c`. |
+| `Ocean_Scalar_Tensor_Hydrodynamics_v3_12_1.manifest.txt` | The reading manifest, written by the build: every part of the paper with its checksum token and the document digest. |
+| `build_ocean_formalism.py` | Generates the LaTeX source of the paper and of the standalone Appendix A, and compiles both. The source of truth. |
 | `.zenodo.json` | Deposit metadata consumed by the Zenodo–GitHub integration. |
 | `CITATION.cff` | Citation metadata for GitHub's *Cite this repository* widget. |
 | `checks/` | `check_ocean_math.py`, a consistency and accuracy check of the paper's mathematics, with two helper modules. |
 | `references/` | Verification notes, one per paper read: what each cited source supports, and where the paper's wording was corrected against it. Full texts are not stored. |
 
-The `.tex` file is **generated**, not stored. It is produced by the build script and excluded by `.gitignore` to keep diffs meaningful. If you would rather ship the LaTeX source in the archive, remove the first non-comment line of `.gitignore` and commit it.
+The `.tex` files are **generated**, not stored. It is produced by the build script and excluded by `.gitignore` to keep diffs meaningful. If you would rather ship the LaTeX source in the archive, remove the first non-comment line of `.gitignore` and commit it.
 
 ## Building
 
 Requires Python 3.8+ and `pdflatex` on `PATH` (TeX Live or MiKTeX).
 
 ```bash
-python3 build_ocean_formalism.py                 # writes .tex and .pdf to the current directory
+python3 build_ocean_formalism.py                 # writes the paper and the standalone Appendix A (.tex and .pdf)
 python3 build_ocean_formalism.py --outdir build  # write elsewhere
-python3 build_ocean_formalism.py --no-pdf        # emit the .tex only
+python3 build_ocean_formalism.py --no-pdf        # emit the paper's .tex only
 python3 build_ocean_formalism.py --keep-aux      # retain .aux/.log for debugging
 ```
 
-The script runs `pdflatex` three times so that cross-references and page breaks settle.
+The script runs `pdflatex` three times so that cross-references and page breaks settle. It then writes the standalone Appendix A from the same text as the paper's appendix, filling in its section and equation numbers from the compiled paper, and compiles it.
 
 ## Reading completeness
 
-Every part of the paper carries a checksum token: the first six hex digits of the SHA-256 of its LaTeX source. Each page footer gives the page, the page count and the part with its token; each part ends with a line giving its token; and the last page is a reading manifest listing every part, its first page and its token, followed by a document digest and the words "End of document". A reader, human or automated, has read the whole paper when it reaches that line, and a summary or review that cannot give the digest was made from an incomplete reading. The digest for 3.12 is `ca71-872a-82db`. It is also written to the PDF's subject metadata and to the `.manifest.txt` file.
+Every part of the paper carries a checksum token: the first six hex digits of the SHA-256 of its LaTeX source. Each page footer gives the page, the page count and the part with its token; each part ends with a line giving its token; and the last page is a reading manifest listing every part, its first page and its token, followed by a document digest and the words "End of document". The standalone Appendix A carries the token of the paper's Appendix A part in its footers, title block and closing line, since it is built from the same text. A reader, human or automated, has read the whole paper when it reaches that line, and a summary or review that cannot give the digest was made from an incomplete reading. The digest for 3.12.1 is `a764-2c56-a31a`. It is also written to the PDF's subject metadata and to the `.manifest.txt` file.
 
 ## Checking the mathematics
 
@@ -48,7 +49,7 @@ cd checks
 python3 check_ocean_math.py --build ../build_ocean_formalism.py --report report.md
 ```
 
-Requires `numpy` and `scipy`. The script re-derives the paper's equations numerically (equations of motion from the action, the disturbance equation from the expanded Lagrangian, the strong-field geometry), recomputes its numerical statements from CODATA 2018 constants, re-runs the frame-dragging simulations, and checks references, citations and symbols for consistency. Each check is tied to a phrase of the paper's own LaTeX, so a change of wording or number that the check no longer matches makes it fail rather than pass silently. Outcomes are PASS, NOTE (agrees with a caveat, or cannot be decided from the text) and FAIL; the script exits with status 1 on any failure. For 3.12: 79 checks, 78 pass, 1 note, 0 fail.
+Requires `numpy` and `scipy`. The script re-derives the paper's equations numerically (equations of motion from the action, the disturbance equation from the expanded Lagrangian, the strong-field geometry), recomputes its numerical statements from CODATA 2018 constants, re-runs the frame-dragging simulations, and checks references, citations and symbols for consistency. Each check is tied to a phrase of the paper's own LaTeX, so a change of wording or number that the check no longer matches makes it fail rather than pass silently. Outcomes are PASS, NOTE (agrees with a caveat, or cannot be decided from the text) and FAIL; the script exits with status 1 on any failure. For 3.12.1: 79 checks, 78 pass, 1 note, 0 fail.
 
 ### Font dependency
 
@@ -73,6 +74,7 @@ On a full TeX Live installation you can substitute `newtxtext`/`newtxmath` and r
 9. **§11** — one speed and the split; the candidate current through time; the strong field and the point of no return; frame dragging, carried by the re-made tilt rather than quantized lines, with the phase needing no whirl even at a spinning black hole; the edge and the core, with the turnaround density bounded by the triple pulsar PSR J0337+1715; what the Ocean must be made of.
 10. **§12** — new in 3.12, the rebuild and the law. Building, with three arrows and a left twist, makes matter and time; reclaiming, with a right twist, unmakes them and is antimatter. Time is made in the build, each place making its own, and gravity is the uneven making of time. The Ocean itself is rebuilt the same way. The Earth's rebuild is worked through step by step; antimatter stays hidden because it runs into a past that was never a present; the collapse ends a beat. The law states what a build carries and the rules for each quantity, the Ocean's own waves, and the strength of gravity from a count of the kinds of wave the plexus carries: with fifteen builds per family gravity attracts and the medium's smallest scale lies near the Planck length. It commits to one prediction, neutrinoless double-beta decay.
 11. **§13–§15** — new in 3.12, all open items gathered in one section; the research program in dependency order; a summary.
+12. **Appendix A** — new in 3.12.1, the rebuild of a spinning black hole: Sagittarius A* taken through the same steps as the Earth's rebuild of §12.3, a table comparing the two regimes, and what the account settles and leaves open. Also issued as a standalone PDF.
 
 ## Known open problems
 
@@ -101,6 +103,7 @@ Stated in the paper (§13), repeated here so that they are visible before readin
 Please cite the archived release rather than the repository.
 
 - **All versions** — `10.5281/zenodo.23142440`. Resolves to the latest release. Use this when citing the work as an evolving artifact.
+- **Version 3.12.1** — assigned on release.
 - **Version 3.12** — `10.5281/zenodo.23812291`.
 - **Version 3.11** — `10.5281/zenodo.23718695`.
 - **Version 3.10** — `10.5281/zenodo.23586999`.
@@ -109,7 +112,7 @@ Please cite the archived release rather than the repository.
 - **Version 3.7** — `10.5281/zenodo.23368921`.
 - **Version 3.6** — `10.5281/zenodo.23324587`. Earlier version DOIs are listed on the Zenodo record.
 
-> Hays, K. (2026). *Scalar–Tensor Hydrodynamics: Gravity as the Response of a Vacuum Medium. A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology* (Version 3.12) [Preprint]. Zenodo. <https://doi.org/10.5281/zenodo.23142440>
+> Hays, K. (2026). *Scalar–Tensor Hydrodynamics: Gravity as the Response of a Vacuum Medium. A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology* (Version 3.12.1) [Preprint]. Zenodo. <https://doi.org/10.5281/zenodo.23142440>
 
 ## License
 

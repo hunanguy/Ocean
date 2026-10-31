@@ -1,4 +1,4 @@
-# Math check, version 3.12
+# Math check, version 3.12.1
 
 79 checks: 78 pass, 1 note, 0 fail.
 

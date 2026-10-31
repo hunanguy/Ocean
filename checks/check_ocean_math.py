@@ -46,7 +46,8 @@ class Paper:
     def __init__(self, path):
         spec = importlib.util.spec_from_file_location("ocean_build", path)
         mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
-        self.body = mod.BODY; self.n = norm(mod.BODY); self.version = mod.VERSION
+        body = mod.BODY.replace("@@APPENDIX_A@@", getattr(mod, "APPENDIX_A", ""))
+        self.body = body; self.n = norm(body); self.version = mod.VERSION
     def has(self, anchor): return norm(anchor) in self.n
 
 def check(where, kind, what, anchor=None):
