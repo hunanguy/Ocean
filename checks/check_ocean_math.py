@@ -46,7 +46,7 @@ class Paper:
     def __init__(self, path):
         spec = importlib.util.spec_from_file_location("ocean_build", path)
         mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
-        body = mod.BODY.replace("@@APPENDIX_A@@", getattr(mod, "APPENDIX_A", ""))
+        body = mod.BODY.replace("@@APPENDIX_A@@", getattr(mod, "APPENDIX_A", "")).replace("@@APPENDIX_B@@", getattr(mod, "APPENDIX_B", ""))
         self.body = body; self.n = norm(body); self.version = mod.VERSION
     def has(self, anchor): return norm(anchor) in self.n
 
@@ -97,7 +97,7 @@ def _derivs(f, dt, dx):
     return ft, fx, ftt, fxx
 
 @check("§3, Eq. (13)", "FORMULA",
-       "Amount and phase equations follow from the minimal law, Eq. (29), by varying the action",
+       "Amount and phase equations follow from the minimal law, Eq. (28), by varying the action",
        anchor=r"\Box\rho = \tfrac{1}{2}\lambda\,\rho\left(\rho^{2} - v^{2}\right) - \rho\,\mu^{2},")
 def _():
     lam, v = 1.3, 0.8; dt = dx = 0.05
@@ -165,7 +165,7 @@ def cs2_from_P(a, lam=1.0, v=1.0):
     return P1/(P1 + 2*mu2*P2), P1
 
 def dispersion_eq32(k, lam, v, mu):
-    """Roots omega^2 of (w^2-k^2)(w^2-k^2-omega_rho^2) = 4 mu^2 w^2, omega_rho^2 = lam rho_bar^2."""
+    """Eq. (31): roots omega^2 of (w^2-k^2)(w^2-k^2-omega_rho^2) = 4 mu^2 w^2, omega_rho^2 = lam rho_bar^2."""
     M2 = lam*(v*v + 2*mu*mu/lam)
     # w^4 - w^2 (2k^2 + M^2 + 4mu^2) + k^2(k^2 + M^2) = 0
     b = 2*k*k + M2 + 4*mu*mu; cc = k*k*(k*k + M2)
@@ -194,8 +194,8 @@ def dispersion_from_lagrangian(k, lam, v, mu):
     roots = [brentq(det, ws[i], ws[i+1]) for i in range(len(ws)-1) if vals[i]*vals[i+1] < 0]
     return sorted(r*r for r in roots)
 
-@check("§11.4, Eq. (32)", "FORMULA",
-       "The disturbance equation (32) follows from the minimal law expanded numerically",
+@check("§11.4, Eq. (31)", "FORMULA",
+       "The disturbance equation (31) follows from the minimal law expanded numerically",
        anchor=r"\left(\omega^{2} - k^{2}\right)\left(\omega^{2} - k^{2} - \omega_{\rho}^{2}\right) = 4\mu^{2}\omega^{2}")
 def _():
     lam, v, mu = 1.0, 1.0, 0.35; worst = 0
@@ -204,8 +204,8 @@ def _():
         worst = max(worst, max(abs(x - y)/y for x, y in zip(a, b)))
     return verdict(worst < 1e-4, f"largest relative difference in omega^2: {worst:.1e}")
 
-@check("§11.4, Eq. (30)", "CONSISTENCY",
-       "Sound speed three ways: from P, from the small-k slope of Eq. (32), and the stated (1+a)/(1+3a)",
+@check("§11.4, Eq. (29)", "CONSISTENCY",
+       "Sound speed three ways: from P, from the small-k slope of Eq. (31), and the stated (1+a)/(1+3a)",
        anchor=r"$c_{s}^{2} = (1 + a)/(1 + 3a)$")
 def _():
     worst = 0
@@ -217,7 +217,7 @@ def _():
         worst = max(worst, abs(fromP - stated)/stated, abs(slope - stated)/stated)
     return verdict(worst < 1e-5, f"largest relative difference: {worst:.1e}")
 
-@check("§11.4, Eq. (31)", "FORMULA",
+@check("§11.4, Eq. (30)", "FORMULA",
        "gamma = -(2+3a)/(3a) from |g00| = P' c_s and g_ij = P'/c_s; below -1 for all a; -> -1 at large a",
        anchor=r"\gamma = -\frac{2 + 3a}{3a},")
 def _():
@@ -235,7 +235,7 @@ def _():
     return verdict(worst < 1e-4 and below and abs(big + 1) < 1e-6,
                    f"largest relative difference {worst:.1e}; always below -1: {below}; a=1e6 gives {big:.7f}")
 
-@check("§11.4", "NUMBER", "Gapped rest rhythm omega_0^2 = lambda v^2 + 6 mu^2 from Eq. (32) at k = 0",
+@check("§11.4", "NUMBER", "Gapped rest rhythm omega_0^2 = lambda v^2 + 6 mu^2 from Eq. (31) at k = 0",
        anchor=r"\omega_{0}^{2} = \lambda v^{2} + 6\mu^{2}")
 def _():
     lam, v, mu = 1.3, 0.7, 0.4
@@ -257,11 +257,11 @@ def _():
     a = 1e-4; cs = math.sqrt((1 + a)/(1 + 3*a))
     return verdict(close(1 - cs, a, 2e-3), f"1 - c_s = {1-cs:.6e} vs a = {a:.1e}")
 
-@check("§7.7(3), §11.1", "FORMULA",
-       "Gapless branch of Eq. (32): omega^2 = c_s^2 k^2 + B k^4 with B about 4a^2 (in units of 1/M^2)",
+@check("§13.2(3), §11.1", "FORMULA",
+       "Gapless branch of Eq. (31): omega^2 = c_s^2 k^2 + B k^4 with B about 4a^2 (in units of 1/M^2)",
        anchor=r"the coefficient of the $k^{4}$ term is about $4a^{2}$")
 def _():
-    # Series of the lower root of Eq. (32): B = (S - M^2)^2 / S^3 with S = M^2 + 4 mu^2, i.e. B M^2 = 4a^2(1+a)/(1+3a)^3.
+    # Series of the lower root of Eq. (31): B = (S - M^2)^2 / S^3 with S = M^2 + 4 mu^2, i.e. B M^2 = 4a^2(1+a)/(1+3a)^3.
     out = []
     for a in [0.3, 0.05]:
         lam = v = 1.0; mu = math.sqrt(a/2); M2 = 1 + a; cs2 = (1 + a)/(1 + 3*a)
@@ -274,13 +274,13 @@ def _():
     return verdict(ok, "; ".join(f"a={a:g}: numerical/series {r:.5f}, B M^2 / 4a^2 = {q:.3f}" for a, r, q in out)
                    + "; positive, and -> 4a^2 as a -> 0")
 
-@check("§7.7(3)", "NUMBER", "k^4 coefficient 4a^2 with a ~ 1e-23", anchor=r"$4a^{2} \lesssim 4 \times 10^{-46}$")
+@check("§13.2(3)", "NUMBER", "k^4 coefficient 4a^2 with a ~ 1e-23", anchor=r"$4a^{2} \lesssim 4 \times 10^{-46}$")
 def _():
     val = 4*(1e-23)**2
     return verdict(abs(val - 4e-46) < 1e-50, f"4a^2 = {val:.0e} for a = 1e-23")
 
 # --- §9.1 ---------------------------------------------------------------------
-@check("§9.1, Eq. (27)", "FORMULA", "V'' = lambda(3 phi^2 - v^2), negative for |phi| < v/sqrt(3)",
+@check("§9.1, Eq. (26)", "FORMULA", "V'' = lambda(3 phi^2 - v^2), negative for |phi| < v/sqrt(3)",
        anchor=r"\Veff''(\phi) = \lambda\left(3\phi^{2} - v^{2}\right),")
 def _():
     lam, v = 1.1, 0.9; V = lambda p: lam/4*(p*p - v*v)**2; worst = 0
@@ -294,7 +294,7 @@ def _():
 def iso(r, M=1.0):
     psi = 1 + M/(2*r); U = (1 - M/(2*r))/(1 + M/(2*r)); return psi, U
 
-@check("§11.7, Eq. (35)", "FORMULA",
+@check("§11.7, Eq. (34)", "FORMULA",
        "psi and U satisfy rule (a) div(psi^2 grad U) = 0 and rule (b) lap psi = 0",
        anchor=r"\psi = 1 + \frac{GM}{2rc_{0}^{2}}, \qquad")
 def _():
@@ -340,14 +340,14 @@ def _():
     return verdict(close(beta_lin, 0.5, 1e-7) and close(beta_exp, 1.0, 1e-2) and close(fac, 7/6, 1e-7),
                    f"beta(1-u) = {beta_lin:.6f}, beta(exp) = {beta_exp:.4f}, factor = {fac:.6f}")
 
-@check("§11.6(vi)", "NUMBER", "Exponential metric: no point of no return; shadow 4.6 per cent larger than GR",
-       anchor=r"would be $4.6$ per cent larger than")
+@check("§11.6(vi)", "NUMBER", "Exponential metric: no point of no return; shadow 4.6 percent larger than GR",
+       anchor=r"would be $4.6$ percent larger than")
 def _():
     from scipy.optimize import minimize_scalar
     b = lambda r: r*math.exp(2/r)                         # r e^{u} (areal) / e^{-u} (clock), u = M/r, M = 1
     res = minimize_scalar(b, bounds=(0.5, 10), method="bounded", options=dict(xatol=1e-12))
     ratio = res.fun/(3*math.sqrt(3))
-    return verdict(abs((ratio - 1)*100 - 4.6) < 0.05, f"shadow ratio {ratio:.5f} ({(ratio-1)*100:.2f} per cent); clock rate exp(-M/r) > 0 everywhere")
+    return verdict(abs((ratio - 1)*100 - 4.6) < 0.05, f"shadow ratio {ratio:.5f} ({(ratio-1)*100:.2f} percent); clock rate exp(-M/r) > 0 everywhere")
 
 @check("§11.6(v)", "FORMULA", "'Rulers set by the amount looks fixed from afar would give gamma = -1/3' (and fail light bending)",
        anchor=r"changes by $(1 + 3\gamma)u$; holding it fixed gives $\gamma = -\tfrac{1}{3}$")
@@ -367,7 +367,7 @@ def _():
                    f"{bend:.3f} of the observed amount (the paper: 'a third as much'); amount = time part of the current of Eq. (13)")
 
 # --- §11.9: the phase at the point of no return -----------------------------------
-@check("§11.9, Eq. (38)", "FORMULA",
+@check("§11.9, Eq. (37)", "FORMULA",
        "theta = mu(t + f) solves the wave equation; only 4M^2 keeps it finite for a falling traveler; far away f' -> 4M^2/r^2",
        anchor=r"r^{2}\left(1 - \frac{2M}{r}\right) f'(r) = 4M^{2} .")
 def _():
@@ -384,7 +384,7 @@ def _():
     return verdict(ok, f"wave equation residual {np.abs(box[5:-5]).max():.1e}; at the edge f' - dr*/dr -> {reg[-1]:.4f} "
                        f"with 4M^2, {bad[-1]:.1e} with 3M^2; far-field ratio {far:.6f}")
 
-@check("§11.9, Eq. (38) with Eq. (6)", "CONSISTENCY", "With u = -grad(theta)/mu, the phase of Eq. (38) gives a flow forward in time and inward at every radius",
+@check("§11.9, Eq. (37) with Eq. (6)", "CONSISTENCY", "With u = -grad(theta)/mu, the phase of Eq. (37) gives a flow forward in time and inward at every radius",
        anchor=r"\theta = \mu_{\infty}\left[t + f(r)\right], \qquad")
 def _():
     M = 1.0; bad = []
@@ -406,18 +406,18 @@ def _():
     return verdict(close(dfl, 4*M/b, 1e-8), f"deflection {dfl*b:.6f} GM/(b c^2)")
 
 # ================================================================ NUMBERS
-@check("§7.5, Eq. (22)", "NUMBER", "hbar c / 0.511 MeV = 386 femtometers", anchor=r"\approx 386\ \text{femtometers},")
+@check("§7.5, Eq. (24)", "NUMBER", "hbar c / 0.511 MeV = 386 femtometers", anchor=r"\approx 386\ \text{femtometers},")
 def _():
     xi = hbar*c/(0.51099895*MeV)
     return verdict(close(xi*1e15, 386, 0.002), f"{xi*1e15:.2f} fm")
 
-@check("§7.7(5), Eq. (25)", "NUMBER", "alpha_G = G m_e^2/(hbar c) = (l_P/xi_0)^2 ~ 1.75e-45",
+@check("§13.2(5), Eq. (40)", "NUMBER", "alpha_G = G m_e^2/(hbar c) = (l_P/xi_0)^2 ~ 1.75e-45",
        anchor=r"\;\approx\; 1.75 \times 10^{-45},")
 def _():
     aG = G*me**2/(hbar*c); xi = hbar/(me*c)
     return verdict(close(aG, 1.75e-45, 0.003) and close((lP/xi)**2, aG, 1e-9), f"{aG:.4e}; (l_P/xi_0)^2 = {(lP/xi)**2:.4e}")
 
-@check("§7.7(5)", "NUMBER", "Planck length ~1.6e-35 m, about 1e22 below the electron's localization length xi_e",
+@check("§13.2(5)", "NUMBER", "Planck length ~1.6e-35 m, about 1e22 below the electron's localization length xi_e",
        anchor=r"\approx 1.6 \times 10^{-35}$~m about $10^{22}$ below $\xi_{e}$")
 def _():
     xi = hbar/(me*c)
@@ -435,13 +435,13 @@ def _():
     spacing = (kB*273.15/101325)**(1/3); lo, hi = 160e3/spacing, 800e3/spacing
     return verdict(3e13 < lo and hi < 3e14, f"'hundreds of miles' (100-500 miles) / {spacing*1e9:.2f} nm = {lo:.1e} to {hi:.1e}")
 
-@check("Preface, §7.7(5)", "NUMBER", "A kiloparsec is about 1e55 times the dent's width (Planck length / 3.5): more than fifty orders",
+@check("Preface, §13.2(5)", "NUMBER", "A kiloparsec is about 1e55 times the dent's width (Planck length / 3.5): more than fifty orders",
        anchor=r"A galaxy really is about $10^{55}$ times")
 def _():
     w = lP/3.54; r = kpc/w
     return verdict(3e54 < r < 3e55, f"kpc / dent width = {r:.1e}")
 
-@check("§7.7(7)", "NUMBER", "Electron size limit 1e-18 m is several hundred thousand times below xi_0",
+@check("§13.2(7)", "NUMBER", "Electron size limit 1e-18 m is several hundred thousand times below xi_0",
        anchor=r"several hundred thousand times smaller")
 def _():
     xi = hbar/(me*c); r = xi/1e-18
@@ -469,14 +469,14 @@ def _():
     two = max(abs(c0 - 2*s0), abs(c0 + 2*s0))*age        # largest change allowed at two standard deviations
     return verdict(two <= stated, f"two-standard-deviation bound {two:.2e} against the stated {stated:.0e} (strict: no margin)")
 
-@check("§10.3, Eq. (28)", "NUMBER", "Lambda = G^2 m_e^6/(alpha^6 hbar^4) ~ 1.36e-52 m^-2",
+@check("§10.3, Eq. (27)", "NUMBER", "Lambda = G^2 m_e^6/(alpha^6 hbar^4) ~ 1.36e-52 m^-2",
        anchor=r"\approx 1.36 \times 10^{-52}\,\mathrm{m}^{-2},")
 def _():
     L = G**2*me**6/(alpha**6*hbar**4)
     return verdict(close(L, 1.36e-52, 0.005), f"{L:.4e} m^-2")
 
-@check("§12", "NUMBER", "G = alpha^3 hbar^2 sqrt(Lambda)/m_e^3 within ~10 per cent with measured Lambda, a few per cent with local H0",
-       anchor=r"comes within about ten per cent of the measured $G$")
+@check("§14", "NUMBER", "G = alpha^3 hbar^2 sqrt(Lambda)/m_e^3 within ~10 percent with measured Lambda, a few percent with local H0",
+       anchor=r"comes within about ten percent of the measured $G$")
 def _():
     Lp = 3*(67.36e3/3.0857e22)**2*0.6847/c**2; Ll = 3*(73.0e3/3.0857e22)**2*0.6847/c**2
     g1 = alpha**3*hbar**2*math.sqrt(Lp)/me**3/G; g2 = alpha**3*hbar**2*math.sqrt(Ll)/me**3/G
@@ -498,7 +498,7 @@ def _():
                    f"photon-only estimate {t_ph:.1e} years for a solar mass; 1e67 x (4.3e6)^3 = {sgr:.1e} years")
 
 @check("§8.1", "NUMBER", "Accretion efficiency about 6% (non-rotating), up to about 40% (rapidly rotating); fusion 0.7%",
-       anchor=r"Accretion converts about $6$ per cent")
+       anchor=r"Accretion converts about $6$ percent")
 def _():
     schw = 1 - math.sqrt(8/9); kerr = 1 - 1/math.sqrt(3)
     fusion = (4*1.00782503223 - 4.00260325413)/(4*1.00782503223)
@@ -549,114 +549,194 @@ def _():
 def _():
     return verdict(close(4*4.3e6*GMsun/(3*c**3), 30, 0.1), "28 s is about half a minute")
 
-# --- §6: the swirl ------------------------------------------------------------------
-def swirl_accel(vc, V, dVdR, R):
-    """Radial acceleration from Eq. (15) for a circular orbit at speed vc in a swirl V(R) phi_hat (no baryon term)."""
-    conv = -V*V/R                               # (v.grad)v, radial
-    curl = V/R + dVdR                           # z-component of curl v
-    w = vc - V                                  # travel relative to the Ocean, azimuthal
-    lorentz = -w*curl                           # -(w phi_hat) x (curl z_hat) = -w curl r_hat
-    return conv + lorentz
+# --- §6: the eddy (3.13) -------------------------------------------------------------
+from scipy.special import i0 as _i0, i1 as _i1, k0 as _k0, k1 as _k1
+gdag = 1.20e-10
+def _gdisk(R, M, Rd):
+    y = R/(2*Rd); S0 = M/(2*math.pi*Rd**2)
+    return 4*math.pi*G*S0*Rd*y**2*(_i0(y)*_k0(y) - _i1(y)*_k1(y))/R
+_SM = {"cored": lambda x: x*x/(1 + x*x), "x/(1+x)": lambda x: x/(1 + x), "1-exp(-x)": lambda x: 1 - np.exp(-x)}
+def _geddy(r, M, form="cored", gd=gdag):
+    V2 = math.sqrt(G*M*gd); Rt = math.sqrt(G*M/gd); return V2/r*_SM[form](r/Rt)
+def _grar(gb): return gb/(1 - np.exp(-np.sqrt(gb/gdag)))
+def _mn(R, z, M=6e10*Msun, a=3.0*kpc, b=0.28*kpc):
+    zb = math.sqrt(z*z + b*b); D = (R*R + (a + zb)**2)**1.5
+    return G*M*R/D, G*M*z*(a + zb)/(zb*D)
 
-@check("§6, Eq. (15)", "FORMULA", "Flat swirl turns a circular orbit inward by v_c V/R, with a term (v_c - V) dV/dR when V varies; nothing at rest",
-       anchor=r"inward by a further $v_{c}V/R$")
+@check("§6, Eq. (16)", "FORMULA", "(s.grad)s - w x curl s = grad(s^2/2) - xdot x curl s, w = xdot - s (random fields)",
+       anchor=r"\ddot{\mathbf{x}} = \partial_{t}\mathbf{s} - \nabla\!\left(\Phi - \tfrac{1}{2}s^{2}\right)")
 def _():
-    R, vc, V = 8.0, 229.0, 118.0
-    a_flat = swirl_accel(vc, V, 0.0, R); a_var = swirl_accel(vc, V, 3.0, R); a_rest = swirl_accel(0.0, V, 0.0, R) + V*V/R*0
-    # a pattern at rest relative to the galaxy: (v.grad)v - (-v) x curl v = grad(v^2/2) = 0 for a flat swirl
-    rest = -V*V/R + V*(V/R)
-    ok = close(-a_flat, vc*V/R, 1e-12) and close(-(a_var - a_flat), (vc - V)*3.0, 1e-12) and abs(rest) < 1e-12
-    return verdict(ok, f"flat: {-a_flat:.4f} = v_c V/R; variable: extra {-(a_var-a_flat):.4f} = (v_c-V) dV/dR; at rest: {rest:.1e}")
+    rng = np.random.default_rng(3); worst = 0
+    for _k in range(100):
+        A = rng.normal(size=(3, 3)); B = rng.normal(size=(3, 3, 3))*0.3
+        f = lambda x: A @ x + np.einsum("ijk,j,k->i", B, x, x)
+        x = rng.normal(size=3); xd = rng.normal(size=3); h = 1e-5; J = np.zeros((3, 3))
+        for j in range(3):
+            e_ = np.zeros(3); e_[j] = h; J[:, j] = (f(x + e_) - f(x - e_))/(2*h)
+        cu = np.array([J[2, 1] - J[1, 2], J[0, 2] - J[2, 0], J[1, 0] - J[0, 1]]); s_ = f(x)
+        old = J @ s_ - np.cross(xd - s_, cu); new = J.T @ s_ - np.cross(xd, cu)
+        worst = max(worst, np.abs(old - new).max()/np.abs(old).max())
+    return verdict(worst < 1e-8, f"largest relative difference {worst:.1e}")
 
-@check("§6", "NUMBER", "159 km/s from baryons against 229 observed at 8.1 kpc needs a swirl of about 118 km/s",
-       anchor=r"a swirl of about")
+@check("§6, Eq. (16)", "FORMULA", "Eq. (16) is the slow-motion limit of travel in ds^2 = -(1+2Phi)dt^2 + (dx - s dt)^2 (difference falls with the field strength)",
+       anchor=r"This is the slow-motion limit of travel through the re-made state, whose clocks")
 def _():
-    V = (229**2 - 159**2)/229
-    return verdict(abs(V - 118) < 1.0, f"V = (229^2 - 159^2)/229 = {V:.1f} km/s")
+    rng = np.random.default_rng(5)
+    def run(eps, h=1e-3):
+        A = rng.normal(size=(3, 3)); B = rng.normal(size=3); C = rng.normal(size=3); w = rng.normal()
+        s_ = lambda t, x: eps*(A @ x + np.sin(w*t)*C); P = lambda t, x: eps**2*(B @ x + 0.3*(x @ x))
+        Lg = lambda t, x, v: -np.sqrt(1 + 2*P(t, x) - np.sum((v - s_(t, x))**2)); E = np.eye(3)
+        dLdv = lambda t, x, v: np.array([(Lg(t, x, v + h*eps*e) - Lg(t, x, v - h*eps*e))/(2*h*eps) for e in E])
+        x = rng.normal(size=3); v = eps*rng.normal(size=3); t = rng.normal()
+        dLdx = np.array([(Lg(t, x + h*e, v) - Lg(t, x - h*e, v))/(2*h) for e in E])
+        M = np.array([(dLdv(t, x, v + h*eps*e) - dLdv(t, x, v - h*eps*e))/(2*h*eps) for e in E]).T
+        Jx = np.array([(dLdv(t, x + h*e, v) - dLdv(t, x - h*e, v))/(2*h) for e in E]).T
+        a1 = np.linalg.solve(M, dLdx - (dLdv(t + h, x, v) - dLdv(t - h, x, v))/(2*h) - Jx @ v)
+        J = np.array([(s_(t, x + h*e) - s_(t, x - h*e))/(2*h) for e in E]).T
+        cu = np.array([J[2, 1] - J[1, 2], J[0, 2] - J[2, 0], J[1, 0] - J[0, 1]])
+        gP = np.array([(P(t, x + h*e) - P(t, x - h*e) - 0.5*(s_(t, x + h*e) @ s_(t, x + h*e) - s_(t, x - h*e) @ s_(t, x - h*e)))/(2*h) for e in E])
+        a2 = (s_(t + h, x) - s_(t - h, x))/(2*h) - gP - np.cross(v, cu)
+        return np.linalg.norm(a1 - a2)/np.linalg.norm(a2)
+    d = {eps: max(run(eps) for _k in range(20)) for eps in (3e-2, 3e-3)}
+    return verdict(d[3e-3] < 1e-3 and d[3e-3] < d[3e-2], f"largest relative difference {d[3e-2]:.1e} (fields 3e-2), {d[3e-3]:.1e} (3e-3)")
 
-@check("§6", "SIMULATION", "Model Milky Way (flattened disk 6e10 Msun, a = 3.0, b = 0.28 kpc): 159 km/s at 8.1 kpc; star launched at 30 km/s rises 583 vs 574 pc; a swirl falling off over 0.5 kpc throws it ~10 kpc",
-       anchor=r"a star launched from the midplane at $30\,\mathrm{km\,s^{-1}}$ rises to within two per cent of its height in the baryons-only case ($583$ against $574$~pc)")
+@check("§6", "FORMULA", "Counting the self-held swirl as load and as tilt turns a co-moving star by 2V^2/r",
+       anchor=r"$2V^{2}/r$ instead of $V^{2}/r$")
 def _():
-    from scipy.integrate import solve_ivp
-    Gk = 4.30091e-6; a, b, Mb, R0, V = 3.0, 0.28, 6e10, 8.1, 118.0; GMk = Gk*Mb
-    def acc_b(x):
-        zb = math.sqrt(x[2]**2 + b*b); D = (x[0]**2 + x[1]**2 + (a + zb)**2)**1.5
-        return -GMk*np.array([x[0]/D, x[1]/D, x[2]*(a + zb)/(zb*D)])
-    def run(swirl, falloff=None, T=0.5):
-        def flow(x):
-            R = math.hypot(x[0], x[1]); Vh = V*(math.exp(-abs(x[2])/falloff) if falloff else 1.0)
-            return Vh*np.array([-x[1]/R, x[0]/R, 0.0])
-        def rhs(t, y):
-            x, u = y[:3], y[3:]; acc = acc_b(x)
-            if swirl:
-                hh = 1e-5; v = flow(x); Jm = np.zeros((3, 3))
-                for k in range(3):
-                    e_ = np.zeros(3); e_[k] = hh; Jm[:, k] = (flow(x + e_) - flow(x - e_))/(2*hh)
-                cu = np.array([Jm[2, 1] - Jm[1, 2], Jm[0, 2] - Jm[2, 0], Jm[1, 0] - Jm[0, 1]])
-                acc = acc + Jm @ v - np.cross(u - v, cu)
-            return np.r_[u, acc]
-        vb = math.sqrt(-acc_b(np.array([R0, 0, 0]))[0]*R0)
-        vc = (V + math.sqrt(V*V + 4*vb*vb))/2 if swirl else vb
-        sol = solve_ivp(rhs, [0, T], [R0, 0, 0, 0, vc, 30.0], rtol=1e-9, atol=1e-11, max_step=0.002)
-        return vb, vc, np.abs(sol.y[2]).max()
-    vb, _, z0 = run(False); _, vc, z1 = run(True); _, _, zf = run(True, falloff=0.5, T=0.25)
-    ok = abs(vb - 159) < 1 and abs(vc - 229) < 1 and abs(z0*1e3 - 574) < 3 and abs(z1*1e3 - 583) < 3 and 9 < zf < 12
-    return verdict(ok, f"v_bar {vb:.1f} km/s, v_c {vc:.1f}; heights {z0*1e3:.0f} and {z1*1e3:.0f} pc ({(z1/z0-1)*100:+.1f}%); falling-off swirl: {zf:.1f} kpc")
+    V, r = 1.0, 1.0; load = V*V/r; tilt = V*(V/r)          # -xdot x curl s, xdot = s = V phi_hat, curl = V/r z_hat
+    return verdict(close(load + tilt, 2*V*V/r, 1e-12), f"load {load} + tilt {tilt} = {load+tilt} V^2/r")
 
-@check("§6", "NUMBER", "A galaxy's own travel tilts the Ocean by about its potential/c^2 times the orbital speed: a few times 1e-4 km/s, against 118",
-       anchor=r"a few times $10^{-4}\,\mathrm{km\,s^{-1}}$")
+@check("§6, Eq. (15)", "NUMBER", "Matching rule: V = sqrt(GM/R_t) at R_t = sqrt(GM/g) gives V^4 = G M g; Milky Way model 176 km/s, R_t 8.3 kpc",
+       anchor=r"176\,\mathrm{km\,s^{-1}}$. The share")
 def _():
-    kpc = 3.0857e19; Ms = 1.989e30
-    u = G*6e10*Ms/(c**2*8.1*kpc); s_self = 4*u*229.0
-    return verdict(1e-4 < s_self < 1e-3, f"u = {u:.2e}; (2 + 2 gamma) u v_c = {s_self:.1e} km/s, {118/s_self:.0e} times short")
+    out = []
+    for Mb in (1e8, 1e10, 6e10):
+        m = Mb*Msun; Rt = math.sqrt(G*m/gdag); V = math.sqrt(G*m/Rt); out.append((V**4/(G*m*gdag), V/1e3, Rt/kpc))
+    return verdict(all(close(q, 1, 1e-12) for q, _, _ in out) and abs(out[2][1] - 176) < 1 and abs(out[2][2] - 8.3) < 0.1,
+                   f"V^4/(GMg) = 1; Milky Way model V = {out[2][1]:.1f} km/s, R_t = {out[2][2]:.2f} kpc")
 
-@check("§6", "NUMBER", "A swirl the same at every height needs, at the Sun's radius, a momentum about 4e4 times the model's stars and gas",
-       anchor=r"a momentum about $4 \times 10^{4}$")
+@check("§6", "SIMULATION", "Model galaxies 10^7.5-10^11.5 Msun, compact/typical/diffuse: rms 0.046-0.057 dex from the RAR, no trend with compactness",
+       anchor=r"$0.046$ to $0.057$~dex of scatter")
 def _():
-    kpc = 3.0857e19; Ms = 1.989e30; M = 6e10*Ms; a, b, R = 3*kpc, 0.28*kpc, 8.1*kpc
-    # first-order law: lap s = -(16 pi G / c^2) p ; vector Laplacian of V phi_hat (V const) is -V/R^2 phi_hat
-    p_need = c**2*118.2e3/(16*math.pi*G*R**2)
-    rho = b*b*M/(4*math.pi)*(a*R*R + (a + 3*b)*(a + b)**2)/((R*R + (a + b)**2)**2.5*b**3)   # Miyamoto-Nagai, z = 0
-    ratio = p_need/(rho*229e3)
-    return verdict(3e4 < ratio < 5e4, f"needed {p_need:.2e} kg m^-2 s^-1; stars and gas {rho*229e3:.2e} ({rho/Ms*(kpc/1e3)**3:.3f} Msun/pc^3 at 229 km/s); ratio {ratio:.1e}")
+    rms = []; trend = []
+    for form in _SM:
+        res = []; by = {0.5: [], 1.0: [], 3.0: []}
+        for M in np.logspace(7.5, 11.5, 9):
+            for f in by:
+                Rd = 1.5*kpc*(M/1e10)**0.35*f; R = np.linspace(0.5, 8, 40)*Rd
+                gb = _gdisk(R, M*Msun, Rd); go = gb + np.array([_geddy(r, M*Msun, form) for r in R])
+                rr = np.log10(go/_grar(gb)); res += list(rr); by[f] += list(rr)
+        rms.append(math.sqrt(np.mean(np.square(res)))); trend.append(max(abs(np.mean(v)) for v in by.values()))
+    ok = abs(min(rms) - 0.046) < 0.003 and abs(max(rms) - 0.057) < 0.003 and max(trend) < 0.05
+    return verdict(ok, "rms " + ", ".join(f"{x:.3f}" for x in rms) + f"; largest mean offset by compactness {max(trend):.3f} dex")
 
-@check("§6", "FORMULA", "A source-free tilt flat in the plane grows as V(1 + z^2/2R^2) and gains a radial turning -V z/R^2",
-       anchor=r"as $V(1 + z^{2}/2R^{2})$")
+@check("§6", "SIMULATION", "Model Milky Way with the eddy: 159 -> 201 km/s at 8.1 kpc (RAR 205); radial x1.59; vertical +9.8% at 0.5 kpc, +16.8% at 1 kpc",
+       anchor=r"by $9.8$ percent at $0.5$~kpc from the midplane and $16.8$ percent at $1$~kpc")
 def _():
-    # azimuthal field s_phi(R, z); vector Laplacian lap = s_RR + s_R/R - s/R^2 + s_zz, by finite differences
-    V = 118.0; h = 1e-3
-    def s_phi(R, z): return V*(1 + z*z/(2*R*R))
-    def lap(R, z):
-        return ((s_phi(R+h, z) - 2*s_phi(R, z) + s_phi(R-h, z))/h**2 + (s_phi(R+h, z) - s_phi(R-h, z))/(2*h*R)
-                - s_phi(R, z)/R**2 + (s_phi(R, z+h) - 2*s_phi(R, z) + s_phi(R, z-h))/h**2)
-    worst = max(abs(lap(R, 0.0))/(V/R**2) for R in (4.0, 8.1, 15.0))          # source-free in the plane
-    flat = abs(lap(8.1, 0.0)) ; const = -V/8.1**2                               # a swirl the same at every height instead
-    BR = -(s_phi(8.1, 0.5+h) - s_phi(8.1, 0.5-h))/(2*h); ok = worst < 1e-5 and abs(BR + V*0.5/8.1**2) < 1e-6
-    return verdict(ok, f"residual in the plane {worst:.1e} of V/R^2 (a constant swirl leaves {const:.3f}); radial turning at z = 0.5 kpc {BR:.4f} = -V z/R^2")
+    R0 = 8.1*kpc; gb, _z = _mn(R0, 0.0); ge = _geddy(R0, 6e10*Msun)
+    vb, vt = math.sqrt(gb*R0)/1e3, math.sqrt((gb + ge)*R0)/1e3; vr = math.sqrt(_grar(gb)*R0)/1e3
+    vert = []
+    for zk in (0.5, 1.0):
+        z = zk*kpc; r = math.hypot(R0, z); _r, gbz = _mn(R0, z); vert.append(_geddy(r, 6e10*Msun)*z/r/gbz)
+    ok = (abs(vb - 159) < 1 and abs(vt - 201) < 1 and abs(vr - 205) < 1 and abs(1 + ge/gb - 1.59) < 0.01
+          and abs(vert[0] - 0.098) < 0.002 and abs(vert[1] - 0.168) < 0.002)
+    return verdict(ok, f"{vb:.0f} -> {vt:.0f} km/s (RAR {vr:.0f}); radial x{1+ge/gb:.2f}; vertical +{vert[0]*100:.1f}%, +{vert[1]*100:.1f}%")
 
-@check("§6", "SIMULATION", "Source-free swirl in the model Milky Way: vertical pull +9% at 0.5 kpc, +15% at 1 kpc; star at 30 km/s rises 558 vs 574 pc",
-       anchor=r"rises to $558$~pc against $574$")
+@check("§6", "SIMULATION", "Eddy core load per area, Burkert-equivalent: 264 Msun/pc^2 (cored), 460-530 (spiked), mass-independent; measured 140",
+       anchor=r"gives $264$, about")
 def _():
-    from scipy.integrate import solve_ivp
-    Gk = 4.30091e-6; a, b, Mb, R0, V = 3.0, 0.28, 6e10, 8.1, 118.0; GMk = Gk*Mb
-    def acc_b(x):
-        zb = math.sqrt(x[2]**2 + b*b); D = (x[0]**2 + x[1]**2 + (a + zb)**2)**1.5
-        return -GMk*np.array([x[0]/D, x[1]/D, x[2]*(a + zb)/(zb*D)])
-    def tilt(x):
-        R = math.hypot(x[0], x[1]); Vh = V*(1 + x[2]**2/(2*R*R))
-        return Vh*np.array([-x[1]/R, x[0]/R, 0.0])
-    def rhs(t, y):
-        x, u = y[:3], y[3:]; hh = 1e-5; v = tilt(x); Jm = np.zeros((3, 3))
-        for k in range(3):
-            e_ = np.zeros(3); e_[k] = hh; Jm[:, k] = (tilt(x + e_) - tilt(x - e_))/(2*hh)
-        cu = np.array([Jm[2, 1] - Jm[1, 2], Jm[0, 2] - Jm[2, 0], Jm[1, 0] - Jm[0, 1]])
-        return np.r_[u, acc_b(x) + Jm @ v - np.cross(u - v, cu)]
-    vb = math.sqrt(-acc_b(np.array([R0, 0, 0]))[0]*R0); vc = (V + math.sqrt(V*V + 4*vb*vb))/2
-    zs = np.abs(solve_ivp(rhs, [0, 0.5], [R0, 0, 0, 0, vc, 30.0], rtol=1e-9, atol=1e-11, max_step=0.002).y[2]).max()
-    fr = [(vc - V)*V*zz/R0**2/(-acc_b(np.array([R0, 0, zz]))[2]) for zz in (0.5, 1.0)]
-    ok = abs(zs*1e3 - 558) < 3 and abs(fr[0] - 0.09) < 0.01 and abs(fr[1] - 0.15) < 0.01
-    return verdict(ok, f"height {zs*1e3:.0f} pc; vertical pull +{fr[0]*100:.1f}% at 0.5 kpc, +{fr[1]*100:.1f}% at 1 kpc; radial x{(vc/vb)**2:.2f}")
+    from scipy.optimize import least_squares
+    pc = kpc/1e3; out = {}
+    for form in _SM:
+        vals = []
+        for Mb in (1e7, 1e11):
+            M = Mb*Msun; V2 = math.sqrt(G*M*gdag); Rt = math.sqrt(G*M/gdag); r = np.linspace(0.1, 2.0, 60)*Rt
+            Me = V2*r*_SM[form](r/Rt)/G
+            Mb_ = lambda p: 2*math.pi*10**p[0]*(10**p[1]*Rt)**3*(np.log(1 + r/(10**p[1]*Rt)) + 0.5*np.log(1 + (r/(10**p[1]*Rt))**2) - np.arctan(r/(10**p[1]*Rt)))
+            sol = least_squares(lambda p: np.log(Mb_(p)/Me), [math.log10(V2/(G*Rt**2)), 0.0])
+            vals.append(10**sol.x[0]*10**sol.x[1]*Rt/(Msun/pc**2))
+        out[form] = vals
+    ok = abs(out["cored"][0] - 264) < 3 and abs(out["cored"][1] - out["cored"][0]) < 1 and all(455 < out[f][0] < 535 for f in ("x/(1+x)", "1-exp(-x)"))
+    return verdict(ok, "; ".join(f"{f}: {v[0]:.0f} (1e7) / {v[1]:.0f} (1e11)" for f, v in out.items()))
 
+@check("§6", "NUMBER", "c H0/2pi = 1.04-1.13e-10 (H0 67.4, 73); late-time c H0 sqrt(OmL)/2pi = 0.86-0.93e-10; H(2.3)/H0 = 3.4",
+       anchor=r"$1.04$ to $1.13 \times 10^{-10}\,\mathrm{m\,s^{-2}}$")
+def _():
+    Mpc = 3.0857e22; a = [c*h*1e3/Mpc/(2*math.pi) for h in (67.4, 73.0)]; b = [x*math.sqrt(0.685) for x in a]
+    E = math.sqrt(0.3*(1 + 2.3)**3 + 0.7)
+    ok = close(a[0], 1.04e-10, 0.01) and close(a[1], 1.13e-10, 0.01) and close(b[0], 0.86e-10, 0.01) and close(b[1], 0.93e-10, 0.01) and abs(E - 3.4) < 0.05
+    return verdict(ok, f"{a[0]:.3e}, {a[1]:.3e}; late-time {b[0]:.3e}, {b[1]:.3e}; H(2.3)/H0 = {E:.2f}")
+
+@check("§6", "SIMULATION", "Genzel et al. 2017 six disks: fixed limit fits 5-6 of 6 dark-matter shares; limit following H(z) fails all three beyond z = 2 (0.09-0.36 predicted); bound 1.0-2.7x at z 2.2-2.4",
+       anchor=r"predicting $0.09$ to $0.36$ where $0$ to $0.12$ is found")
+def _():
+    from scipy.optimize import brentq
+    gals = [(0.854, 1.7, 0.20, 7.3, (0.11, 0.31)), (1.500, 2.3, 0.35, 7.4, (0.00, 0.38)), (1.613, 1.0, 0.40, 4.9, (0.10, 0.28)),
+            (2.196, 1.7, 0.60, 5.5, (0.00, 0.08)), (2.242, 1.7, 0.37, 3.3, (0.00, 0.07)), (2.383, 2.1, 0.15, 6.0, (0.00, 0.26))]
+    E = lambda z: math.sqrt(0.3*(1 + z)**3 + 0.7)
+    def gbar(z, M11, BT, Rh):
+        M = M11*1e11*Msun; R = Rh*kpc; a_ = kpc/1.815
+        return M, R, _gdisk(R, (1 - BT)*M, R/1.68) + G*BT*M/(R + a_)**2
+    fixed = []; hz_fail = []; hz_pred = []; bound = []
+    for form in _SM:
+        nf = 0
+        for z, M11, BT, Rh, (lo, hi) in gals:
+            M, R, gb = gbar(z, M11, BT, Rh)
+            fe = lambda k: _geddy(R, M, form, k*gdag)/(gb + _geddy(R, M, form, k*gdag))
+            nf += lo <= fe(1.0) <= hi
+            if z > 2:
+                hz_fail.append(not (lo <= fe(E(z)) <= hi)); hz_pred.append(fe(E(z)))
+                if Rh == 3.3: bound.append(brentq(lambda k: fe(k) - hi, 1e-3, 100))
+        fixed.append(nf)
+    ok = min(fixed) >= 5 and all(hz_fail) and abs(min(hz_pred) - 0.09) < 0.01 and abs(max(hz_pred) - 0.36) < 0.01 and abs(min(bound) - 1.0) < 0.05 and abs(max(bound) - 2.7) < 0.05
+    return verdict(ok, f"fixed limit inside range: {[int(x) for x in fixed]} of 6; H(z) fails every z > 2 case: {all(hz_fail)}; H(z) predictions {min(hz_pred):.2f}-{max(hz_pred):.2f}; bound {min(bound):.2f}-{max(bound):.2f}x",
+                   )
+
+@check("§6", "NUMBER", "In-plane turning at most 15-19 km/s at the Sun: pressure-supported systems on the RAR within 0.10-0.13 dex",
+       anchor=r"turning of at most $15$ to $19\,\mathrm{km\,s^{-1}}$ at the Sun")
+def _():
+    R0 = 8.1*kpc; gb, _z = _mn(R0, 0.0); ge = _geddy(R0, 6e10*Msun); vt = math.sqrt((gb + ge)*R0)
+    Vs = [(1 - 10**(-off))*ge*R0/vt/1e3 for off in (0.10, 0.13)]
+    return verdict(abs(Vs[0] - 15) < 1 and abs(Vs[1] - 19) < 1, f"{Vs[0]:.1f} and {Vs[1]:.1f} km/s")
+
+@check("§6", "SIMULATION", "Escape speed 528 km/s at the Sun places the eddy's edge at about 150-350 kpc in the model",
+       anchor=r"edge at about $150$ to $350$~kpc")
+def _():
+    from scipy.integrate import quad
+    M = 6e10*Msun; a_, b_ = 3.0*kpc, 0.28*kpc; R0 = 8.1*kpc
+    gd = lambda r: G*M*r/(r*r + (a_ + b_)**2)**1.5
+    def vesc(Re):
+        dphi = quad(lambda r: gd(r) + (_geddy(r, M) if r < Re else 0), R0, Re, limit=200)[0]
+        return math.sqrt(2*(dphi + G*(M + _geddy(Re, M)*Re*Re/G)/Re))/1e3
+    v150, v350 = vesc(150*kpc), vesc(350*kpc)
+    ok = v150 < 528 + 25 and v350 > 528 - 25 and v150 < v350
+    return verdict(ok, f"escape speed {v150:.0f} km/s (edge 150 kpc) to {v350:.0f} km/s (350 kpc), against 528 +24/-25")
+
+@check("Appendix B", "NUMBER", "The Sun's share at the Earth's distance about 2e-8; the eddy supplies about 37% of the turning at the Sun",
+       anchor=r"about $37$ percent of the turning")
+def _():
+    sh = 2*GMsun/(c*c*AU); frac = 1 - 1/1.59
+    return verdict(close(sh, 2e-8, 0.05) and abs(frac - 0.37) < 0.005, f"share {sh:.2e}; eddy fraction {frac:.3f}")
+
+@check("§11.8", "SIMULATION", "Phase slices of a spinning hole spacelike down to r_-; Cotton-York of the rulers zero without spin and growing as spin squared",
+       anchor=r"grows as the square of the spin, checked numerically for spins up to $0.9$")
+def _():
+    import importlib.util as iu
+    spec = iu.spec_from_file_location("rulers", Path(__file__).with_name("rulers_direction.py"))
+    import io, contextlib
+    m = iu.module_from_spec(spec)
+    with contextlib.redirect_stdout(io.StringIO()): spec.loader.exec_module(m)
+    y = np.array([3.0, 1.2, 0.0]); c0 = m.cotton_norm(y, 0.0); c1 = m.cotton_norm(y, 0.1); c2 = m.cotton_norm(y, 0.5)
+    space = []
+    for a in (0.5, 0.9):
+        rp = 1 + math.sqrt(1 - a*a); rm = 1 - math.sqrt(1 - a*a); worst = -np.inf
+        for r in np.r_[np.linspace(rm*1.01, rp*0.999, 100), np.linspace(rp*1.001, 40, 300)]:
+            for th in np.linspace(0.05, math.pi/2, 12):
+                S = r*r + a*a*math.cos(th)**2; D = r*r - 2*r + a*a
+                worst = max(worst, (-(r*r + a*a)**2 + a*a*D*math.sin(th)**2 + (2*rp)**2)/(D*S))
+        space.append(worst)
+    ok = c0 < 1e-8 and abs((c2/c1)/25 - 1) < 0.01 and max(space) < 0
+    return verdict(ok, f"|C| M^3: {c0:.1e} (no spin), {c1:.2e} (0.1), {c2:.2e} (0.5), ratio {c2/c1:.3f} (spin squared: 25); slices spacelike r_- to 40M: max {max(space):.2f}")
 # --- §11.8: frame dragging ----------------------------------------------------------
 J_earth = 0.3307*5.9722e24*6.371e6**2*7.2921e-5
 def tilt_swirl(p, J=J_earth, k=2.0):
@@ -667,7 +747,7 @@ def curl(f, p, hh=1.0):
         e_ = np.zeros(3); e_[j] = hh; d[:, j] = (f(p + e_) - f(p - e_))/(2*hh)
     return np.array([d[2, 1] - d[1, 2], d[0, 2] - d[2, 0], d[1, 0] - d[0, 1]])
 
-@check("§11.8, Eq. (36)", "FORMULA", "A boost of the resting mass's geometry gives the sideways tilt (2 + 2 gamma) u V",
+@check("§11.8, Eq. (35)", "FORMULA", "A boost of the resting mass's geometry gives the sideways tilt (2 + 2 gamma) u V",
        anchor=r"\mathbf{s} = (2 + 2\gamma)\, u\, \mathbf{V}, \qquad u = \frac{G m}{c_{0}^{2}\, d},")
 def _():
     out = []
@@ -680,7 +760,7 @@ def _():
     ok = all(close(k, 2 + 2*g, 1e-5) for g, k in out)
     return verdict(ok, "; ".join(f"gamma={g}: tilt coefficient {k:.6f} (rule {2+2*g})" for g, k in out))
 
-@check("§11.8, Eq. (37)", "SIMULATION", "Summed tilts of a spinning two-layer Earth equal 2G (J x r)/(c^2 r^3)",
+@check("§11.8, Eq. (36)", "SIMULATION", "Summed tilts of a spinning two-layer Earth equal 2G (J x r)/(c^2 r^3)",
        anchor=r"\mathbf{s} = \frac{2G}{c_{0}^{2}}\,\frac{\mathbf{J}\times\mathbf{r}}{r^{3}},")
 def _():
     om = 7.2921e-5; R = 6.371e6; Rc = 3.48e6
@@ -708,7 +788,7 @@ def _():
         worst = max(worst, np.linalg.norm(0.5*curl(tilt_swirl, p) - lt)/np.linalg.norm(lt))
     return verdict(worst < 1e-5, f"largest relative difference: {worst:.1e}")
 
-@check("§11.8 table", "SIMULATION", "Orbit-plane drift from Eq. (15): 30.6, 31.4, 118.1 mas/yr; Gravity Probe B 39.2 toward the guide star",
+@check("§11.8 table", "SIMULATION", "Orbit-plane drift from Eq. (16): 30.6, 31.4, 118.1 mas/yr; Gravity Probe B 39.2 toward the guide star",
        anchor=r"$30.6$, $31.4$, $118.1$")
 def _():
     GM = 3.986004418e14; mas = math.degrees(1)*3.6e6
@@ -742,7 +822,7 @@ def _(quick=False):
     ok = res[4.0] < 2e-3 and abs(res[2.0] - 1) < 2e-3 and abs(res[0.0] - 2) < 2e-3
     return verdict(ok, f"turning / |V x grad u|: both shares {res[4.0]:.4f}, clock share only {res[2.0]:.4f}, no tilt {res[0.0]:.4f} (gamma = 1)")
 
-@check("§11.8", "SIMULATION", "A rotor whose parts obey Eq. (15) turns at half the local turning, whatever its spin (Larmor)",
+@check("§11.8", "SIMULATION", "A rotor whose parts obey Eq. (16) turns at half the local turning, whatever its spin (Larmor)",
        anchor=r"whatever the rotor's own spin")
 def _():
     N = 32; ph = np.linspace(0, 2*np.pi, N, endpoint=False); body = np.c_[np.cos(ph), np.sin(ph), np.zeros(N)]
@@ -818,7 +898,7 @@ def _():
     return verdict(close(sh(R), 1.4e-9, 0.01) and close(sh(d), 2.3e-11, 0.01) and close(turn, 2.70e-3, 0.005),
                    f"share {sh(R):.3e} (surface), {sh(d):.3e} (Moon); turning {turn:.4e} m/s^2 = GM/d^2")
 
-@check("§7.5, §7.7(5)", "NUMBER", "Dent (3.5 E_P) against the electron's 0.511 MeV, and the healing length against 386 fm: nearly 1e23",
+@check("§7.5, §13.2(5)", "NUMBER", "Dent (3.5 E_P) against the electron's 0.511 MeV, and the healing length against 386 fm: nearly 1e23",
        anchor=r"healing length, which lies nearly $10^{23}$ times below it")
 def _():
     EP = math.sqrt(hbar*c**5/G)/eV; r = 3.54*EP/0.51099895e6
@@ -854,29 +934,11 @@ def _():
     return verdict(s15 == F(-1, 2) and s16 == 0 and close(ratio, 3.5, 0.02) and 3.5e28 < ratio*EP < 4.8e28,
                    f"str = {s15} (15/family), {s16} (16/family); cutoff {ratio:.2f} E_P = {ratio*EP:.2e} eV")
 
-@check("§12.7", "NUMBER", "Ocean's own sound speed with the dent at the Planck scale: a ~ 1e-120 for a flow rate below the expansion rate",
-       anchor=r"$a \lesssim 10^{-120}$")
-def _():
-    EP = math.sqrt(hbar*c**5/G)/eV; mu = 1.43e-33   # expansion rate H0 ~ 1.4e-33 eV, an upper scale for today's rate
-    a = 2*(mu/(3.5*EP))**2
-    return verdict(1e-125 < a < 1e-118, f"a = {a:.1e} at a rate of order the expansion rate", note=False)
-
 @check("§12.4", "NUMBER", "Baryon-to-photon ratio from the microwave background and from the light elements agree (Fields et al. 2020)",
        anchor=r"$(6.148 \pm 0.191) \times 10^{-10}$ from the light elements")
 def _():
     z = abs(6.148 - 6.104)/math.hypot(0.058, 0.191)
     return verdict(z < 1, f"difference {z:.2f} standard deviations")
-
-@check("§10.4(5)", "FORMULA", "mu is the cost of one more unit of Ocean charge for any law (de/dn = mu); opposite charges differ by 2 mu; antihydrogen 1S-2S (2e-12) bounds it below ~5e-7 eV",
-       anchor=r"differ in rest energy by $2\mu$ per unit")
-def _():
-    worst = 0
-    for P in [lambda m: m*m + m**4, lambda m: m*m + 0.3*m**6, lambda m: m*m/(1 + m*m)]:
-        for mu in [0.05, 0.3, 0.8]:
-            d = 1e-5; n = lambda m: (P(m + d) - P(m - d))/(2*d); e = lambda m: n(m)*m - P(m)
-            worst = max(worst, abs((e(mu + 1e-3) - e(mu - 1e-3))/(n(mu + 1e-3) - n(mu - 1e-3)) - mu)/mu)
-    bound = 2e-12*0.51099895e6/2
-    return verdict(worst < 1e-4 and 4e-7 < bound < 6e-7, f"|de/dn - mu|/mu <= {worst:.1e} for three laws; bound mu < {bound:.1e} eV")
 
 @check("§12.7", "SIMULATION", "In the minimal law a ripple in the amount at rest carries no Ocean charge; fast ripples (omega ~ k +/- mu) do",
        anchor=r"in the minimal law a ripple in the amount at rest carries no Ocean charge")
@@ -940,7 +1002,7 @@ def _():
     clash = PAPER.has(r"$\mu = 0.991 \pm 0.02$") or PAPER.has(r"$\mu$ is the measured turning")
     return ("FAIL", "mu reused for the measured frame-dragging ratio") if clash else ("PASS", "mu is the phase rate throughout")
 
-@check("whole paper", "CONSISTENCY", "Symbol w: travel relative to the Ocean (bold, Eq. 15) and equation of state w = -1; the clock deficit is u (§11.6)")
+@check("whole paper", "CONSISTENCY", "Symbol w: travel relative to the Ocean (bold, Eq. 16) and equation of state w = -1; the clock deficit is u (§11.6)")
 def _():
     clash = PAPER.has(r"Clocks slow by $w$") or PAPER.has(r"$1 - w$")
     return ("FAIL", "clock deficit still written w") if clash else ("NOTE", "bold w for travel and plain w = -1 for the equation of state remain, distinguished by typeface")
@@ -950,10 +1012,10 @@ def _():
     a = PAPER.has(r"n \equiv \rho^{2}"); b = PAPER.has(r"n(r) \;\simeq\;"); cc = PAPER.has(r"with $n = 1$ if")
     return ("NOTE", "three meanings of n, inherited from 3.10") if a and b and cc else ("PASS", "no clash")
 
-@check("§11.4, §11.7, §11.9", "CONSISTENCY", "Symbol M is a mass only (Eq. 32 uses omega_rho for the heavy branch)")
+@check("§11.4, §11.7, §11.9", "CONSISTENCY", "Symbol M is a mass only (Eq. 31 uses omega_rho for the heavy branch)")
 def _():
     clash = PAPER.has(r"M^{2} = \lambda\bar{\rho}^{2}")
-    return ("FAIL", "M^2 = lambda rho_bar^2 in Eq. (32) while M is a mass elsewhere") if clash else ("PASS", "M is a mass throughout")
+    return ("FAIL", "M^2 = lambda rho_bar^2 in Eq. (31) while M is a mass elsewhere") if clash else ("PASS", "M is a mass throughout")
 
 @check("§3", "FORMULA", "The single-field equation omits the phase term -rho mu^2, which moves the settled amount by the fraction a/2",
        anchor=r"which moves the settled amount from $v$ by the fraction $a/2$")
@@ -967,7 +1029,7 @@ def _():
     ok = all(abs(sh/(a/2) - 1) < 1e-3 and abs(r) < 1e-12 for a, sh, r in out)
     return verdict(ok, "; ".join(f"a={a:g}: shift {sh:.3e} (a/2 = {a/2:.1e})" for a, sh, _ in out))
 
-@check("§7.2, Eq. (18)", "FORMULA", "Two coupled fields: the quadratic action is the minimal law's expansion; branches c_s^2 = (1+a)/(1+3a), gap^2 = lambda v^2 + 6 mu^2, k^4 term 4a^2",
+@check("§7.2, Eq. (20)", "FORMULA", "Two coupled fields: the quadratic action is the minimal law's expansion; branches c_s^2 = (1+a)/(1+3a), gap^2 = lambda v^2 + 6 mu^2, k^4 term 4a^2",
        anchor=r"+ 4\bar{\rho}\,\mu\,\delta\rho\, u^{\mu}\partial_{\mu}\delta\theta \Big].")
 def _():
     lam, v, mu = 1.0, 1.0, 0.07; rb = math.sqrt(v*v + 2*mu*mu/lam); a = 2*mu*mu/(lam*v*v)
