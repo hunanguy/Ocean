@@ -434,10 +434,17 @@ from pathlib import Path
 #        beat bound; preface strength of gravity; reader's note; "pull";
 #        American spelling; citations for LEP colour factors and PSR B1913+16;
 #        Section 12.3 step 4 softened.
+#   3.13.1 Five wording fixes from the 3 Nov validation read, no result changed:
+#        Section 2.3 (the galactic response is the eddy's energy, not its tilt);
+#        Section 13.2(3) (grain bound at or above the Planck scale; Auger 1.35);
+#        Section 14 items "Derive gravity from the medium" (perihelion, frame
+#        dragging, radiation obtained), "The waves the dynamo makes" (three
+#        families bounded), "Antimatter and circulation sense" (mass and
+#        moment follow). No other change to the 3.13 text.
 
-DOCNAME = "Ocean_Scalar_Tensor_Hydrodynamics_v3_13"
-VERSION = "3.13"
-APPDOC = "Ocean_Appendix_A_Spinning_Black_Hole_v3_13"
+DOCNAME = "Ocean_Scalar_Tensor_Hydrodynamics_v3_13_1"
+VERSION = "3.13.1"
+APPDOC = "Ocean_Appendix_A_Spinning_Black_Hole_v3_13_1"
 
 PREAMBLE = r"""
 \documentclass[11pt,a4paper]{article}
@@ -556,7 +563,7 @@ PREAMBLE = r"""
 \title{\Large Scalar--Tensor Hydrodynamics\\[4pt]
 \normalsize Gravity as the Response of a Vacuum Medium:\\
 A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology}
-\date{Revised Formalism --- Version 3.13}
+\date{Revised Formalism --- Version 3.13.1}
 \author{Keith Hays}
 """
 
@@ -1428,8 +1435,9 @@ $\hmn = \gmn + u_{\mu} u_{\nu}$ the spatial projector orthogonal to the medium
 four-velocity $u^{\mu}$, and $\sigma_{\mu\nu}$ the shear tensor.
 
 Whether the vacuum's response can reproduce effects conventionally assigned to
-dark-matter halos does not rest on $\Pimn$: in a galaxy that response is the tilt
-of the eddy in which the galaxy sits (Section~\ref{sec:galactic}).
+dark-matter halos does not rest on $\Pimn$: in a galaxy that response is the
+energy of the eddy in which the galaxy sits, which adds to the load its stars read
+(Section~\ref{sec:galactic}).
 
 \paragraph{In the settled Ocean.}
 $\Pimn$ is dissipative and therefore irreversible; taken as fundamental, it
@@ -4248,8 +4256,10 @@ shortfall of speed, in the minimal law to about $4a^{2} \lesssim 4 \times 10^{-4
 (Section~\ref{sec:onespeed}), so it carries no signal at any accessible energy.
 Photons from
 distant gamma-ray bursts show no energy-dependent arrival times, and the
-cosmic-ray bounds place any such effect beyond the Planck scale
-(Section~\ref{sec:onespeed}). The matter--antimatter comparisons of
+cosmic-ray bounds place any such effect at or above about the Planck scale
+(Section~\ref{sec:onespeed}); a grain growing as the square of the energy, at the
+dent, passes the cosmic-ray bound by only about 1.35
+(Section~\ref{sec:plexuslaw}). The matter--antimatter comparisons of
 Section~\ref{sec:related}, deficiency~(5), are among the most precise of these
 tests.
 \item \textbf{Varying-$m_{e}$ bounds.} Quasar absorption spectra constrain drift
@@ -4390,9 +4400,10 @@ emergent speed \cite{volovik2003}.
 Section~\ref{sec:lawrules} states what each pattern carries and how it is
 rebuilt, but not which waves the dynamo makes. From the Ocean's own kinds of
 movement (its flow, its rivers and eddies, its own ripples), derive the kinds of
-plexus wave, and with them a pattern's kind, version and extent. This is where
-the three parts of the strong force's mixing and the three families must come
-from. Check that the count reproduces the measured family with fifteen built
+plexus wave, and with them a pattern's kind, version and extent. The plexus law
+bounds the strong force's mixing to three complex directions and the families to
+exactly three (Section~\ref{sec:plexuslaw}); show that the dynamo makes exactly
+these. Check that the count reproduces the measured family with fifteen built
 per family, and that Equation~\eqref{eq:inducedG} keeps the sign that makes
 gravity attract.
 \item \textbf{The plexus's own waves.} Derive the spectrum of the driven
@@ -4423,9 +4434,10 @@ and show that the refractive account of Section~\ref{sec:refractive} meets its
 three decisive requirements: every excitation responds in exactly the same
 proportion; time is slowed and space stretched in equal measure, giving the
 observed deflection of starlight; and gravitational waves travel at the speed of
-light. Then calculate the weak-field and post-Newtonian limits to verify the
-Solar-System observations, and extend the account to perihelion advance, frame
-dragging and gravitational radiation, or identify where it fails. Derive the
+light. Perihelion advance ($\beta = 1$, Section~\ref{sec:strongfield}), frame
+dragging (Section~\ref{sec:framedrag}) and the binary pulsar's radiation
+(Section~\ref{sec:lawrules}) are obtained to the order stated there; what remains
+is Equation~\eqref{eq:field} in general, from the medium. Derive the
 principle of Section~\ref{sec:oneroot}: a gradient of state refracts without net
 flow, and a uniform change of state produces divergent or convergent flow.
 Derive Equation~\eqref{eq:field} with the background defining the metric and
@@ -4508,8 +4520,9 @@ $10^{-18}\,\mathrm{m}$, and determine how the field that sets its lowest energy
 behaves at high concentration, consistently with the collapse floor. The
 structure that supplies spin~$\tfrac{1}{2}$ is the order parameter's (group~0).
 \item \textbf{Antimatter and circulation sense.} Antimatter is the reclaiming
-(Section~\ref{sec:antimatter}). Derive from the rebuild that partners have
-identical mass and magnetic moment and opposite electric charge
+(Section~\ref{sec:antimatter}). Identical mass and magnetic moment follow from
+the partner being the same wave run backward (Section~\ref{sec:plexuslaw});
+derive from the rebuild the opposite electric charge
 (Section~\ref{sec:related}, deficiency~(5)), and confront any predicted CPT and
 Lorentz violation with the limits there.
 Show that lepton number passes between kinds as the books of the rebuild

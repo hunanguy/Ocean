@@ -14,9 +14,9 @@ From that premise the paper asks whether dark matter and dark energy are two sub
 
 | File | Description |
 |---|---|
-| `Ocean_Scalar_Tensor_Hydrodynamics_v3_13.pdf` | The paper. 71 pages, including a non-technical preface, a glossary, Appendices A and B and a bibliography. Document digest `5c47-4c91-967c`. |
-| `Ocean_Appendix_A_Spinning_Black_Hole_v3_13.pdf` | Appendix A on its own: the rebuild of a spinning black hole (Sagittarius A*), 5 pages. Built from the same text as the paper's Appendix A, and carrying that part's token, `45c30c`. |
-| `Ocean_Scalar_Tensor_Hydrodynamics_v3_13.manifest.txt` | The reading manifest, written by the build: every part of the paper with its checksum token and the document digest. |
+| `Ocean_Scalar_Tensor_Hydrodynamics_v3_13_1.pdf` | The paper. 71 pages, including a non-technical preface, a glossary, Appendices A and B and a bibliography. Document digest `ab74-7444-62ce`. |
+| `Ocean_Appendix_A_Spinning_Black_Hole_v3_13_1.pdf` | Appendix A on its own: the rebuild of a spinning black hole (Sagittarius A*), 5 pages. Built from the same text as the paper's Appendix A, and carrying that part's token, `45c30c`. |
+| `Ocean_Scalar_Tensor_Hydrodynamics_v3_13_1.manifest.txt` | The reading manifest, written by the build: every part of the paper with its checksum token and the document digest. |
 | `build_ocean_formalism.py` | Generates the LaTeX source of the paper and of the standalone Appendix A, and compiles both. The source of truth. |
 | `.zenodo.json` | Deposit metadata consumed by the Zenodo–GitHub integration. |
 | `CITATION.cff` | Citation metadata for GitHub's *Cite this repository* widget. |
@@ -40,7 +40,7 @@ The script runs `pdflatex` three times so that cross-references and page breaks 
 
 ## Reading completeness
 
-Every part of the paper carries a checksum token: the first six hex digits of the SHA-256 of its LaTeX source. Each page footer gives the page, the page count and the part with its token; each part ends with a line giving its token; and the last page is a reading manifest listing every part, its first page and its token, followed by a document digest and the words "End of document". The standalone Appendix A carries the token of the paper's Appendix A part in its footers, title block and closing line, since it is built from the same text. A reader, human or automated, has read the whole paper when it reaches that line, and a summary or review that cannot give the digest was made from an incomplete reading. The digest for 3.13 is `5c47-4c91-967c`. It is also written to the PDF's subject metadata and to the `.manifest.txt` file.
+Every part of the paper carries a checksum token: the first six hex digits of the SHA-256 of its LaTeX source. Each page footer gives the page, the page count and the part with its token; each part ends with a line giving its token; and the last page is a reading manifest listing every part, its first page and its token, followed by a document digest and the words "End of document". The standalone Appendix A carries the token of the paper's Appendix A part in its footers, title block and closing line, since it is built from the same text. A reader, human or automated, has read the whole paper when it reaches that line, and a summary or review that cannot give the digest was made from an incomplete reading. The digest for 3.13.1 is `ab74-7444-62ce`. It is also written to the PDF's subject metadata and to the `.manifest.txt` file.
 
 ## Checking the mathematics
 
@@ -115,7 +115,7 @@ Please cite the archived release rather than the repository.
 - **Version 3.7** — `10.5281/zenodo.23368921`.
 - **Version 3.6** — `10.5281/zenodo.23324587`. Earlier version DOIs are listed on the Zenodo record.
 
-> Hays, K. (2026). *Scalar–Tensor Hydrodynamics: Gravity as the Response of a Vacuum Medium. A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology* (Version 3.13) [Preprint]. Zenodo. <https://doi.org/10.5281/zenodo.23142440>
+> Hays, K. (2026). *Scalar–Tensor Hydrodynamics: Gravity as the Response of a Vacuum Medium. A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology* (Version 3.13.1) [Preprint]. Zenodo. <https://doi.org/10.5281/zenodo.23142440>
 
 ## License
 
