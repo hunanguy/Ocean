@@ -1,10 +1,11 @@
-# Math check, version 3.13.1
+# Math check, version 3.14
 
-83 checks: 82 pass, 1 note, 0 fail.
+86 checks: 85 pass, 1 note, 0 fail.
 
 | Status | Where | Kind | Check | Result |
 |---|---|---|---|---|
 | PASS | §3, Eq. (13) | FORMULA | Amount and phase equations follow from the minimal law, Eq. (28), by varying the action | largest relative mismatch between varied action and Eq. (13): 1.0e-06 |
+| PASS | §11, the horizon | CONSISTENCY | The fall speed is the one speed times the square root of the share; both reach the horizon together | max /v_fall/(c sqrt(share)) - 1/ = 2.2e-16; at the horizon share = 1, clock rate 0.0e+00, fall speed / c = 1.000000 |
 | PASS | §3, Eq. (12) | FORMULA | Canonical case: L = X - V gives box(phi) = dV/dphi | largest relative mismatch: 1.2e-08 |
 | PASS | §3 and §11.4 | CONSISTENCY | Uniform steady amount from Eq. (13) equals the value stated in §11.4 | root 0.9570174256 vs sqrt(v^2+2mu^2/lam) 0.9570174256 |
 | PASS | §11.4 | FORMULA | Integrating out the amount gives P(mu^2) = v^2 mu^2 + mu^4/lambda and P' = rho_bar^2 | largest difference 8.8e-12 |
@@ -24,7 +25,7 @@
 | PASS | §11.6(v) | NUMBER | U = 1 - u gives beta = 1/2 and perihelion factor 7/6; U = exp(-u) gives beta = 1 | beta(1-u) = 0.500000, beta(exp) = 0.9993, factor = 1.166667 |
 | PASS | §11.6(vi) | NUMBER | Exponential metric: no point of no return; shadow 4.6 percent larger than GR | shadow ratio 1.04627 (4.63 percent); clock rate exp(-M/r) > 0 everywhere |
 | PASS | §11.6(v) | FORMULA | 'Rulers set by the amount looks fixed from afar would give gamma = -1/3' (and fail light bending) | amount fixed to first order only for gamma = -0.33333; light then bends 0.333 of the observed amount (the paper: 'a third as much'); amount = time part of the current of Eq. (13) |
-| PASS | §11.9, Eq. (37) | FORMULA | theta = mu(t + f) solves the wave equation; only 4M^2 keeps it finite for a falling traveler; far away f' -> 4M^2/r^2 | wave equation residual 2.6e-14; at the edge f' - dr*/dr -> -2.0000 with 4M^2, -2.5e+06 with 3M^2; far-field ratio 1.000002 |
+| PASS | §11.9, Eq. (37) | FORMULA | Build's law at a resting mass: theta = mu(t + f), (1 - 2M/r) f' = sqrt(2M/r): turning per moment made exactly mu; regular at the edge; flow = free fall from rest; 42.1 and 11.2 km/s | -(grad theta)^2/mu^2 - 1: 2.8e-14; at the edge f' - dr*/dr -> -0.5000 (finite); flow speed = sqrt(2M/r): True; 42.1 km/s at 1 AU, 11.2 km/s at the Earth's surface |
 | PASS | §11.9, Eq. (37) with Eq. (6) | CONSISTENCY | With u = -grad(theta)/mu, the phase of Eq. (37) gives a flow forward in time and inward at every radius | future-directed inflow at r = 10M, 3M, 2.2M, 2.01M |
 | PASS | §2.5, Eq. (10) | FORMULA | n = 1 + 2GM/(rc^2) bends light by 4GM/(bc^2), twice the slowing-only value | deflection 4.000000 GM/(b c^2) |
 | PASS | §7.5, Eq. (24) | NUMBER | hbar c / 0.511 MeV = 386 femtometers | 386.16 fm |
@@ -51,16 +52,18 @@
 | PASS | §6, Eq. (16) | FORMULA | (s.grad)s - w x curl s = grad(s^2/2) - xdot x curl s, w = xdot - s (random fields) | largest relative difference 4.6e-16 |
 | PASS | §6, Eq. (16) | FORMULA | Eq. (16) is the slow-motion limit of travel in ds^2 = -(1+2Phi)dt^2 + (dx - s dt)^2 (difference falls with the field strength) | largest relative difference 6.4e-03 (fields 3e-2), 2.2e-04 (3e-3) |
 | PASS | §6 | FORMULA | Counting the self-held swirl as load and as tilt turns a co-moving star by 2V^2/r | load 1.0 + tilt 1.0 = 2.0 V^2/r |
-| PASS | §6, Eq. (15) | NUMBER | Matching rule: V = sqrt(GM/R_t) at R_t = sqrt(GM/g) gives V^4 = G M g; Milky Way model 176 km/s, R_t 8.3 kpc | V^4/(GMg) = 1; Milky Way model V = 175.8 km/s, R_t = 8.35 kpc |
+| PASS | §6 | NUMBER | The limit against the settled Ocean's energy per volume: c H_inf = 5.4-5.9e-10 for H0 67.4/73; g_dag/(c H_inf) = 0.20-0.22 (0.16-0.27 with the 20% systematic); loan 3g^2/4piG about a tenth of the energy per volume; a horizon-set limit 1.5-5x at z = 2.2 | c H_inf = 5.42e-10, 5.93e-10; g/(cH) = 0.221, 0.202; loan/eps = 0.098, 0.082; horizon-set at z=2.2: x1.53-5.29 |
+| PASS | §6 | NUMBER | Central pushback holding the cored eddy: integral of load density x lean = g_dag^2/(4 pi G), about 1.7e-11 Pa, for any mass | integral 1.000000000; p_c = 1.717e-11 Pa |
+| PASS | §6, Eq. (15), App. B | NUMBER | Matching rule: V = sqrt(GM/R_t) at R_t = sqrt(GM/g) gives V^4 = G M g; Milky Way model 176 km/s, R_t 8.3 kpc; a flat 200-230 km/s needs 1.0-1.8e11 Msun | V^4/(GMg) = 1; Milky Way model V = 175.8 km/s, R_t = 8.35 kpc; 200-230 km/s needs 1.00-1.76e11 Msun |
 | PASS | §6 | SIMULATION | Model galaxies 10^7.5-10^11.5 Msun, compact/typical/diffuse: rms 0.046-0.057 dex from the RAR, no trend with compactness | rms 0.046, 0.051, 0.057; largest mean offset by compactness 0.040 dex |
 | PASS | §6 | SIMULATION | Model Milky Way with the eddy: 159 -> 201 km/s at 8.1 kpc (RAR 205); radial x1.59; vertical +9.8% at 0.5 kpc, +16.8% at 1 kpc | 159 -> 201 km/s (RAR 205); radial x1.59; vertical +9.8%, +16.8% |
 | PASS | §6 | SIMULATION | Eddy core load per area, Burkert-equivalent: 264 Msun/pc^2 (cored), 460-530 (spiked), mass-independent; measured 140 | cored: 264 (1e7) / 264 (1e11); x/(1+x): 459 (1e7) / 459 (1e11); 1-exp(-x): 526 (1e7) / 526 (1e11) |
 | PASS | §6 | NUMBER | c H0/2pi = 1.04-1.13e-10 (H0 67.4, 73); late-time c H0 sqrt(OmL)/2pi = 0.86-0.93e-10; H(2.3)/H0 = 3.4 | 1.042e-10, 1.129e-10; late-time 8.626e-11, 9.342e-11; H(2.3)/H0 = 3.39 |
-| PASS | §6 | SIMULATION | Genzel et al. 2017 six disks: fixed limit fits 5-6 of 6 dark-matter shares; limit following H(z) fails all three beyond z = 2 (0.09-0.36 predicted); bound 1.0-2.7x at z 2.2-2.4 | fixed limit inside range: [6, 5, 5] of 6; H(z) fails every z > 2 case: True; H(z) predictions 0.09-0.36; bound 1.02-2.70x |
+| PASS | §6 | SIMULATION | Genzel et al. 2017 six disks: fixed limit fits 5-6 of 6 dark-matter shares; limit following H(z) fails all three beyond z = 2 (0.09-0.36 predicted); bound 1.0-2.7x at z 2.2-2.4 (zC 400569), 1.2x (zC 406690, cored) | fixed limit inside range: [6, 5, 5] of 6; H(z) fails every z > 2 case: True; H(z) predictions 0.09-0.36; zC 400569 bound 1.02-2.70x; zC 406690, cored, 1.18x |
 | PASS | §6 | NUMBER | In-plane turning at most 15-19 km/s at the Sun: pressure-supported systems on the RAR within 0.10-0.13 dex | 15.3 and 19.3 km/s |
 | PASS | §6 | SIMULATION | Escape speed 528 km/s at the Sun places the eddy's edge at about 150-350 kpc in the model | escape speed 528 km/s (edge 150 kpc) to 576 km/s (350 kpc), against 528 +24/-25 |
 | PASS | Appendix B | NUMBER | The Sun's share at the Earth's distance about 2e-8; the eddy supplies about 37% of the turning at the Sun | share 1.97e-08; eddy fraction 0.371 |
-| PASS | §11.8 | SIMULATION | Phase slices of a spinning hole spacelike down to r_-; Cotton-York of the rulers zero without spin and growing as spin squared | /C/ M^3: 2.1e-10 (no spin), 1.73e-04 (0.1), 4.31e-03 (0.5), ratio 24.885 (spin squared: 25); slices spacelike r_- to 40M: max -1.05 |
+| PASS | §11.8 | SIMULATION | Phase slices of a spinning hole (build's law) spacelike through both edges; Cotton-York of the rulers zero without spin and growing as spin squared | build's slicing: /C/ M^3: 3.8e-10 (no spin), 3.02e-05 (0.05), 1.21e-04 (0.1), ratio 4.0084 (spin squared: 4), 1.16e-02 (0.9); slices spacelike from inside r_- to 40M: max (grad theta)^2/mu^2 = -1.0000 |
 | PASS | §11.8, Eq. (35) | FORMULA | A boost of the resting mass's geometry gives the sideways tilt (2 + 2 gamma) u V | gamma=1.0: tilt coefficient 4.000004 (rule 4.0); gamma=0.5: tilt coefficient 3.000003 (rule 3.0) |
 | PASS | §11.8, Eq. (36) | SIMULATION | Summed tilts of a spinning two-layer Earth equal 2G (J x r)/(c^2 r^3) | largest relative difference at three outside points: 8.8e-05 |
 | PASS | §11.8 | FORMULA | Half the turning of the swirl equals the Lense-Thirring rate at every point | largest relative difference: 3.9e-10 |
@@ -72,11 +75,11 @@
 | PASS | §11.8 | SIMULATION | Lines read over one spacing turn a gyroscope at B/2 (Larmor), reverse with the lines, independent of spin; point by point: nothing (mixed senses: rotor_mixed.py) | turning/(B/2): one spacing +1.0000; reversed -1.0000; spin x3 +0.9998; point by point -0.0002 |
 | PASS | §12.7 | NUMBER | Share of capacity at the Earth's surface 1.4e-9 and at the Moon 2.3e-11; the Moon's turning (c^2/2) grad(share) = 2.70e-3 m/s^2 | share 1.392e-09 (surface), 2.308e-11 (Moon); turning 2.6976e-03 m/s^2 = GM/d^2 |
 | PASS | §7.5, §13.2(5) | NUMBER | Dent (3.5 E_P) against the electron's 0.511 MeV, and the healing length against 386 fm: nearly 1e23 | ratio 8.46e+22 |
-| PASS | §11.8 | FORMULA | Phase around a spinning hole: theta = mu(t + F), Delta F' = 2 M r_+ solves the wave equation (Boyer-Lindquist) and is regular at r_+; no phi dependence, so zero circulation | wave-equation residual 2.3e-13; at r_+ F' - (r^2+a^2)/Delta tends to the finite -2r_+/(r_+ - r_-) (largest relative miss 7.9e-07) |
+| PASS | §11.8 | FORMULA | Phase around a spinning hole under the build's law: Delta F' = sqrt(2Mr(r^2+a^2)) gives turning per moment made exactly mu for spins to 0.998, regular at both edges; no phi dependence, so zero circulation | largest /(grad theta)^2/mu^2 + 1/ = 1.5e-11; F' minus the ingoing coordinate at both edges stays below 0.50 (regular) |
 | PASS | §12.3 | NUMBER | Clock at the Earth's surface: sqrt(1 - share) slows it by half the share, about 7e-10 | slowing 6.961e-10 = share/2 |
 | PASS | §12.7 | FORMULA | Induced gravity count: carriers -8, 15 builds per family +15/2, conformal joining field 0: str[k1] = -1/2; cutoff 3.5 E_P; 16 per family gives 0 | str = -1/2 (15/family), 0 (16/family); cutoff 3.54 E_P = 4.33e+28 eV |
 | PASS | §12.4 | NUMBER | Baryon-to-photon ratio from the microwave background and from the light elements agree (Fields et al. 2020) | difference 0.22 standard deviations |
-| PASS | §12.7 | SIMULATION | In the minimal law a ripple in the amount at rest carries no Ocean charge; fast ripples (omega ~ k +/- mu) do | charge ripple / amplitude: amount ripple at rest 2.1e-09; fast ripple 1.48 |
+| PASS | §12.7, Eq. (buildphase) | FORMULA | Build's law in an expanding Ocean: supply s = C/a^3 - v^2; settled energy per volume V0 - v^2 mu0^2 with pressure its negative (w = -1); a departure falls as a^-3; energy conserved | settled w = -1; split into settled + departure exact to 0e+00; energy-conservation residual 2.9e-05 (finite differences) |
 | PASS | whole paper | CONSISTENCY | Every \eqref and \ref has a \label; every \cite has a \bibitem | missing labels []; missing bibitems []; never cited [] |
 | PASS | bibliography | CONSISTENCY | Bibliography is in first-citation order (as 3.10 states) | in order |
 | PASS | whole paper | CONSISTENCY | Healing length stated consistently as 386 femtometers | values found: ['386'] (5 occurrences) |

@@ -117,6 +117,20 @@ def _():
     err = functional_derivative_check(L, [rho, th], analytic, dt=dt, dx=dx)
     return verdict(err < 2e-2, f"largest relative mismatch between varied action and Eq. (13): {err:.1e}")
 
+@check("§11, the horizon", "CONSISTENCY",
+       "The fall speed is the one speed times the square root of the share; both reach the horizon together",
+       anchor=r"at the one speed times the square root of the share")
+def _():
+    G = 6.674e-11; c = 2.99792458e8; M = 4.3e6*1.989e30
+    rs = 2*G*M/c**2
+    r = np.linspace(1.0001*rs, 50*rs, 2000)
+    share = (M*c**2)/((c**4/(2*G))*r)            # energy / (capacity x distance)
+    v_fall = np.sqrt(2*G*M/r)
+    err = np.max(np.abs(v_fall/(c*np.sqrt(share)) - 1))
+    clock_at_h = np.sqrt(max(0.0, 1 - (M*c**2)/((c**4/(2*G))*rs)))
+    ok = err < 1e-12 and clock_at_h < 1e-6 and abs(np.sqrt(2*G*M/rs)/c - 1) < 1e-12
+    return verdict(ok, f"max |v_fall/(c sqrt(share)) - 1| = {err:.1e}; at the horizon share = 1, clock rate {clock_at_h:.1e}, fall speed / c = {np.sqrt(2*G*M/rs)/c:.6f}")
+
 @check("§3, Eq. (12)", "FORMULA",
        "Canonical case: L = X - V gives box(phi) = dV/dphi",
        anchor=r"\Box \phi \;=\; \frac{\partial \Veff}{\partial \phi} \;+\; C ,")
@@ -368,28 +382,26 @@ def _():
 
 # --- §11.9: the phase at the point of no return -----------------------------------
 @check("§11.9, Eq. (37)", "FORMULA",
-       "theta = mu(t + f) solves the wave equation; only 4M^2 keeps it finite for a falling traveler; far away f' -> 4M^2/r^2",
-       anchor=r"r^{2}\left(1 - \frac{2M}{r}\right) f'(r) = 4M^{2} .")
+       "Build's law at a resting mass: theta = mu(t + f), (1 - 2M/r) f' = sqrt(2M/r): turning per moment made exactly mu; regular at the edge; flow = free fall from rest; 42.1 and 11.2 km/s",
+       anchor=r"\left(1 - \frac{2M}{r}\right) f'(r) = \sqrt{\frac{2M}{r}} .")
 def _():
     M = 1.0
-    def fp(r, C): return C/(r*r*(1 - 2*M/r))
-    # wave operator for stationary theta: (1/r^2) d/dr [r^2 (1-2M/r) dtheta/dr] = 0
-    r = np.linspace(2.5, 30, 20001); dr = r[1] - r[0]
-    box = np.gradient(r**2*(1 - 2*M/r)*fp(r, 4*M*M), dr)/r**2
-    # falling traveler: compare with ingoing coordinate v = t + r*, dr*/dr = 1/(1-2M/r)
-    rr = 2*M*(1 + np.array([1e-3, 1e-5, 1e-7]))
-    reg = [fp(x, 4*M*M) - 1/(1 - 2*M/x) for x in rr]; bad = [fp(x, 3*M*M) - 1/(1 - 2*M/x) for x in rr]
-    far = fp(1e6, 4*M*M)*(1e6)**2/(4*M*M)
-    ok = np.abs(box[5:-5]).max() < 1e-8 and abs(reg[-1] + 2) < 1e-5 and abs(bad[-1]) > 1e5 and close(far, 1, 1e-5)
-    return verdict(ok, f"wave equation residual {np.abs(box[5:-5]).max():.1e}; at the edge f' - dr*/dr -> {reg[-1]:.4f} "
-                       f"with 4M^2, {bad[-1]:.1e} with 3M^2; far-field ratio {far:.6f}")
+    fp = lambda r: math.sqrt(2*M/r)/(1 - 2*M/r)
+    norm = [(-1/(1 - 2*M/r)) + (1 - 2*M/r)*fp(r)**2 for r in (2.01, 2.5, 3.0, 10.0, 100.0)]
+    reg = [fp(x) - 1/(1 - 2*M/x) for x in 2*M*(1 + np.array([1e-3, 1e-5, 1e-7]))]
+    ur = [(1 - 2*M/r)*fp(r) for r in (3.0, 10.0, 100.0)]          # |u^r| = g^rr f' (mu = 1)
+    fall = all(close(u, math.sqrt(2*M/r), 1e-12) for u, r in zip(ur, (3.0, 10.0, 100.0)))
+    vsun = math.sqrt(2*GMsun/AU)/1e3; vearth = math.sqrt(2*3.986004418e14/6.371e6)/1e3
+    ok = max(abs(n + 1) for n in norm) < 1e-12 and abs(reg[-1] + 0.5) < 1e-4 and fall and abs(vsun - 42.1) < 0.05 and abs(vearth - 11.2) < 0.05
+    return verdict(ok, f"-(grad theta)^2/mu^2 - 1: {max(abs(n + 1) for n in norm):.1e}; at the edge f' - dr*/dr -> {reg[-1]:.4f} (finite); "
+                       f"flow speed = sqrt(2M/r): {fall}; {vsun:.1f} km/s at 1 AU, {vearth:.1f} km/s at the Earth's surface")
 
 @check("§11.9, Eq. (37) with Eq. (6)", "CONSISTENCY", "With u = -grad(theta)/mu, the phase of Eq. (37) gives a flow forward in time and inward at every radius",
        anchor=r"\theta = \mu_{\infty}\left[t + f(r)\right], \qquad")
 def _():
     M = 1.0; bad = []
     for r in [10.0, 3.0, 2.2, 2.01]:
-        fp = 4*M*M/(r*r*(1 - 2*M/r)); dt_, dr_ = 1.0, fp            # theta = +mu_inf [t + f]
+        fp = math.sqrt(2*M/r)/(1 - 2*M/r); dt_, dr_ = 1.0, fp        # theta = +mu_inf [t + f], build's law
         gtt, grr = -1/(1 - 2*M/r), (1 - 2*M/r); mu = math.sqrt(-(gtt*dt_**2 + grr*dr_**2))
         ut, ur = gtt*(-dt_/mu), grr*(-dr_/mu)
         if not (ut > 0 and ur < 0): bad.append(r)
@@ -545,7 +557,7 @@ def _():
     return verdict(close(lmax, 6e-19, 0.1) and 1e21 < tau < 1e23, f"l < {lmax:.1e} m; Sgr A* {tau:.1e} years")
 
 @check("§11.9", "CONSISTENCY", "Turnaround half a minute after crossing for Sgr A* (§8.2) matches 28 s (§11.9)",
-       anchor=r"turning it around about half a minute after the crossing")
+       anchor=r"about half a minute after the crossing")
 def _():
     return verdict(close(4*4.3e6*GMsun/(3*c**3), 30, 0.1), "28 s is about half a minute")
 
@@ -606,14 +618,44 @@ def _():
     V, r = 1.0, 1.0; load = V*V/r; tilt = V*(V/r)          # -xdot x curl s, xdot = s = V phi_hat, curl = V/r z_hat
     return verdict(close(load + tilt, 2*V*V/r, 1e-12), f"load {load} + tilt {tilt} = {load+tilt} V^2/r")
 
-@check("§6, Eq. (15)", "NUMBER", "Matching rule: V = sqrt(GM/R_t) at R_t = sqrt(GM/g) gives V^4 = G M g; Milky Way model 176 km/s, R_t 8.3 kpc",
-       anchor=r"176\,\mathrm{km\,s^{-1}}$. The share")
+@check("§6", "NUMBER", "The limit against the settled Ocean's energy per volume: c H_inf = 5.4-5.9e-10 for H0 67.4/73; g_dag/(c H_inf) = 0.20-0.22 (0.16-0.27 with the 20% systematic); loan 3g^2/4piG about a tenth of the energy per volume; a horizon-set limit 1.5-5x at z = 2.2",
+       anchor=r"the limit is about $0.2$ of it (between $0.16$ and $0.27$")
+def _():
+    from scipy.integrate import quad
+    out = []
+    for H0, OL in ((67.4, 0.685), (73.0, 0.70)):
+        H = H0*1e3/3.0857e22; Hinf = H*math.sqrt(OL); eps = OL*3*H*H/(8*math.pi*G)*c*c
+        out.append((c*Hinf, gdag/(c*Hinf), 3*gdag**2/(4*math.pi*G)/eps))
+    Om = 0.315; E = lambda z: math.sqrt(Om*(1+z)**3 + 1 - Om)
+    hub = E(2.2)
+    def ev(z):
+        a = 1/(1+z); I, _ = quad(lambda ap: 1/(ap*ap*math.sqrt(Om/ap**3 + 1 - Om)), a, math.inf); return a*I
+    def ph(z):
+        a = 1/(1+z); I, _ = quad(lambda ap: 1/(ap*ap*math.sqrt(Om/ap**3 + 1 - Om + 9.1e-5/ap**4)), 1e-12, a); return a*I
+    hz = (ev(0)/ev(2.2), hub, ph(0)/ph(2.2))
+    ok = (abs(out[0][0]/1e-10 - 5.4) < 0.1 and abs(out[1][0]/1e-10 - 5.9) < 0.1 and 0.19 < min(o[1] for o in out) and max(o[1] for o in out) < 0.23
+          and 0.8*out[1][1] > 0.16 - 0.01 and 1.2*out[0][1] < 0.27 + 0.01 and 0.08 < min(o[2] for o in out) and max(o[2] for o in out) < 0.11
+          and 1.4 < min(hz) < 1.6 and 5.0 < max(hz) < 5.5)
+    return verdict(ok, f"c H_inf = {out[0][0]:.2e}, {out[1][0]:.2e}; g/(cH) = {out[0][1]:.3f}, {out[1][1]:.3f}; loan/eps = {out[0][2]:.3f}, {out[1][2]:.3f}; horizon-set at z=2.2: x{min(hz):.2f}-{max(hz):.2f}")
+
+@check("§6", "NUMBER", "Central pushback holding the cored eddy: integral of load density x lean = g_dag^2/(4 pi G), about 1.7e-11 Pa, for any mass",
+       anchor=r"$g_{\dagger}^{2}/4\pi G$, about $1.7 \times 10^{-11}$~pascals")
+def _():
+    from scipy.integrate import quad
+    I, _ = quad(lambda x: x*(3+x*x)/(1+x*x)**3, 0, float('inf'))
+    pc = gdag**2/(4*math.pi*G)
+    return verdict(abs(I-1) < 1e-9 and abs(pc/1e-11 - 1.7) < 0.05, f"integral {I:.9f}; p_c = {pc:.3e} Pa")
+
+@check("§6, Eq. (15), App. B", "NUMBER", "Matching rule: V = sqrt(GM/R_t) at R_t = sqrt(GM/g) gives V^4 = G M g; Milky Way model 176 km/s, R_t 8.3 kpc; a flat 200-230 km/s needs 1.0-1.8e11 Msun",
+       anchor=r"176\,\mathrm{km\,s^{-1}}$, the speed at which")
 def _():
     out = []
     for Mb in (1e8, 1e10, 6e10):
         m = Mb*Msun; Rt = math.sqrt(G*m/gdag); V = math.sqrt(G*m/Rt); out.append((V**4/(G*m*gdag), V/1e3, Rt/kpc))
-    return verdict(all(close(q, 1, 1e-12) for q, _, _ in out) and abs(out[2][1] - 176) < 1 and abs(out[2][2] - 8.3) < 0.1,
-                   f"V^4/(GMg) = 1; Milky Way model V = {out[2][1]:.1f} km/s, R_t = {out[2][2]:.2f} kpc")
+    need = [(v*1e3)**4/(G*gdag)/Msun/1e11 for v in (200, 230)]
+    return verdict(all(close(q, 1, 1e-12) for q, _, _ in out) and abs(out[2][1] - 176) < 1 and abs(out[2][2] - 8.3) < 0.1
+                   and abs(need[0] - 1.0) < 0.05 and abs(need[1] - 1.8) < 0.05,
+                   f"V^4/(GMg) = 1; Milky Way model V = {out[2][1]:.1f} km/s, R_t = {out[2][2]:.2f} kpc; 200-230 km/s needs {need[0]:.2f}-{need[1]:.2f}e11 Msun")
 
 @check("§6", "SIMULATION", "Model galaxies 10^7.5-10^11.5 Msun, compact/typical/diffuse: rms 0.046-0.057 dex from the RAR, no trend with compactness",
        anchor=r"$0.046$ to $0.057$~dex of scatter")
@@ -667,7 +709,7 @@ def _():
     ok = close(a[0], 1.04e-10, 0.01) and close(a[1], 1.13e-10, 0.01) and close(b[0], 0.86e-10, 0.01) and close(b[1], 0.93e-10, 0.01) and abs(E - 3.4) < 0.05
     return verdict(ok, f"{a[0]:.3e}, {a[1]:.3e}; late-time {b[0]:.3e}, {b[1]:.3e}; H(2.3)/H0 = {E:.2f}")
 
-@check("§6", "SIMULATION", "Genzel et al. 2017 six disks: fixed limit fits 5-6 of 6 dark-matter shares; limit following H(z) fails all three beyond z = 2 (0.09-0.36 predicted); bound 1.0-2.7x at z 2.2-2.4",
+@check("§6", "SIMULATION", "Genzel et al. 2017 six disks: fixed limit fits 5-6 of 6 dark-matter shares; limit following H(z) fails all three beyond z = 2 (0.09-0.36 predicted); bound 1.0-2.7x at z 2.2-2.4 (zC 400569), 1.2x (zC 406690, cored)",
        anchor=r"predicting $0.09$ to $0.36$ where $0$ to $0.12$ is found")
 def _():
     from scipy.optimize import brentq
@@ -687,9 +729,10 @@ def _():
             if z > 2:
                 hz_fail.append(not (lo <= fe(E(z)) <= hi)); hz_pred.append(fe(E(z)))
                 if Rh == 3.3: bound.append(brentq(lambda k: fe(k) - hi, 1e-3, 100))
+                if Rh == 5.5 and form == 'cored': tight = brentq(lambda k: fe(k) - hi, 1e-3, 100)
         fixed.append(nf)
-    ok = min(fixed) >= 5 and all(hz_fail) and abs(min(hz_pred) - 0.09) < 0.01 and abs(max(hz_pred) - 0.36) < 0.01 and abs(min(bound) - 1.0) < 0.05 and abs(max(bound) - 2.7) < 0.05
-    return verdict(ok, f"fixed limit inside range: {[int(x) for x in fixed]} of 6; H(z) fails every z > 2 case: {all(hz_fail)}; H(z) predictions {min(hz_pred):.2f}-{max(hz_pred):.2f}; bound {min(bound):.2f}-{max(bound):.2f}x",
+    ok = min(fixed) >= 5 and all(hz_fail) and abs(min(hz_pred) - 0.09) < 0.01 and abs(max(hz_pred) - 0.36) < 0.01 and abs(min(bound) - 1.0) < 0.05 and abs(max(bound) - 2.7) < 0.05 and abs(tight - 1.2) < 0.05
+    return verdict(ok, f"fixed limit inside range: {[int(x) for x in fixed]} of 6; H(z) fails every z > 2 case: {all(hz_fail)}; H(z) predictions {min(hz_pred):.2f}-{max(hz_pred):.2f}; zC 400569 bound {min(bound):.2f}-{max(bound):.2f}x; zC 406690, cored, {tight:.2f}x",
                    )
 
 @check("§6", "NUMBER", "In-plane turning at most 15-19 km/s at the Sun: pressure-supported systems on the RAR within 0.10-0.13 dex",
@@ -718,7 +761,7 @@ def _():
     sh = 2*GMsun/(c*c*AU); frac = 1 - 1/1.59
     return verdict(close(sh, 2e-8, 0.05) and abs(frac - 0.37) < 0.005, f"share {sh:.2e}; eddy fraction {frac:.3f}")
 
-@check("§11.8", "SIMULATION", "Phase slices of a spinning hole spacelike down to r_-; Cotton-York of the rulers zero without spin and growing as spin squared",
+@check("§11.8", "SIMULATION", "Phase slices of a spinning hole (build's law) spacelike through both edges; Cotton-York of the rulers zero without spin and growing as spin squared",
        anchor=r"grows as the square of the spin, checked numerically for spins up to $0.9$")
 def _():
     import importlib.util as iu
@@ -726,17 +769,18 @@ def _():
     import io, contextlib
     m = iu.module_from_spec(spec)
     with contextlib.redirect_stdout(io.StringIO()): spec.loader.exec_module(m)
-    y = np.array([3.0, 1.2, 0.0]); c0 = m.cotton_norm(y, 0.0); c1 = m.cotton_norm(y, 0.1); c2 = m.cotton_norm(y, 0.5)
+    y = np.array([3.0, 1.2, 0.0]); c0 = m.cotton_norm(y, 0.0); c1 = m.cotton_norm(y, 0.05); c2 = m.cotton_norm(y, 0.1); c9 = m.cotton_norm(y, 0.9)
     space = []
     for a in (0.5, 0.9):
         rp = 1 + math.sqrt(1 - a*a); rm = 1 - math.sqrt(1 - a*a); worst = -np.inf
-        for r in np.r_[np.linspace(rm*1.01, rp*0.999, 100), np.linspace(rp*1.001, 40, 300)]:
+        for r in np.r_[np.linspace(0.3*rm, rm*0.999, 50), np.linspace(rm*1.001, rp*0.999, 100), np.linspace(rp*1.001, 40, 300)]:
             for th in np.linspace(0.05, math.pi/2, 12):
-                S = r*r + a*a*math.cos(th)**2; D = r*r - 2*r + a*a
-                worst = max(worst, (-(r*r + a*a)**2 + a*a*D*math.sin(th)**2 + (2*rp)**2)/(D*S))
+                S = r*r + a*a*math.cos(th)**2; D = r*r - 2*r + a*a; Fp = math.sqrt(2*r*(r*r + a*a))/D
+                worst = max(worst, (-(r*r + a*a)**2 + a*a*D*math.sin(th)**2)/(D*S) + D/S*Fp*Fp)
         space.append(worst)
-    ok = c0 < 1e-8 and abs((c2/c1)/25 - 1) < 0.01 and max(space) < 0
-    return verdict(ok, f"|C| M^3: {c0:.1e} (no spin), {c1:.2e} (0.1), {c2:.2e} (0.5), ratio {c2/c1:.3f} (spin squared: 25); slices spacelike r_- to 40M: max {max(space):.2f}")
+    ok = c0 < 1e-8 and abs((c2/c1)/4 - 1) < 0.01 and c9 > c2 and max(space) < 0
+    return verdict(ok, f"build's slicing: |C| M^3: {c0:.1e} (no spin), {c1:.2e} (0.05), {c2:.2e} (0.1), ratio {c2/c1:.4f} (spin squared: 4), {c9:.2e} (0.9); "
+                       f"slices spacelike from inside r_- to 40M: max (grad theta)^2/mu^2 = {max(space):.4f}")
 # --- §11.8: frame dragging ----------------------------------------------------------
 J_earth = 0.3307*5.9722e24*6.371e6**2*7.2921e-5
 def tilt_swirl(p, J=J_earth, k=2.0):
@@ -904,19 +948,24 @@ def _():
     EP = math.sqrt(hbar*c**5/G)/eV; r = 3.54*EP/0.51099895e6
     return verdict(5e22 < r < 1.2e23, f"ratio {r:.2e}")
 
-@check("§11.8", "FORMULA", "Phase around a spinning hole: theta = mu(t + F), Delta F' = 2 M r_+ solves the wave equation (Boyer-Lindquist) and is regular at r_+; no phi dependence, so zero circulation",
-       anchor=r"$\theta = \mu_{\infty}[t + F(r)]$ with $\Delta F' = 2Mr_{+}$")
+@check("§11.8", "FORMULA", "Phase around a spinning hole under the build's law: Delta F' = sqrt(2Mr(r^2+a^2)) gives turning per moment made exactly mu for spins to 0.998, regular at both edges; no phi dependence, so zero circulation",
+       anchor=r"$\theta = \mu_{\infty}[t + F(r)]$ with $\Delta F' = \sqrt{2Mr(r^{2} + a^{2})}$")
 def _():
-    M = 1.0; worst = 0; reg = []
-    for a in [0.0, 0.5, 0.9, 0.998]:
-        rp = M + math.sqrt(M*M - a*a)
-        r = np.linspace(rp*1.05, 40, 20001); dr = r[1] - r[0]; D = r*r - 2*M*r + a*a
-        box = np.gradient(D*(2*M*rp/D), dr)
-        worst = max(worst, np.abs(box[5:-5]).max())
-        x = rp*(1 + 1e-7); Dx = x*x - 2*M*x + a*a
-        rm = M - math.sqrt(M*M - a*a); lim = -2*rp/(rp - rm)
-        reg.append(abs((2*M*rp - (x*x + a*a))/Dx - lim)/abs(lim))
-    return verdict(worst < 1e-9 and max(reg) < 1e-4, f"wave-equation residual {worst:.1e}; at r_+ F' - (r^2+a^2)/Delta tends to the finite -2r_+/(r_+ - r_-) (largest relative miss {max(reg):.1e})")
+    M = 1.0; worst = 0.0; regs = []
+    for a in (0.0, 0.5, 0.9, 0.998):
+        rp = M + math.sqrt(M*M - a*a); rm = M - math.sqrt(M*M - a*a)
+        for r in np.r_[np.linspace(0.3*rp, 0.999*rp, 150), np.linspace(1.001*rp, 60, 300)]:
+            for th in np.linspace(0.05, math.pi/2, 12):
+                S = r*r + a*a*math.cos(th)**2; D = r*r - 2*M*r + a*a
+                Fp = math.sqrt(2*M*r*(r*r + a*a))/D
+                val = (-(r*r + a*a)**2 + a*a*D*math.sin(th)**2)/(D*S) + D/S*Fp*Fp
+                if abs(D) > 1e-9: worst = max(worst, abs(val + 1))
+        if a > 0:
+            for r0 in (rp, rm):
+                r = r0*(1 + 1e-6); D = r*r - 2*M*r + a*a
+                regs.append(abs((math.sqrt(2*M*r*(r*r + a*a)) - (r*r + a*a))/D))
+    ok = worst < 1e-9 and max(regs) < 1.0
+    return verdict(ok, f"largest |(grad theta)^2/mu^2 + 1| = {worst:.1e}; F' minus the ingoing coordinate at both edges stays below {max(regs):.2f} (regular)")
 
 @check("§12.3", "NUMBER", "Clock at the Earth's surface: sqrt(1 - share) slows it by half the share, about 7e-10",
        anchor=r"half that, about $7 \times 10^{-10}$")
@@ -940,30 +989,21 @@ def _():
     z = abs(6.148 - 6.104)/math.hypot(0.058, 0.191)
     return verdict(z < 1, f"difference {z:.2f} standard deviations")
 
-@check("§12.7", "SIMULATION", "In the minimal law a ripple in the amount at rest carries no Ocean charge; fast ripples (omega ~ k +/- mu) do",
-       anchor=r"in the minimal law a ripple in the amount at rest carries no Ocean charge")
+@check("§12.7, Eq. (buildphase)", "FORMULA", "Build's law in an expanding Ocean: supply s = C/a^3 - v^2; settled energy per volume V0 - v^2 mu0^2 with pressure its negative (w = -1); a departure falls as a^-3; energy conserved",
+       anchor=r"volume, $V_{0} - v^{2}\mu_{0}^{2}$, with a pressure the negative of it: $w = -1$")
 def _():
-    lam = v = 1.0; mu = 0.3; rb = math.sqrt(v*v + 2*mu*mu/lam)
-    def Lq(q):
-        r, rt, rx, pt, px = q; rho = rb + r
-        return (rt**2 - rx**2) + rho**2*((mu + pt)**2 - px**2) - lam/4*(rho**2 - v*v)**2
-    H = np.zeros((5, 5)); dd = 1e-4
-    for i in range(5):
-        for j in range(5):
-            e1 = np.eye(5)[i]*dd; e2 = np.eye(5)[j]*dd
-            H[i, j] = (Lq(e1+e2) - Lq(e1-e2) - Lq(-e1+e2) + Lq(-e1-e2))/(4*dd*dd)
-    def ripple(w, k):
-        A = np.array([[1, -1j*w, 1j*k, 0, 0], [0, 0, 0, -1j*w, 1j*k]]).T
-        _, _, vh = np.linalg.svd(A.conj().T @ H @ A); r, ph = vh.conj()[-1]
-        dn = 4*rb*mu*r + 2*rb*rb*(-1j*w)*ph
-        return abs(dn)/math.sqrt(abs(r)**2*w*w + abs(ph)**2*rb*rb*w*w)
+    v2, mu0, V0 = 1.0, 1.0, 3.0
     out = []
-    for k in [1e-4, 30.0]:
-        M2 = lam*rb*rb; b = 2*k*k + M2 + 4*mu*mu; cc = k*k*(k*k + M2); disc = math.sqrt(b*b - 4*cc)
-        out.append(ripple(math.sqrt((b + disc)/2), k))
-    return verdict(out[0] < 1e-6 and out[1] > 0.5, f"charge ripple / amplitude: amount ripple at rest {out[0]:.1e}; fast ripple {out[1]:.2f}")
+    for C in (0.0, 0.5):
+        a = np.linspace(1, 8, 4001); s_ = C/a**3 - v2
+        eps = 2*mu0**2*(v2 + s_) - (v2*mu0**2 - V0); p = (v2*mu0**2 - V0)*np.ones_like(a)
+        res = np.gradient(eps, a)*a + 3*(eps + p)
+        out.append((abs(eps[-1] - (V0 - v2*mu0**2) - 2*mu0**2*C/a[-1]**3), np.abs(res[5:-5]).max()))
+    settled_w = (v2*mu0**2 - V0)/(V0 - v2*mu0**2)
+    ok = abs(settled_w + 1) < 1e-15 and max(o[0] for o in out) < 1e-12 and max(o[1] for o in out) < 1e-3
+    return verdict(ok, f"settled w = {settled_w:.0f}; split into settled + departure exact to {max(o[0] for o in out):.0e}; "
+                       f"energy-conservation residual {max(o[1] for o in out):.1e} (finite differences)")
 
-# ================================================================ CONSISTENCY
 @check("whole paper", "CONSISTENCY", "Every \\eqref and \\ref has a \\label; every \\cite has a \\bibitem")
 def _():
     body = PAPER.body

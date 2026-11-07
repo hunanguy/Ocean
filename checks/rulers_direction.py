@@ -1,7 +1,8 @@
 """
 3.13 item 5: rulers that stretch differently by direction, around a spinning hole.
 The Ocean's own slicing of a spinning hole is by its phase, the build's clock: theta = mu(t + F(r)),
-Delta F' = 2 M r_+ (Sec. 11.8, Boyer-Lindquist coordinates, G = c = 1, M = 1).
+under the build's law (turning per moment made fixed, Ocean at rest far away): Delta F' = sqrt(2 M r (r^2+a^2))
+(free fall from rest far away with no spin of its own; 6 Nov 2026). Boyer-Lindquist coordinates, G = c = 1, M = 1.
  (1) The slices of constant phase are spacelike everywhere outside the hole and through the point of no return
      (grad theta timelike): g^{mu nu} d theta d theta < 0.
  (2) The rulers on those slices (the six push numbers h_ij) are not the same in every direction: the
@@ -26,19 +27,20 @@ def ginv_kerr(r,th,a):
     gi[3,3]=(D-a*a*s2)/(S*D*s2); return gi
 def rplus(a): return M+np.sqrt(M*M-a*a)
 # (1) spacelike slices: rho^2 g^{theta theta} = [-(r^2+a^2)^2 + a^2 Delta sin^2 + (2 M r_+)^2]/Delta
-print("(1) constant-phase slices: largest value of g^{mu nu} d_mu theta d_nu theta (must be < 0)")
+print("(1) constant-phase slices: g^{mu nu} d_mu theta d_nu theta / mu^2 (build's law: exactly -1 everywhere)")
 for a in (0.0,0.5,0.9,0.998):
     rp=rplus(a); worst=-np.inf
     for r in np.r_[np.linspace(0.3*rp,0.999*rp,200),np.linspace(1.001*rp,60,600)]:
         for th in np.linspace(0.05,np.pi/2,20):
             S=r*r+a*a*np.cos(th)**2; D=r*r-2*M*r+a*a
-            val=(-(r*r+a*a)**2+a*a*D*np.sin(th)**2+(2*M*rp)**2)/(D*S)
-            worst=max(worst,val)
-    print(f"    a = {a:5.3f}: max over 0.3 r_+ to 60 M (point of no return excluded by 0.1%) = {worst:+.3e}")
+            Fp=np.sqrt(2*M*r*(r*r+a*a))/D
+            val=(-(r*r+a*a)**2+a*a*D*np.sin(th)**2)/(D*S)+D/S*Fp*Fp   # g^tt + g^rr F'^2 (must be -1 exactly)
+            worst=max(worst,abs(val+1))
+    print(f"    a = {a:5.3f}: largest |value + 1| from 0.3 r_+ to 60 M (point of no return excluded by 0.1%) = {worst:.1e}")
 
 # induced metric on t + F(r) = const, coordinates (r, th, ph): dt = -F' dr
 def h3(y,a):
-    r,th=y[0],y[1]; rp=rplus(a); D=r*r-2*M*r+a*a; Fp=2*M*rp/D
+    r,th=y[0],y[1]; D=r*r-2*M*r+a*a; Fp=np.sqrt(2*M*r*(r*r+a*a))/D
     g=kerr((0,r,th,0),a); h=np.zeros((3,3))
     h[0,0]=g[1,1]+g[0,0]*Fp*Fp; h[0,2]=h[2,0]=-g[0,3]*Fp; h[1,1]=g[2,2]; h[2,2]=g[3,3]
     return h
