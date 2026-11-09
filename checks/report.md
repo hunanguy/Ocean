@@ -49,7 +49,7 @@
 | PASS | §11.9 | NUMBER | rho_c >~ 2.4e23 kg/m^3 (J0337) with rho_c c^2 ~ hbar c/l^4 gives l <~ 0.035 fm, ~1e4 below the electron's 386 fm | l = 0.0348 fm; xi_e/l = 11098 |
 | PASS | §11.9 | NUMBER | q = 1 return: five solar masses merging after ten billion years needs l <~ 6e-19 m; Sgr A* return ~1e22 years | l < 5.8e-19 m; Sgr A* 7.1e+21 years |
 | PASS | §11.9 | CONSISTENCY | Turnaround half a minute after crossing for Sgr A* (§8.2) matches 28 s (§11.9) | 28 s is about half a minute |
-| PASS | §6, Eq. (16) | FORMULA | (s.grad)s - w x curl s = grad(s^2/2) - xdot x curl s, w = xdot - s (random fields) | largest relative difference 4.6e-16 |
+| PASS | §6, Eq. (16) | FORMULA | (s.grad)s - w x curl s = grad(s^2/2) - xdot x curl s, w = xdot - s (random fields) | largest relative difference 4.1e-16 |
 | PASS | §6, Eq. (16) | FORMULA | Eq. (16) is the slow-motion limit of travel in ds^2 = -(1+2Phi)dt^2 + (dx - s dt)^2 (difference falls with the field strength) | largest relative difference 6.4e-03 (fields 3e-2), 2.2e-04 (3e-3) |
 | PASS | §6 | FORMULA | Counting the self-held swirl as load and as tilt turns a co-moving star by 2V^2/r | load 1.0 + tilt 1.0 = 2.0 V^2/r |
 | PASS | §6 | NUMBER | The limit against the settled Ocean's energy per volume: c H_inf = 5.4-5.9e-10 for H0 67.4/73; g_dag/(c H_inf) = 0.20-0.22 (0.16-0.27 with the 20% systematic); loan 3g^2/4piG about a tenth of the energy per volume; a horizon-set limit 1.5-5x at z = 2.2 | c H_inf = 5.42e-10, 5.93e-10; g/(cH) = 0.221, 0.202; loan/eps = 0.098, 0.082; horizon-set at z=2.2: x1.53-5.29 |

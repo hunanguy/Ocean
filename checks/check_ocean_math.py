@@ -9,6 +9,9 @@ piece of the paper's own LaTeX that states the claim. If the paper's wording or
 number changes, the anchor is no longer found and the check fails, so the checks
 cannot silently drift away from the text.
 
+Run from inside the checks/ folder: the script imports its three helper modules
+(rulers_direction.py, rotor_lines.py, fd_cancel.py) from its own directory.
+
 Kinds of check
   FORMULA      an equation is re-derived or tested numerically (identities at
                random points, Euler-Lagrange equations from a discretized action,
@@ -1112,7 +1115,7 @@ def main():
     counts = {s: sum(r[3] == s for r in rows) for s in ("PASS", "NOTE", "FAIL")}
     print(f"\nVersion {PAPER.version}: {len(rows)} checks: {counts['PASS']} pass, {counts['NOTE']} note, {counts['FAIL']} fail")
     if args.report:
-        with open(args.report, "w") as f:
+        with open(args.report, "w", encoding="utf-8") as f:  # UTF-8 on every platform (Windows defaults to cp1252)
             f.write(f"# Math check, version {PAPER.version}\n\n{len(rows)} checks: {counts['PASS']} pass, {counts['NOTE']} note, {counts['FAIL']} fail.\n\n")
             f.write("| Status | Where | Kind | Check | Result |\n|---|---|---|---|---|\n")
             for w, k, what, s, d in rows:
