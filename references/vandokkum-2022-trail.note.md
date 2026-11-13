@@ -1,0 +1,7 @@
+# van Dokkum, Shen, Keim, Trujillo-Gomez, Danieli et al. 2022 — A trail of dark-matter-free galaxies from a bullet-dwarf collision
+
+Nature 605, 435–439 (2022). arXiv:2205.08552. Read 11 Nov 2026 (Opus 5.5, via WebFetch summary of the ar5iv HTML).
+
+**What it reports (theirs).** 7 to 11 large, faint galaxies in a line more than 2 Mpc long in the NGC 1052 group, tilted about 7° from the line of sight, DF2 and DF4 among them (0.24 Mpc apart on the sky, about 2.1 Mpc along the line of sight; radial velocities differ by 358 km/s). Chance alignment about 3%. Their account: a single collision about 8 Gyr ago between two gas-rich small galaxies at ≥ 300 km/s; the gas was shocked and separated from the dark matter and older stars and formed new galaxies, with luminous globular clusters, lacking dark matter; the dark matter and older stars moved on ahead. Predictions: dark-matter-dominated remnants at the trail's leading ends (tentatively RCP32 ahead of DF2, DF7 ahead of DF4); DF4's clusters the same age as DF2's (about 9 ± 2 Gyr); trail members baryon-only in their kinematics; a velocity–distance trend along the trail.
+
+**Bearing on the Ocean.** Their collision account, read in the Ocean's terms: the eddies went on with their bound matter (nothing feels drag; the eddy does not depend on the galaxy's travel, §6), and the stopped gas built new bound matter that no river has since bent into an eddy. The "dark matter" language is theirs; the paper cites them for the observation and their account, marked as theirs.
