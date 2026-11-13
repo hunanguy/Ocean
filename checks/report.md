@@ -1,6 +1,6 @@
-# Math check, version 3.14
+# Math check, version 3.15
 
-86 checks: 85 pass, 1 note, 0 fail.
+93 checks: 92 pass, 1 note, 0 fail.
 
 | Status | Where | Kind | Check | Result |
 |---|---|---|---|---|
@@ -45,10 +45,13 @@
 | PASS | §8.2 | NUMBER | 10 solar masses: tidal difference ~10 g at 3800 km; horizon ~30 km | 9.9 g over 2 m; horizon 29.5 km |
 | PASS | §8.2 | NUMBER | Sagittarius A*: horizon radius ~12.7 million km; tidal difference at the horizon ~1e-4 g; lethal ~280 000 km | horizon 12.70 million km; 1.1e-04 g at the horizon; 10.6 g at 280 000 km (same 10 g criterion as above) |
 | PASS | §8.2 | NUMBER | Longest time horizon to center pi GM/c^3: ~66 s Sgr A*, ~28 h M87* | 66.5 s; 27.9 h |
-| PASS | §11.9 | NUMBER | Crossing to turnaround (falling from rest far away): ~1e-4 s (10 Msun), 28 s (Sgr A*), 12 h (M87*) | 6.6e-05 s; 28.2 s; 11.9 h (turnaround density far above the horizon density) |
-| PASS | §11.9 | NUMBER | rho_c >~ 2.4e23 kg/m^3 (J0337) with rho_c c^2 ~ hbar c/l^4 gives l <~ 0.035 fm, ~1e4 below the electron's 386 fm | l = 0.0348 fm; xi_e/l = 11098 |
-| PASS | §11.9 | NUMBER | q = 1 return: five solar masses merging after ten billion years needs l <~ 6e-19 m; Sgr A* return ~1e22 years | l < 5.8e-19 m; Sgr A* 7.1e+21 years |
-| PASS | §11.9 | CONSISTENCY | Turnaround half a minute after crossing for Sgr A* (§8.2) matches 28 s (§11.9) | 28 s is about half a minute |
+| PASS | §11.9 | NUMBER | Crossing to turn (falling from rest far away): 7e-5 s (10 Msun), 28 s (Sgr A*), 12 h (M87*) | 6.6e-05 s; 28.2 s; 11.9 h (turnaround density far above the horizon density) |
+| PASS | §11.9 | NUMBER | The grip (Eq. grip): eps_c = 3c^4/(8 pi G xi^2) with xi = hbar c/(3.5 E_P) is about 1.5 Planck energy densities (mass density near 1e97 kg/m^3); a neutron-star core's share ~1e-79; a dent-width region at rho_c holds ~1/25 of one dent's energy | rho_c = 7.54e+96 kg/m^3 = 1.46 Planck densities; neutron star share 1.3e-79; one dent / content at turn = 24.5 |
+| PASS | §11.9 | NUMBER | Return with steps of a dent's width, q = 1: ~1e27 yr (5 Msun), ~1e39 yr (Sgr A*) | 1.2e+27 yr; 9.2e+38 yr |
+| PASS | §11.9 | NUMBER | q = 1 return: five solar masses merging after ten billion years needs l <~ 6e-19 m (Sgr A* ~1e22 years at that limit) | l < 5.8e-19 m; Sgr A* 7.1e+21 years |
+| PASS | §8 | NUMBER | Hawking glow traced back: finer than a dent (3.5 E_P) after (4GM/c^3) ln(E_dent/kT): ~2 ms (1 Msun), ~2.5 h (Sgr A*) | 1.81 ms; 2.52 h |
+| PASS | §8 | NUMBER | Falling with the Ocean from rest far away: 4x the far temperature at the crossing (kappa_eff = (kappa - M/r^2)/(1 - sqrt(2M/r)) -> 1/M); Sgr A* ~6e-14 K | ratio 4.00000; T = 5.74e-14 K |
+| PASS | §8.2 | NUMBER | Falling in from rest far away, horizon to center (4/3)GM/c^3: 28 s (Sgr A*), 12 h (M87*); the most, letting go at the horizon, pi GM/c^3: 66 s, 28 h | from far: 28.2 s, 11.9 h; most: 66.5 s, 27.9 h |
 | PASS | §6, Eq. (16) | FORMULA | (s.grad)s - w x curl s = grad(s^2/2) - xdot x curl s, w = xdot - s (random fields) | largest relative difference 4.1e-16 |
 | PASS | §6, Eq. (16) | FORMULA | Eq. (16) is the slow-motion limit of travel in ds^2 = -(1+2Phi)dt^2 + (dx - s dt)^2 (difference falls with the field strength) | largest relative difference 6.4e-03 (fields 3e-2), 2.2e-04 (3e-3) |
 | PASS | §6 | FORMULA | Counting the self-held swirl as load and as tilt turns a co-moving star by 2V^2/r | load 1.0 + tilt 1.0 = 2.0 V^2/r |
@@ -80,8 +83,12 @@
 | PASS | §12.7 | FORMULA | Induced gravity count: carriers -8, 15 builds per family +15/2, conformal joining field 0: str[k1] = -1/2; cutoff 3.5 E_P; 16 per family gives 0 | str = -1/2 (15/family), 0 (16/family); cutoff 3.54 E_P = 4.33e+28 eV |
 | PASS | §12.4 | NUMBER | Baryon-to-photon ratio from the microwave background and from the light elements agree (Fields et al. 2020) | difference 0.22 standard deviations |
 | PASS | §12.7, Eq. (buildphase) | FORMULA | Build's law in an expanding Ocean: supply s = C/a^3 - v^2; settled energy per volume V0 - v^2 mu0^2 with pressure its negative (w = -1); a departure falls as a^-3; energy conserved | settled w = -1; split into settled + departure exact to 0e+00; energy-conservation residual 2.9e-05 (finite differences) |
+| PASS | §12.7, Eq. (buildphase) | FORMULA | The build's law holds one number: with V0 = 2 v^2 mu0^2 it equals a law with no constant, whose settled energy per volume is v^2 mu0^2 | largest difference between the two laws 1.4e-14; settled energy V0 - v^2 mu0^2 = v^2 mu0^2 |
+| PASS | §12.7, §6 | NUMBER | The Earth's loan (binding energy) per volume ~2e11 J/m^3: ~1e20 times the flow's energy per volume (5-6e-10 J/m^3), ~1e21 times the eddy's limit counted as a loan (3 g^2/4 pi G, a tenth of the flow's energy = 2 (g/cH)^2); an eddy's central load 1e5-1e7 times the flow's energy | loan 2.24e+32 J = 4.2e-10 of the Earth's mass, 2.07e+11 J/m^3; flow's energy 5.25e-10-6.30e-10 J/m^3; ratio 3.9e+20; limit as a loan 0.098 of the flow's energy = 2 (g/cH)^2; Earth against it 4.0e+21; eddy central load / flow's energy 7e+04-7e+06 (1e12 to 1e8 Msun) |
 | PASS | whole paper | CONSISTENCY | Every \eqref and \ref has a \label; every \cite has a \bibitem | missing labels []; missing bibitems []; never cited [] |
 | PASS | bibliography | CONSISTENCY | Bibliography is in first-citation order (as 3.10 states) | in order |
+| PASS | preface | CONSISTENCY | The count in 'N revisions have followed' equals the number of revision entries | 12 entries (in order, last: the twelfth); the sentence says Twelve |
+| PASS | whole paper | CONSISTENCY | Settled wording: phrases that go against the paper's own physics do not come back | none present |
 | PASS | whole paper | CONSISTENCY | Healing length stated consistently as 386 femtometers | values found: ['386'] (5 occurrences) |
 | PASS | §11.6, §11.7, §11.8 | CONSISTENCY | Symbol U is the rate of clocks only; the slowing is u (§11.6, Eq. 36); bold u is not reused for travel | U is the clock rate (§11.6-11.7); u the slowing; bold V the travel |
 | PASS | §2.2, §11.8 table | CONSISTENCY | Symbol mu is the Ocean's phase rate only (not reused in the §11.8 table) | mu is the phase rate throughout |

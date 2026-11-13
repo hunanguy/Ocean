@@ -49,7 +49,7 @@ class Paper:
     def __init__(self, path):
         spec = importlib.util.spec_from_file_location("ocean_build", path)
         mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
-        body = mod.BODY.replace("@@APPENDIX_A@@", getattr(mod, "APPENDIX_A", "")).replace("@@APPENDIX_B@@", getattr(mod, "APPENDIX_B", ""))
+        body = mod.BODY.replace("@@APPENDIX_A@@", getattr(mod, "APPENDIX_A", "")).replace("@@APPENDIX_B@@", getattr(mod, "APPENDIX_B", "")).replace("@@APPENDIX_C@@", getattr(mod, "APPENDIX_C", ""))
         self.body = body; self.n = norm(body); self.version = mod.VERSION
     def has(self, anchor): return norm(anchor) in self.n
 
@@ -539,30 +539,60 @@ def _():
     t1 = math.pi*4.3e6*GMsun/c**3; t2 = math.pi*6.5e9*GMsun/c**3/3600
     return verdict(close(t1, 66, 0.02) and close(t2, 28, 0.02), f"{t1:.1f} s; {t2:.1f} h")
 
-@check("§11.9", "NUMBER", "Crossing to turnaround (falling from rest far away): ~1e-4 s (10 Msun), 28 s (Sgr A*), 12 h (M87*)",
-       anchor=r"is about $10^{-4}$~s for a black hole")
+@check("§11.9", "NUMBER", "Crossing to turn (falling from rest far away): 7e-5 s (10 Msun), 28 s (Sgr A*), 12 h (M87*)",
+       anchor=r"center, $\tfrac{2}{3}(2GM/c_{0}^{3})$: about $7 \times 10^{-5}$~s for a black hole")
 def _():
     f = lambda m: 4*m*GMsun/(3*c**3)                      # proper time from r = 2GM/c^2 to r -> 0, marginally bound dust
     a, b, cc = f(10), f(4.3e6), f(6.5e9)/3600
-    return verdict(0.5e-4 < a < 2e-4 and close(b, 28, 0.02) and close(cc, 12, 0.02),
+    return verdict(close(a, 7e-5, 0.07) and close(b, 28, 0.02) and close(cc, 12, 0.02),
                    f"{a:.1e} s; {b:.1f} s; {cc:.1f} h (turnaround density far above the horizon density)")
 
-@check("§11.9", "NUMBER", "rho_c >~ 2.4e23 kg/m^3 (J0337) with rho_c c^2 ~ hbar c/l^4 gives l <~ 0.035 fm, ~1e4 below the electron's 386 fm",
-       anchor=r"then $\ell \lesssim 0.035$~femtometers, some ten thousand times finer than the electron's")
+@check("§11.9", "NUMBER", "The grip (Eq. grip): eps_c = 3c^4/(8 pi G xi^2) with xi = hbar c/(3.5 E_P) is about 1.5 Planck energy densities (mass density near 1e97 kg/m^3); a neutron-star core's share ~1e-79; a dent-width region at rho_c holds ~1/25 of one dent's energy",
+       anchor=r"dent at about $3.5$ times the Planck energy, $\varepsilon_{c}$ is about $1.5$ times the")
 def _():
-    l = (hbar/(2.4e23*c))**0.25; xi = hbar/(me*c)
-    return verdict(close(l*1e15, 0.035, 0.03) and 0.8e4 < xi/l < 1.3e4, f"l = {l*1e15:.4f} fm; xi_e/l = {xi/l:.0f}")
+    EP = math.sqrt(hbar*c**5/G); xi = hbar*c/(3.5*EP); rhoP = c**5/(hbar*G**2)
+    rc = 3*c**2/(8*math.pi*G*xi**2); s_ns = 1e18/rc
+    frac = (rc*c**2*4*math.pi/3*xi**3)/(3.5*EP)
+    return verdict(close(rc/rhoP, 1.5, 0.05) and 1e96 < rc < 1e97*1.2 and 1e-80 < s_ns < 1e-78 and close(1/frac, 25, 0.05),
+                   f"rho_c = {rc:.2e} kg/m^3 = {rc/rhoP:.2f} Planck densities; neutron star share {s_ns:.1e}; one dent / content at turn = {1/frac:.1f}")
 
-@check("§11.9", "NUMBER", "q = 1 return: five solar masses merging after ten billion years needs l <~ 6e-19 m; Sgr A* return ~1e22 years",
+@check("§11.9", "NUMBER", "Return with steps of a dent's width, q = 1: ~1e27 yr (5 Msun), ~1e39 yr (Sgr A*)",
+       anchor=r"$10^{27}$ years for five solar masses and about $10^{39}$ years for")
+def _():
+    EP = math.sqrt(hbar*c**5/G); xi = hbar*c/(3.5*EP)
+    t5 = (5*GMsun/c**2)**2/(c*xi)/yr; tS = (4.3e6*GMsun/c**2)**2/(c*xi)/yr
+    return verdict(0.3e27 < t5 < 3e27 and 0.3e39 < tS < 3e39, f"{t5:.1e} yr; {tS:.1e} yr")
+
+@check("§11.9", "NUMBER", "q = 1 return: five solar masses merging after ten billion years needs l <~ 6e-19 m (Sgr A* ~1e22 years at that limit)",
        anchor=r"taking five solar masses and ten billion years, with $q = 1$ the step must be $\ell \lesssim 6 \times 10^{-19}$~m")
 def _():
     lmax = (5*GMsun/c**2)**2/(c*10e9*yr); tau = (4.3e6*GMsun/c**2)**2/(c*6e-19)/yr
     return verdict(close(lmax, 6e-19, 0.1) and 1e21 < tau < 1e23, f"l < {lmax:.1e} m; Sgr A* {tau:.1e} years")
 
-@check("§11.9", "CONSISTENCY", "Turnaround half a minute after crossing for Sgr A* (§8.2) matches 28 s (§11.9)",
-       anchor=r"about half a minute after the crossing")
+@check("§8", "NUMBER", "Hawking glow traced back: finer than a dent (3.5 E_P) after (4GM/c^3) ln(E_dent/kT): ~2 ms (1 Msun), ~2.5 h (Sgr A*)",
+       anchor=r"far time earlier for a black hole of one solar mass, about $2.5$~hours for")
 def _():
-    return verdict(close(4*4.3e6*GMsun/(3*c**3), 30, 0.1), "28 s is about half a minute")
+    EP = math.sqrt(hbar*c**5/G)
+    def back(m):
+        kT = hbar*c**3/(8*math.pi*G*m*Msun); return 4*G*m*Msun/c**3*math.log(3.5*EP/kT)
+    a, b = back(1), back(4.3e6)/3600
+    return verdict(close(a*1e3, 2, 0.15) and close(b, 2.5, 0.05), f"{a*1e3:.2f} ms; {b:.2f} h")
+
+@check("§8", "NUMBER", "Falling with the Ocean from rest far away: 4x the far temperature at the crossing (kappa_eff = (kappa - M/r^2)/(1 - sqrt(2M/r)) -> 1/M); Sgr A* ~6e-14 K",
+       anchor=r"point of no return \cite{barbado2011}, for Sagittarius~A* about $6 \times")
+def _():
+    M = 1.0; r = 2*M*(1 + 1e-7); y = math.sqrt(2*M/r)
+    ratio = ((1/(4*M)) - M/r**2)/(1 - y)/(1/(4*M))
+    T = 4*hbar*c**3/(8*math.pi*G*4.3e6*Msun*1.380649e-23)
+    return verdict(close(ratio, 4, 1e-4) and close(T, 5.7e-14, 0.05), f"ratio {ratio:.5f}; T = {T:.2e} K")
+
+@check("§8.2", "NUMBER", "Falling in from rest far away, horizon to center (4/3)GM/c^3: 28 s (Sgr A*), 12 h (M87*); the most, letting go at the horizon, pi GM/c^3: 66 s, 28 h",
+       anchor=r"moving fast and takes less, $\tfrac{4}{3}GM/c_{0}^{3}$: $28$ seconds for")
+def _():
+    t = lambda m: m*GMsun/c**3
+    a, b = 4*t(4.3e6)/3, 4*t(6.5e9)/3/3600; x, y = math.pi*t(4.3e6), math.pi*t(6.5e9)/3600
+    return verdict(close(a, 28, 0.02) and close(b, 12, 0.02) and close(x, 66, 0.02) and close(y, 28, 0.02) and x > a,
+                   f"from far: {a:.1f} s, {b:.1f} h; most: {x:.1f} s, {y:.1f} h")
 
 # --- §6: the eddy (3.13) -------------------------------------------------------------
 from scipy.special import i0 as _i0, i1 as _i1, k0 as _k0, k1 as _k1
@@ -1007,6 +1037,35 @@ def _():
     return verdict(ok, f"settled w = {settled_w:.0f}; split into settled + departure exact to {max(o[0] for o in out):.0e}; "
                        f"energy-conservation residual {max(o[1] for o in out):.1e} (finite differences)")
 
+@check("§12.7, Eq. (buildphase)", "FORMULA", "The build's law holds one number: with V0 = 2 v^2 mu0^2 it equals a law with no constant, whose settled energy per volume is v^2 mu0^2",
+       anchor=r"with $V_{0} = 2v^{2}\mu_{0}^{2}$ it is the same law written with no constant at")
+def _():
+    rng = np.random.default_rng(7); worst = 0.0
+    for _k in range(2000):
+        v2, mu0, mu, s_ = rng.uniform(0.1, 3, 4)
+        L1 = v2*mu*mu - 2*v2*mu0*mu0 + s_*(mu*mu - mu0*mu0)
+        L2 = -v2*mu*mu + (s_ + 2*v2)*(mu*mu - mu0*mu0)
+        worst = max(worst, abs(L1 - L2))
+    v2, mu0 = 1.3, 0.7; V0 = 2*v2*mu0*mu0
+    return verdict(worst < 1e-12 and close(V0 - v2*mu0*mu0, v2*mu0*mu0, 1e-12), f"largest difference between the two laws {worst:.1e}; settled energy V0 - v^2 mu0^2 = v^2 mu0^2")
+
+@check("§12.7, §6", "NUMBER", "The Earth's loan (binding energy) per volume ~2e11 J/m^3: ~1e20 times the flow's energy per volume (5-6e-10 J/m^3), ~1e21 times the eddy's limit counted as a loan (3 g^2/4 pi G, a tenth of the flow's energy = 2 (g/cH)^2); an eddy's central load 1e5-1e7 times the flow's energy",
+       anchor=r"$2 \times 10^{11}\,\mathrm{J\,m^{-3}}$ at the Earth's own place, some $10^{20}$ times the")
+def _():
+    ME, RE = 5.9722e24, 6.371e6; W = 0.6*G*ME**2/RE; per = W/(4/3*math.pi*RE**3)
+    eps = [0.685*3*(67.4e3/3.0857e22)**2/(8*math.pi*G)*c*c, 0.70*3*(73.0e3/3.0857e22)**2/(8*math.pi*G)*c*c]
+    cap = 3*gdag**2/(4*math.pi*G)
+    Hinf = 67.4e3/3.0857e22*math.sqrt(0.685)
+    cores = []
+    for Mb in (1e8, 6e10, 1e12):
+        m = Mb*Msun; V2 = math.sqrt(G*m*gdag); Rt2 = G*m/gdag
+        cores.append(3*V2/(4*math.pi*G*Rt2)*c*c/eps[0])
+    ok = (close(per, 2e11, 0.1) and close(W/(ME*c*c), 4e-10, 0.1) and all(5e-10 < e_ < 6.5e-10 for e_ in eps)
+          and 2e20 < per/max(eps) and per/min(eps) < 6e20 and 2e21 < per/cap < 6e21
+          and close(cap/eps[0], 2*(gdag/(c*Hinf))**2, 1e-9) and 0.08 < cap/eps[0] < 0.11 and 5e4 < min(cores) and max(cores) < 1e7)
+    return verdict(ok, f"loan {W:.2e} J = {W/(ME*c*c):.1e} of the Earth's mass, {per:.2e} J/m^3; flow's energy {eps[0]:.2e}-{eps[1]:.2e} J/m^3; ratio {per/eps[0]:.1e}; "
+                       f"limit as a loan {cap/eps[0]:.3f} of the flow's energy = 2 (g/cH)^2; Earth against it {per/cap:.1e}; eddy central load / flow's energy {min(cores):.0e}-{max(cores):.0e} (1e12 to 1e8 Msun)")
+
 @check("whole paper", "CONSISTENCY", "Every \\eqref and \\ref has a \\label; every \\cite has a \\bibitem")
 def _():
     body = PAPER.body
@@ -1029,6 +1088,45 @@ def _():
     items = re.findall(r"\\bibitem\{([^}]+)\}", body)
     bad = [(i, a, b) for i, (a, b) in enumerate(zip(order, items)) if a != b]
     return verdict(not bad, "in order" if not bad else f"first mismatch at position {bad[0][0]+1}: cited {bad[0][1]}, listed {bad[0][2]}")
+
+@check("preface", "CONSISTENCY", "The count in 'N revisions have followed' equals the number of revision entries")
+def _():
+    words = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth",
+             "eleventh", "twelfth", "thirteenth", "fourteenth", "fifteenth", "sixteenth"]
+    cards = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+             "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen"]
+    entries = re.findall(r"\\textbf\{The (\w+)\}", PAPER.body)
+    entries = [e for e in entries if e in words]
+    m = re.search(r"(\w+) revisions have followed", PAPER.body)
+    stated = m.group(1) if m else None
+    in_order = entries == words[:len(entries)]
+    ok = bool(entries) and in_order and stated == cards[len(entries) - 1]
+    return verdict(ok, f"{len(entries)} entries ({'in order' if in_order else 'OUT OF ORDER'}, last: the {entries[-1] if entries else None}); the sentence says {stated}")
+
+@check("whole paper", "CONSISTENCY", "Settled wording: phrases that go against the paper's own physics do not come back")
+def _():
+    # each entry: phrase, and the place in the paper whose physics it goes against (dates: when it was caught)
+    ruled_out = [
+        ("Ocean on loan", "Sections 12.1, 12.7: a build borrows; the settled Ocean borrows nothing (caught 7 and 11 Nov)"),
+        ("Ocean's loan", "Sections 12.1, 12.7 (caught 11 Nov)"),
+        ("Patterns and eddies borrow", "Sections 12.1, 12.7: the build borrows, not the pattern (caught 11 Nov)"),
+        ("pattern's loan", "11 Nov 19:03"), ("patterns hold", "11 Nov 19:03"), ("patterns borrow", "11 Nov 19:03"),
+        ("Earth's loan", "11 Nov 19:03"), ("traveler borrows", "11 Nov 19:03"), ("star borrows", "11 Nov 19:03"),
+        ("Ocean's own clock", "Section 12.2 rule 1: no single clock for the Ocean (caught 11 Nov)"),
+        ("Ocean's clock ", "Section 12.2 rule 1"), ("Ocean's clock,", "11 Nov"), ("Ocean's clock.", "11 Nov"),
+        ("Ocean's own time", "11 Nov: no single clock for the Ocean (Section 12.2, rule 1)"),
+        ("$c^{4}/2G$", "Conventions: the capacity is c_0^4/2G, a speed that only converts units (caught 12 Nov)"),
+        ("extra pull", "Rules: no 'pull' in the paper's own voice; the paper's word is extra turning (caught by Argon, 12 Nov)"),
+        ("rotational loan", "Sections 12.1, 12.7: a loan is a build's (caught by Argon, 12 Nov)"), ("spin loan", "Sections 12.1, 12.7 (caught by Argon, 12 Nov)"),
+        ("expansion tends to", "11 Nov 19:53: reads as 'usually does'; the paper's term is the expansion's steady rate"),
+        ("its own Ocean", "6 Nov: reads as a separate Ocean"),
+        ("second sound", "6 Nov: the name claims a counterflow not shown"),
+        ("takes in what flows in", "7 Nov: nothing flows into a build"),
+        ("drive is spent", "11 Nov: the flow's energy comes from the builds"),
+        ("delocalized", "11 Nov: the paper's word is coherent"),
+    ]
+    found = [ph for ph, _why in ruled_out if ph in PAPER.n]
+    return verdict(not found, "none present" if not found else f"present: {found}")
 
 @check("whole paper", "CONSISTENCY", "Healing length stated consistently as 386 femtometers")
 def _():

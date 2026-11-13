@@ -1,0 +1,27 @@
+Ocean_Scalar_Tensor_Hydrodynamics_v3_15 — reading manifest
+Version 3.15; 22 parts
+Document digest: a3b9-ab23-4d9c
+
+Part | Token | SHA-256 | Title
+Abstract | e7b767 | e7b7676b4ef8c00d830e92f266770d4220eed36ed016fc0958c3ead3bff81414 | Title, abstract and reader's note
+Preface | 290571 | 290571b86dab45871ef0a7fc80e82e2feb2c5240b1241cf7285a28f8de888d89 | Preface: what this paper is for
+Glossary | d44418 | d44418792286df2c5d68678816c519b08e390193e8b2f6959db4dae3387f5355 | Conventions and glossary
+§1 | c6c077 | c6c0779c0e761cd400d3d8e10e9dcb6737454dc20ff357a73d34342708d051c7 | The Field Equation
+§2 | ad88f1 | ad88f148ebb46e1ceb527fbcf6269e515589b76986ec3e9deff12826e81b992e | Tensor Definitions
+§3 | c5371c | c5371cd9b6cd4a9fdcdaddf2f9a2874bf9eb62aad28d98a7a3e7277497da8631 | Scalar-Field Dynamics
+§4 | bf999b | bf999b49f1a3e8348d694907aa9df3e309fd07237befa336e57bd260852c0461 | The Ocean Interpretation
+§5 | 36797d | 36797da075fd9bf027bb62f0e2301cbf73ed9c6d75b5dc2b00f85ceafd0596c2 | Cosmological Heartbeat
+§6 | cb3da4 | cb3da4c878970454a9f28d12e6a17f8d24f247ea32fa02dbe9b57e7f15d7d356 | Galactic Dynamics
+§7 | 6eb475 | 6eb475767eedf3741b8abddf814f9ee793604691161e3bf878834998f08c8ca5 | The Localization Threshold
+§8 | 0ab2c2 | 0ab2c25d1b595b2a57346139ebeb00c28f96d3a74559f1d3f3cf55628e78745b | Limiting Regimes
+§9 | 6f7f5f | 6f7f5fcb10f426944a48e51f049ca57db407217da707671830b5b835101ed11a | Conservation and Consistency Conditions
+§10 | 18c371 | 18c371189c0b2b0acf7da78a09eb5f6c31951c8de593602056c0fde59abe60e7 | Relation to Existing Work
+§11 | ab1451 | ab14516e7361a1d640644fd52f0f793f85b785fbdb8c22942a8035a376c55944 | One Speed and the Split
+§12 | fb6473 | fb647331d6b9576c7df1728a362ded66c6263fb338a43e143ecddc0a13fcd4e5 | The Rebuild and the Law
+§13 | 3719ff | 3719ffcc672ac5d03056bd5bd90502e0ee77fb9f4d0e2c515cc60774ac2df3dc | Open Items
+§14 | 6d009b | 6d009b59448c2f253b9089dec8f368668ac24a99c09b45eeba1d8882225ec279 | Research Program and Testable Predictions
+§15 | 0953d9 | 0953d981c77d15bc42f171bbb60fb0856494c0e0880be7794e9003a71f8ef06e | Summary of the Revised Formalism
+Appendix A | 02e50e | 02e50e3b7d6c07308741dbd600b00847fb885cfb33716f1bc8e1466fcf27544d | The Rebuild of a Spinning Black Hole
+Appendix B | 72cba1 | 72cba17b6cb55f74a99b2763e965a6cf6b224356a81984897e8b9971d45c9e1b | The Rebuild of the Milky Way's Eddy
+Appendix C | 114815 | 11481532df54dd2a35ebbf6fd414b994dcf414329771fb7bd3f32716300229ef | The Rebuild across a Change of Beat
+References | 107198 | 10719870d0f38b645c744547060f932aa84f9fca13254dbfa67d40eac4aa8bcc | References and reference basis
