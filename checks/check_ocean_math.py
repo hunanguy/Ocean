@@ -274,7 +274,7 @@ def _():
     a = 1e-4; cs = math.sqrt((1 + a)/(1 + 3*a))
     return verdict(close(1 - cs, a, 2e-3), f"1 - c_s = {1-cs:.6e} vs a = {a:.1e}")
 
-@check("§13.2(3), §11.1", "FORMULA",
+@check("§13.2(2), §11.1", "FORMULA",
        "Gapless branch of Eq. (31): omega^2 = c_s^2 k^2 + B k^4 with B about 4a^2 (in units of 1/M^2)",
        anchor=r"the coefficient of the $k^{4}$ term is about $4a^{2}$")
 def _():
@@ -291,7 +291,7 @@ def _():
     return verdict(ok, "; ".join(f"a={a:g}: numerical/series {r:.5f}, B M^2 / 4a^2 = {q:.3f}" for a, r, q in out)
                    + "; positive, and -> 4a^2 as a -> 0")
 
-@check("§13.2(3)", "NUMBER", "k^4 coefficient 4a^2 with a ~ 1e-23", anchor=r"$4a^{2} \lesssim 4 \times 10^{-46}$")
+@check("§13.2(2)", "NUMBER", "k^4 coefficient 4a^2 with a ~ 1e-23", anchor=r"$4a^{2} \lesssim 4 \times 10^{-46}$")
 def _():
     val = 4*(1e-23)**2
     return verdict(abs(val - 4e-46) < 1e-50, f"4a^2 = {val:.0e} for a = 1e-23")
@@ -383,6 +383,78 @@ def _():
     return verdict(abs(gam + 1/3) < 1e-4, f"amount fixed to first order only for gamma = {gam:.5f}; light then bends "
                    f"{bend:.3f} of the observed amount (the paper: 'a third as much'); amount = time part of the current of Eq. (13)")
 
+# --- §11.5: the first-order law gives gamma = 1 (3.16) ------------------------------
+def _fo_terms(h, g, k):
+    eta = np.diag([-1.0, 1, 1, 1]); ku = eta @ k; k2 = k @ eta @ k
+    tr = lambda m: np.trace(eta @ m)
+    return np.array([k2*np.sum(h*(eta @ g @ eta)), (ku @ h) @ eta @ (ku @ g),
+                     0.5*((ku @ h @ ku)*tr(g) + (ku @ g @ ku)*tr(h)), k2*tr(h)*tr(g)])
+
+def _fo_solve(k, T, coeffs):
+    eta = np.diag([-1.0, 1, 1, 1]); idx = [(m, n) for m in range(4) for n in range(m, 4)]
+    E = []
+    for m, n in idx:
+        e_ = np.zeros((4, 4)); e_[m, n] = e_[n, m] = 1.0; E.append(e_)
+    M = np.array([[coeffs @ _fo_terms(E[i], E[j], k) for j in range(10)] for i in range(10)])
+    t = np.array([np.sum(E[i]*T) for i in range(10)]); ku = eta @ k
+    gauge = [[(ku @ E[i])[nu] - 0.5*k[nu]*np.trace(eta @ E[i]) for i in range(10)] for nu in range(4)]
+    v = np.linalg.lstsq(np.vstack([2*M, np.array(gauge)]), np.r_[-t, np.zeros(4)], rcond=None)[0]
+    h = np.zeros((4, 4))
+    for i, (m, n) in enumerate(idx): h[m, n] = h[n, m] = v[i]
+    return h
+
+@check("§11.5", "FORMULA",
+       "First-order law: one speed and preservation fix the four coefficients uniquely (-1 : 2 : -2 : 1); a mass at rest then gives gamma = 1 exactly, a traveling mass the tilt 2 + 2 gamma = 4; any coefficient off moves gamma from 1",
+       anchor=r"rulers exactly as much as it slows clocks: $\gamma = 1$ exactly, which is the even split")
+def _():
+    rng = np.random.default_rng(1); rows = []
+    for _k in range(40):
+        k = rng.normal(size=4); h = rng.normal(size=(4, 4)); h = (h + h.T)/2; xi = rng.normal(size=4)
+        rows.append(_fo_terms(h, np.outer(k, xi) + np.outer(xi, k), k))
+    sv = np.linalg.svd(np.array(rows))
+    a = -sv[2][-1]/sv[2][-1][0]
+    unique = sv[1][-1] < 1e-9*sv[1][0] and sv[1][-2] > 1e-3*sv[1][0]
+    T = np.zeros((4, 4)); T[0, 0] = 1.0; gams = []
+    for _k in range(10):
+        k = np.r_[0.0, rng.normal(size=3)]; h = _fo_solve(k, T, a); gams.append(h[1, 1]/h[0, 0])
+    k = np.array([0.0, 0.3, -0.5, 0.8]); V = 1e-3; Vd = np.cross(k[1:], [1.0, 0, 0]); Vd /= np.linalg.norm(Vd)
+    T2 = np.zeros((4, 4)); T2[0, 0] = 1.0; T2[0, 1:] = T2[1:, 0] = V*Vd
+    h = _fo_solve(k, T2, a); tilt = np.linalg.norm(h[0, 1:])/(h[0, 0]/2*V)
+    off = [_fo_solve(k, T, a + d)[1, 1]/_fo_solve(k, T, a + d)[0, 0] for d in ([0, 0, .05, 0], [0, 0, 0, .05])]
+    ok = (unique and np.allclose(a, [-1, 2, -2, 1], atol=1e-9) and max(abs(g_ - 1) for g_ in gams) < 1e-9
+          and close(tilt, 4.0, 1e-6) and all(abs(o - 1) > 1e-2 for o in off))
+    return verdict(ok, f"coefficients {np.round(a, 9).tolist()} (one null direction: unique); gamma over 10 directions "
+                       f"{min(gams):.9f}-{max(gams):.9f}; tilt coefficient {tilt:.6f}; coefficient off by 5%: gamma {off[0]:.4f}, {off[1]:.4f}")
+
+@check("§11.6", "FORMULA",
+       "The settled Ocean's pressure under the build's law is the negative of a fixed energy per volume: d ln p / d ln n = 0 as the Ocean expands (Sandvik et al.'s bound is |d ln p/d ln n| < 1e-5)",
+       anchor=r"$d\ln p/d\ln n = 0$; the phase carries no sound wave of its own")
+def _():
+    v2, mu0, V0 = 1.0, 1.0, 3.0
+    a = np.linspace(1, 8, 2001); n = a**-3                          # any density diluting with volume
+    p = (v2*mu0**2 - V0)*np.ones_like(a)                            # Eq. (buildphase): the settled pressure
+    slope = np.gradient(np.log(np.abs(p)), np.log(n))
+    return verdict(np.abs(slope).max() < 1e-12, f"largest |d ln p/d ln n| = {np.abs(slope).max():.1e} (Sandvik et al. exclude above ~1e-5)")
+
+# --- §11.9: the grip enters as a correction to the stress (Argon, 3.15.1) ------------
+@check("§11.9, Eq. (38)", "FORMULA",
+       "The grip's two expansion equations hold with what is in a region kept (edot = -3H(e+p)); the stress e(1-e/ec), p(1-2e/ec) - e^2/ec gives both and is itself kept; a bare factor kappa_eff in Eq. (1) would give 1 - e/ec in dH/dt",
+       anchor=r"It enters as a correction to the stress, energy density $\varepsilon(1 - \varepsilon/\varepsilon_{c})$")
+def _():
+    rng = np.random.default_rng(38); worst = [0.0, 0.0, 0.0]; bare = []
+    for _ in range(200):
+        e, p, ec, H, k = rng.uniform(0.05, 2.0, 5); e = min(e, 0.99*ec)
+        edot = -3*H*(e + p)                                         # what is in the region kept
+        Hdot = (k/3)*(1 - 2*e/ec)*edot/(2*H)                        # from H^2 = (k/3) e (1 - e/ec)
+        ee, pe = e*(1 - e/ec), p*(1 - 2*e/ec) - e*e/ec              # the stress the grip gives
+        worst[0] = max(worst[0], abs(Hdot - (-(k/2)*(e + p)*(1 - 2*e/ec))))   # the paper's dH/dt
+        worst[1] = max(worst[1], abs(Hdot - (-(k/2)*(ee + pe))))              # Einstein's, with that stress
+        worst[2] = max(worst[2], abs((1 - 2*e/ec)*edot + 3*H*(ee + pe)))      # that stress is kept
+        bare.append(abs(Hdot - (-(k/2)*(e + p)*(1 - e/ec))))                  # a bare factor
+    ok = max(worst) < 1e-12 and min(bare) > 1e-6
+    return verdict(ok, f"paper's dH/dt {worst[0]:.1e}; from the corrected stress {worst[1]:.1e}; that stress kept {worst[2]:.1e}; "
+                       f"a bare factor misses by at least {min(bare):.1e} (200 random states)")
+
 # --- §11.9: the phase at the point of no return -----------------------------------
 @check("§11.9, Eq. (37)", "FORMULA",
        "Build's law at a resting mass: theta = mu(t + f), (1 - 2M/r) f' = sqrt(2M/r): turning per moment made exactly mu; regular at the edge; flow = free fall from rest; 42.1 and 11.2 km/s",
@@ -426,13 +498,13 @@ def _():
     xi = hbar*c/(0.51099895*MeV)
     return verdict(close(xi*1e15, 386, 0.002), f"{xi*1e15:.2f} fm")
 
-@check("§13.2(5), Eq. (40)", "NUMBER", "alpha_G = G m_e^2/(hbar c) = (l_P/xi_0)^2 ~ 1.75e-45",
+@check("§13.2(3), Eq. (40)", "NUMBER", "alpha_G = G m_e^2/(hbar c) = (l_P/xi_0)^2 ~ 1.75e-45",
        anchor=r"\;\approx\; 1.75 \times 10^{-45},")
 def _():
     aG = G*me**2/(hbar*c); xi = hbar/(me*c)
     return verdict(close(aG, 1.75e-45, 0.003) and close((lP/xi)**2, aG, 1e-9), f"{aG:.4e}; (l_P/xi_0)^2 = {(lP/xi)**2:.4e}")
 
-@check("§13.2(5)", "NUMBER", "Planck length ~1.6e-35 m, about 1e22 below the electron's localization length xi_e",
+@check("§13.2(3)", "NUMBER", "Planck length ~1.6e-35 m, about 1e22 below the electron's localization length xi_e",
        anchor=r"\approx 1.6 \times 10^{-35}$~m about $10^{22}$ below $\xi_{e}$")
 def _():
     xi = hbar/(me*c)
@@ -450,13 +522,13 @@ def _():
     spacing = (kB*273.15/101325)**(1/3); lo, hi = 160e3/spacing, 800e3/spacing
     return verdict(3e13 < lo and hi < 3e14, f"'hundreds of miles' (100-500 miles) / {spacing*1e9:.2f} nm = {lo:.1e} to {hi:.1e}")
 
-@check("Preface, §13.2(5)", "NUMBER", "A kiloparsec is about 1e55 times the dent's width (Planck length / 3.5): more than fifty orders",
+@check("Preface, §13.2(3)", "NUMBER", "A kiloparsec is about 1e55 times the dent's width (Planck length / 3.5): more than fifty orders",
        anchor=r"A galaxy really is about $10^{55}$ times")
 def _():
     w = lP/3.54; r = kpc/w
     return verdict(3e54 < r < 3e55, f"kpc / dent width = {r:.1e}")
 
-@check("§13.2(7)", "NUMBER", "Electron size limit 1e-18 m is several hundred thousand times below xi_0",
+@check("§13.2(5)", "NUMBER", "Electron size limit 1e-18 m is several hundred thousand times below xi_0",
        anchor=r"several hundred thousand times smaller")
 def _():
     xi = hbar/(me*c); r = xi/1e-18
@@ -734,12 +806,12 @@ def _():
     ok = abs(out["cored"][0] - 264) < 3 and abs(out["cored"][1] - out["cored"][0]) < 1 and all(455 < out[f][0] < 535 for f in ("x/(1+x)", "1-exp(-x)"))
     return verdict(ok, "; ".join(f"{f}: {v[0]:.0f} (1e7) / {v[1]:.0f} (1e11)" for f, v in out.items()))
 
-@check("§6", "NUMBER", "c H0/2pi = 1.04-1.13e-10 (H0 67.4, 73); late-time c H0 sqrt(OmL)/2pi = 0.86-0.93e-10; H(2.3)/H0 = 3.4",
+@check("§6", "NUMBER", "c H0/2pi = 1.04-1.13e-10 (H0 67.4, 73); late-time c H0 sqrt(OmL)/2pi = 0.86-0.93e-10; H(2.3)/H0 = 3.5 (Omega_m 0.315, as elsewhere)",
        anchor=r"$1.04$ to $1.13 \times 10^{-10}\,\mathrm{m\,s^{-2}}$")
 def _():
     Mpc = 3.0857e22; a = [c*h*1e3/Mpc/(2*math.pi) for h in (67.4, 73.0)]; b = [x*math.sqrt(0.685) for x in a]
-    E = math.sqrt(0.3*(1 + 2.3)**3 + 0.7)
-    ok = close(a[0], 1.04e-10, 0.01) and close(a[1], 1.13e-10, 0.01) and close(b[0], 0.86e-10, 0.01) and close(b[1], 0.93e-10, 0.01) and abs(E - 3.4) < 0.05
+    E = math.sqrt(0.315*(1 + 2.3)**3 + 0.685)
+    ok = close(a[0], 1.04e-10, 0.01) and close(a[1], 1.13e-10, 0.01) and close(b[0], 0.86e-10, 0.01) and close(b[1], 0.93e-10, 0.01) and abs(E - 3.5) < 0.05
     return verdict(ok, f"{a[0]:.3e}, {a[1]:.3e}; late-time {b[0]:.3e}, {b[1]:.3e}; H(2.3)/H0 = {E:.2f}")
 
 @check("§6", "SIMULATION", "Genzel et al. 2017 six disks: fixed limit fits 5-6 of 6 dark-matter shares; limit following H(z) fails all three beyond z = 2 (0.09-0.36 predicted); bound 1.0-2.7x at z 2.2-2.4 (zC 400569), 1.2x (zC 406690, cored)",
@@ -748,7 +820,7 @@ def _():
     from scipy.optimize import brentq
     gals = [(0.854, 1.7, 0.20, 7.3, (0.11, 0.31)), (1.500, 2.3, 0.35, 7.4, (0.00, 0.38)), (1.613, 1.0, 0.40, 4.9, (0.10, 0.28)),
             (2.196, 1.7, 0.60, 5.5, (0.00, 0.08)), (2.242, 1.7, 0.37, 3.3, (0.00, 0.07)), (2.383, 2.1, 0.15, 6.0, (0.00, 0.26))]
-    E = lambda z: math.sqrt(0.3*(1 + z)**3 + 0.7)
+    E = lambda z: math.sqrt(0.315*(1 + z)**3 + 0.685)
     def gbar(z, M11, BT, Rh):
         M = M11*1e11*Msun; R = Rh*kpc; a_ = kpc/1.815
         return M, R, _gdisk(R, (1 - BT)*M, R/1.68) + G*BT*M/(R + a_)**2
@@ -975,7 +1047,7 @@ def _():
     return verdict(close(sh(R), 1.4e-9, 0.01) and close(sh(d), 2.3e-11, 0.01) and close(turn, 2.70e-3, 0.005),
                    f"share {sh(R):.3e} (surface), {sh(d):.3e} (Moon); turning {turn:.4e} m/s^2 = GM/d^2")
 
-@check("§7.5, §13.2(5)", "NUMBER", "Dent (3.5 E_P) against the electron's 0.511 MeV, and the healing length against 386 fm: nearly 1e23",
+@check("§7.5, §13.2(3)", "NUMBER", "Dent (3.5 E_P) against the electron's 0.511 MeV, and the healing length against 386 fm: nearly 1e23",
        anchor=r"healing length, which lies nearly $10^{23}$ times below it")
 def _():
     EP = math.sqrt(hbar*c**5/G)/eV; r = 3.54*EP/0.51099895e6
@@ -1066,6 +1138,72 @@ def _():
     return verdict(ok, f"loan {W:.2e} J = {W/(ME*c*c):.1e} of the Earth's mass, {per:.2e} J/m^3; flow's energy {eps[0]:.2e}-{eps[1]:.2e} J/m^3; ratio {per/eps[0]:.1e}; "
                        f"limit as a loan {cap/eps[0]:.3f} of the flow's energy = 2 (g/cH)^2; Earth against it {per/cap:.1e}; eddy central load / flow's energy {min(cores):.0e}-{max(cores):.0e} (1e12 to 1e8 Msun)")
 
+@check("§14, preface, §12.7", "CONSISTENCY",
+       "The sign of lambda about the present state: the dent is the amount's gap sqrt(lambda) v, placed near the Planck energy by the strength of gravity; a real gap needs lambda > 0",
+       anchor=r"which a real gap allows only for $\lambda > 0$")
+def _():
+    v = 1.0; out = []
+    for lam in (0.5, -0.5):
+        gap2 = lam*v*v                                    # amount's ripple at k = 0 in the stiff Ocean
+        out.append((lam, gap2 > 0))
+    st = PAPER.has(r"In the settled Ocean the supply cancels the bare current and $L_{,X}$ vanishes")
+    pref = PAPER.has(r"For the present state the framework settles it")
+    ok = out[0][1] and not out[1][1] and st and pref
+    return verdict(ok, f"gap^2 = lambda v^2: real for lambda = 0.5 ({out[0][1]}), imaginary for -0.5 ({not out[1][1]}); Health paragraph and preface say so: {st and pref}")
+
+@check("§12.7", "FORMULA",
+       "Under the build's law the settled Ocean's L_X = v^2 + s vanishes (s = -v^2): the phase carries no wave of its own",
+       anchor=r"$L_{,X}$ vanishes")
+def _():
+    v2, mu0 = 1.3, 0.8
+    s_ = -v2                                              # settled Ocean: supply cancels the bare current (C = 0)
+    L = lambda X: v2*X + s_*(X - mu0**2)                  # X = mu^2; the constant V0 drops out of derivatives
+    h = 1e-6; LX = (L(0.5 + h) - L(0.5 - h))/(2*h)
+    return verdict(abs(LX) < 1e-9, f"L_X = {LX:.1e} in the settled Ocean")
+
+@check("§13.2", "CONSISTENCY",
+       "Open Items list only what is open: the varying-m_e item (stated in §7), the rotation item (now in §12.4) and the stability item (now in §12.7, Health) are not in §13.2; every item reference resolves through a label",
+       anchor=r"\item \emph{Not told apart by rotation.}")
+def _():
+    i0 = PAPER.body.index(r"\label{sec:sec7open}"); i1 = PAPER.body.index(r"\end{enumerate}", i0)
+    blk = PAPER.body[i0:i1]
+    gone = "Varying-$m_{e}$ bounds" not in blk and "not told apart by rotation" not in blk and "Stability." not in blk
+    bare = re.findall(r"sec7open\},?\s+items?~\(\d", PAPER.body)
+    have7 = PAPER.has("the electron's mass is a constant of the beat") or PAPER.has("The electron's mass is a constant of the beat")
+    return verdict(gone and not bare and have7, f"removed from 13.2: {gone}; bare numbered references left: {len(bare)}; §7 states the m_e result: {have7}")
+
+@check("§12.7, Health", "CONSISTENCY",
+       "Where the settled Ocean's fall lines meet the phase keeps one value; inside a single static mass they meet only at the center, arriving at the central escape speed (Earth, two-layer model: 14.7 km/s; surface 11.2), with the phase continuous there (a cone point)",
+       anchor=r"the phase keeps one value, since each place makes its own and the fall carries nothing in")
+def _():
+    from scipy.integrate import cumulative_trapezoid as ctz
+    R = 6.371e6; Rc = 3.48e6; r = np.linspace(1e-6*R, 3*R, 300001)
+    rho = np.where(r <= R, np.where(r < Rc, 10.9e3, 4.45e3), 0.0)
+    m = ctz(4*np.pi*r**2*rho, r, initial=0.0); g = G*m/r**2
+    Phi = -G*m[-1]/r[-1] - (np.trapezoid(g, r) - ctz(g, r, initial=0.0))
+    v = np.sqrt(2*np.abs(Phi)); f = ctz(v/c**2, r, initial=0.0); i = np.searchsorted(r, R)
+    cone = ((f[10] - f[0])/(r[10] - r[0]))/(v[0]/c**2)
+    ok = abs(v[0]/1e3 - 14.7) < 0.2 and abs(v[i]/1e3 - 11.2) < 0.1 and np.isfinite(f[i]) and abs(cone - 1) < 1e-4
+    return verdict(ok, f"inflow at the center {v[0]/1e3:.1f} km/s, at the surface {v[i]/1e3:.1f} km/s; phase offset center to surface {f[i]-f[0]:.2e} s (finite); near the center theta grows as v0 |x|/c^2 (ratio {cone:.6f})")
+
+@check("Preface, §13.3, §14, §15", "CONSISTENCY",
+       "What would kill it: the preface's entries, §13.3's items and §14's decisive items are the same list; every §13.3 item says what is open, what to do, what settles it and what fails it; every §15 prediction says its test, what settles it and what would show it wrong")
+def _():
+    b = PAPER.body
+    i0 = b.index(r"\subsection*{What would kill it}"); i1 = b.index(r"\paragraph{Conventions.}")
+    pref = re.findall(r"\\noindent\s*\\textbf\{([^}]+?)\.\}", b[i0:i1])
+    j0 = b.index(r"\label{sec:killopen}"); j1 = b.index(r"\section{Research Program}")
+    blk = b[j0:j1]; items = re.split(r"\\item ", blk)[1:]
+    names = [re.match(r"\\textbf\{([^}]+?)\.\}", it).group(1) for it in items]
+    fields_ok = all(all(f in it for f in (r"\emph{Open:}", r"\emph{To do:}", r"\emph{Settled", r"\emph{Fails if}")) for it in items)
+    k0 = b.index(r"\label{sec:predictions}"); k1 = b.index(r"\section{Summary of the Revised Formalism}")
+    preds = re.split(r"\\item ", b[k0:k1])[1:]
+    pred_ok = all(all(f in it for f in (r"\emph{Test:}", r"\emph{Settled", r"\emph{Wrong")) for it in preds)
+    l0 = b.index(r"\label{sec:program}"); dec = b[l0:k0].count(r"\emph{(decisive)}") - 1   # minus the definition sentence
+    match = len(pref) == len(names) and all(any(n.startswith(pn) for n in names) for pn in pref)
+    ok = match and fields_ok and pred_ok and dec == len(names)
+    return verdict(ok, f"preface {len(pref)}: {pref}; §13.3 {len(names)}; §14 decisive {dec}; §13.3 fields complete: {fields_ok}; §15 {len(preds)} predictions, fields complete: {pred_ok}")
+
 @check("whole paper", "CONSISTENCY", "Every \\eqref and \\ref has a \\label; every \\cite has a \\bibitem")
 def _():
     body = PAPER.body
@@ -1124,6 +1262,8 @@ def _():
         ("takes in what flows in", "7 Nov: nothing flows into a build"),
         ("drive is spent", "11 Nov: the flow's energy comes from the builds"),
         ("delocalized", "11 Nov: the paper's word is coherent"),
+        ("Testable Predictions", "15 Nov 17:25: the predictions are their own section (Section 15)"),
+        ("galaxies, their eddies and any black holes", "15 Nov 08:16: nothing gathered is left when the drive runs out (Section 5.2)"),
     ]
     found = [ph for ph, _why in ruled_out if ph in PAPER.n]
     return verdict(not found, "none present" if not found else f"present: {found}")
