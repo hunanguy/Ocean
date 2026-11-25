@@ -48,3 +48,13 @@ tmp/
 
 # --- Full texts of cited papers (copyrighted; keep local) -------------------
 references/*.txt
+
+# --- Analyses ----------------------------------------------------------------
+# The supernova samples are fetched with git into expansion/data (see
+# expansion/README.md); they are not stored here.
+expansion/data/
+# Working figures and comparison runs the scripts write beside the results the
+# paper and the checks read.
+sparc/results/sparc_test.png
+sparc/results/*.log
+expansion/results_partial.json

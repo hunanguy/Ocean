@@ -1,0 +1,15 @@
+153 galaxies (Q<3, i>=30), 3168 points; eddy form cored
+
+== eddy ==
+  shared limit: g_dagger = 0.501 (lg -0.300, 1 sigma -0.301..-0.298)
+  at_1.20    chi2 19766 / 2678  median chi2nu 3.17  <1.5: 29%  <3: 49%  >10: 20%
+  at_shared  chi2 17041 / 2678  median chi2nu 2.25  <1.5: 35%  <3: 59%  >10: 17%
+  residual rms 0.075 dex at 1.20 (mean +0.009) on 2696 points; 0.065 at the shared best; 0.050 with each galaxy's own limit
+  own limit: chi2 9886, median chi2nu 1.44, <1.5: 51%
+  mean residual by log g_bar at 1.20: [-12.5,-12.0) +0.184 (n=5)  [-12.0,-11.5) +0.044 (n=132)  [-11.5,-11.0) +0.020 (n=563)  [-11.0,-10.5) -0.005 (n=687)  [-10.5,-10.0) +0.006 (n=557)  [-10.0,-9.5) +0.012 (n=363)  [-9.5,-9.0) -0.000 (n=280)  [-9.0,-8.5) -0.003 (n=93)
+  free limit: median lg -0.20, std 0.51, 16-84% -0.64..+0.25, 3 at grid edge
+  shared vs free: dchi2 8029 for 152 dof; errors rescaled 2588; off >2 sigma: 104 (86 rescaled), >3 sigma rescaled 63
+  intrinsic scatter of the limit: 0.445 dex about lg -0.188 (147 galaxies with closed intervals)
+  trend with log_Mb      : Spearman +0.42 (p=1.3e-07); median lg low half -0.41, high half -0.05
+  trend with log_SBdisk  : Spearman +0.54 (p=1.3e-12); median lg low half -0.46, high half -0.03
+  trend with gas_fraction: Spearman -0.49 (p=2.3e-10); median lg low half -0.06, high half -0.45

@@ -14,21 +14,24 @@ From that premise the paper asks whether dark matter and dark energy are two sub
 
 | File | Description |
 |---|---|
-| `Ocean_Scalar_Tensor_Hydrodynamics_v3_15_1.pdf` | The paper. 84 pages, including a non-technical preface, a glossary, Appendices A, B and C and a bibliography. Document digest `8b08-7b97-a49a`. |
-| `Ocean_Appendix_A_Spinning_Black_Hole_v3_15_1.pdf` | Appendix A on its own: the rebuild of a spinning black hole (Sagittarius A*), 5 pages. Built from the same text as the paper's Appendix A, and carrying that part's token, `94868f`. |
-| `Ocean_Scalar_Tensor_Hydrodynamics_v3_15_1.manifest.txt` | The reading manifest, written by the build: every part of the paper with its checksum token and the document digest. |
+| `Ocean_Scalar_Tensor_Hydrodynamics_v3_16.pdf` | The paper. 90 pages, including a non-technical preface, a glossary, Appendices A, B and C and a bibliography. Document digest `8563-1f7b-50ca`. |
+| `Ocean_Appendix_A_Spinning_Black_Hole_v3_16.pdf` | Appendix A on its own: the rebuild of a spinning black hole (Sagittarius A*), 5 pages. Built from the same text as the paper's Appendix A, and carrying that part's token, `3cc643`. |
+| `Ocean_Scalar_Tensor_Hydrodynamics_v3_16.manifest.txt` | The reading manifest, written by the build: every part of the paper with its checksum token and the document digest. |
 | `build_ocean_formalism.py` | Generates the LaTeX source of the paper and of the standalone Appendix A, and compiles both. The source of truth. |
 | `.zenodo.json` | Deposit metadata consumed by the Zenodo–GitHub integration. |
 | `CITATION.cff` | Citation metadata for GitHub's *Cite this repository* widget. |
-| `checks/` | `check_ocean_math.py`, a consistency and accuracy check of the paper's mathematics, with three helper modules it imports (run it from inside `checks/`). |
-| `validation-3.15.1.md` | The independent reading of 3.15.1 before release (Argon): the new and changed equations and numbers recomputed, and what was fixed from its findings. `validation-3.15.md`, `validation-3.14.md` and `validation-3.13.md` are the readings of the earlier versions. |
+| `checks/` | `check_ocean_math.py`, a consistency and accuracy check of the paper's mathematics, with three helper modules it imports (run it from inside `checks/`), and `report.md`, its report on this release. |
+| `sparc/` | The eddy fitted to 153 real galaxies one by one (SPARC), with the data tables, the fits, the results the paper and the checks read, and the scripts that draw Figures 1 and 2. See `sparc/README.md`. |
+| `milky-way/` | The eddy fitted to the real Milky Way's stars and gas, rotation curve and vertical motions, on the same footing as cold dark matter and a contribution parallel to the baryons' own turning; draws Figure 3. See `milky-way/README.md`. |
+| `expansion/` | The settled Ocean's slow thinning fitted to DESI's second-release distances and three supernova samples. The supernova data are fetched with git, as its README says. See `expansion/README.md`. |
+| `validation-3.16.md` | The independent reading of 3.16 before release (Fable 5.1): every number recomputed from the PDF alone, and how each finding was handled. |
 | `references/` | Verification notes, one per paper read: what each cited source supports, and where the paper's wording was corrected against it. Full texts are not stored. |
 
-The `.tex` files are **generated**, not stored. It is produced by the build script and excluded by `.gitignore` to keep diffs meaningful. If you would rather ship the LaTeX source in the archive, remove the first non-comment line of `.gitignore` and commit it.
+The `.tex` files are **generated**, not stored. They are produced by the build script and excluded by `.gitignore` to keep diffs meaningful. If you would rather ship the LaTeX source in the archive, remove the first non-comment line of `.gitignore` and commit it.
 
 ## Building
 
-Requires Python 3.8+ and `pdflatex` on `PATH` (TeX Live or MiKTeX).
+Requires Python 3.8+ and `pdflatex` on `PATH` (TeX Live or MiKTeX), with the `pgf` package (TikZ) for Figure 4. Figures 1 to 3 are read from `sparc/figures/` and `milky-way/figures/`, so build from the repository's root folder.
 
 ```bash
 python3 build_ocean_formalism.py                 # writes the paper and the standalone Appendix A (.tex and .pdf)
@@ -38,19 +41,6 @@ python3 build_ocean_formalism.py --keep-aux      # retain .aux/.log for debuggin
 ```
 
 The script runs `pdflatex` three times so that cross-references and page breaks settle. It then writes the standalone Appendix A from the same text as the paper's appendix, filling in its section and equation numbers from the compiled paper, and compiles it.
-
-## Reading completeness
-
-Every part of the paper carries a checksum token: the first six hex digits of the SHA-256 of its LaTeX source. Each page footer gives the page, the page count and the part with its token; each part ends with a line giving its token; and the last page is a reading manifest listing every part, its first page and its token, followed by a document digest and the words "End of document". The standalone Appendix A carries the token of the paper's Appendix A part in its footers, title block and closing line, since it is built from the same text. A reader, human or automated, has read the whole paper when it reaches that line, and a summary or review that cannot give the digest was made from an incomplete reading. The digest for 3.15.1 is `8b08-7b97-a49a`. It is also written to the PDF's subject metadata and to the `.manifest.txt` file.
-
-## Checking the mathematics
-
-```bash
-cd checks
-python3 check_ocean_math.py --build ../build_ocean_formalism.py --report report.md
-```
-
-Requires `numpy` and `scipy`. The script re-derives the paper's equations numerically (equations of motion from the action, the disturbance equation from the expanded Lagrangian, the strong-field geometry), recomputes its numerical statements from CODATA 2018 constants, re-runs the frame-dragging simulations, and checks references, citations and symbols for consistency. Each check is tied to a phrase of the paper's own LaTeX, so a change of wording or number that the check no longer matches makes it fail rather than pass silently. Outcomes are PASS, NOTE (agrees with a caveat, or cannot be decided from the text) and FAIL; the script exits with status 1 on any failure. For 3.15.1: 101 checks, 100 pass, 1 note, 0 fail.
 
 ### Font dependency
 
@@ -62,44 +52,83 @@ The preamble uses `mathptmx` (Times) rather than `lmodern`, because `lmodern` is
 
 On a full TeX Live installation you can substitute `newtxtext`/`newtxmath` and remove that line.
 
+## Reading completeness
+
+Every part of the paper carries a checksum token: the first six hex digits of the SHA-256 of its LaTeX source. Each page footer gives the page, the page count and the part with its token; each part ends with a line giving its token; and the last page is a reading manifest listing every part, its first page and its token, followed by a document digest and the words "End of document". The standalone Appendix A carries the token of the paper's Appendix A part in its footers, title block and closing line, since it is built from the same text. A reader, human or automated, has read the whole paper when it reaches that line, and a summary or review that cannot give the digest was made from an incomplete reading. The digest for 3.16 is `8563-1f7b-50ca`. It is also written to the PDF's subject metadata and to the `.manifest.txt` file.
+
+## Checking the mathematics
+
+```bash
+cd checks
+python3 check_ocean_math.py --build ../build_ocean_formalism.py --report report.md
+```
+
+Requires `numpy` and `scipy`. The script re-derives the paper's equations numerically (equations of motion from the action, the disturbance equation from the expanded Lagrangian, the strong-field geometry), recomputes its numerical statements from CODATA 2018 constants, re-runs the frame-dragging simulations, reads the results of the three analyses (`sparc/results/`, `milky-way/best_fits.json`, `expansion/results.json`) and checks the paper's numbers against them, and checks references, citations and symbols for consistency. Each check is tied to a phrase of the paper's own LaTeX, so a change of wording or number that the check no longer matches makes it fail rather than pass silently. Outcomes are PASS, NOTE (agrees with a caveat, or cannot be decided from the text) and FAIL; the script exits with status 1 on any failure. For 3.16: 109 checks, 108 pass, 1 note, 0 fail.
+
+## Running the analyses
+
+Each folder has a README with its data, its method and its results, and each runs from inside its own folder. The commands below are one per line, so they work in PowerShell, the Windows command prompt and a Unix shell; on Windows, `python` or `py` may stand in for `python3`. They need `numpy`, `scipy` and, for the figures, `matplotlib`; fetching the data needs `git`.
+
+### 1. Download the supernova data first
+
+The SPARC tables (`sparc/data/`) and the Milky Way data (`milky-way/`) are in the repository. The three supernova samples the expansion fit uses are not: download them before running it, by following the steps in [`expansion/README.md`](expansion/README.md) (section "Data"). They go into `expansion/data/`, which git ignores, about 90 MB in all. Without them `expansion/fit.py` fits DESI's distances alone and writes `results_partial.json`, leaving `results.json` (the published results, which the math check reads) as it is.
+
+### 2. Run them
+
+From the repository's root folder:
+
+```bash
+cd sparc
+python3 sparc_fit.py          # a few minutes; uses every processor core; rewrites results/profiles.npz
+python3 sparc_report.py
+python3 sparc_pushback.py
+cd ..
+
+cd milky-way
+python3 mw_report.py          # reads the saved fits in seconds; refitting takes longer (see its README)
+cd ..
+
+cd expansion
+python3 fit.py                # after step 1
+cd ..
+```
+
+Then rerun the math check (above) to confirm the paper's numbers against your results.
+
 ## Structure of the paper
 
-1. **Preface** — non-technical, after a reader's note on how to confirm a complete reading. The premise (no empty space; an Ocean without edges or outside; no particles as objects; one speed for every disturbance, and no fixed speed; gravity as the medium's response), the motivating problem, the provenance of Λ and of dark matter, the General Relativity / quantum field theory disagreement over the vacuum, what a medium can do, black holes, the twelve revisions the framework has undergone (the twelfth: the grip's own form, the turn and the beginning of a beat, Hawking radiation in the rebuild's terms, the flow's energy, and the eddy's beginning; it withdrew the eleventh's reading of an eddy's limit as the most one place can have on loan), and what would end the framework as written: the open items that could, six in 3.15.1, each leaving the list once settled (§13.3).
-2. **Conventions and glossary** — fixed meanings for the Ocean, flow, circulation, travel, the carrying speed, the speed of light, light, state, pattern, carried quantities, excitation, the healing length, circulation sense, horizon, matter, and, new in 3.12, the rebuild, building, reclaiming, the plexus, the re-made state and the dynamo, and, new in 3.13, the load, the eddy and the swirl in time, and, new in 3.14, the Ocean's amount and the Ocean's phase, the pushback as the resistance of a build at work, and, new in 3.15, the Ocean's capacity, the Ocean's grip, the flow's energy, the Ocean's rivers and gravity, and, new in 3.15.1, energy (its forms, and the dent as not energy); then the Heartbeat, a beat, the present beat, beat transition, the big bang, epoch and the present expansion epoch.
-3. **§1–§4** — the field equation and its status as the effective description of the medium; tensor definitions, including the complex field Φ = ρe^{iθ} with the re-made state, the viscous stress (kept, but carrying nothing in the settled Ocean), and the refractive account of gravity; the equations of motion, with the single real field standing for the Ocean's amount; the Ocean interpretation.
-4. **§5** — the Heartbeat cosmology, within the present beat and across beats. In 3.12 the contraction is the reclaiming carrying the Ocean once the drive runs out: nothing new forms, time and disorder are reclaimed, and the energy returns compressed, so disorder does not accumulate from beat to beat. In 3.14 the microwave background is read as the Ocean's heat, its normal component, left from the beat's beginning. In 3.15 the turn and the beginning of a beat are followed: reclaiming alone, everywhere at once, the energy kept in the plexus as heat; the grip lets go and collapse turns; the settled Ocean forms again out of the heat, and the build builds with nothing to trigger it, its first builds making pairs and the first flow (Appendix C).
-5. **§6** — galactic dynamics, rewritten in 3.13. A galaxy sits in an eddy of the Ocean's current far bigger than itself, set going by a larger current and then holding itself as a swirl in time. The eddy acts through the energy of the build in it, which adds to the load every star reads, not through a swirl in the disk's plane (which leaves stars at rest, pressure-supported galaxies and stacked lensing untouched). The galaxy and its eddy are one region of the Ocean, so the eddy's strength follows the mass at its middle, with one limit: V⁴ = G M g†, the baryonic Tully–Fisher relation, with model galaxies on the radial acceleration relation to 0.05 dex. The limit is held at the eddy's center (every eddy's core holds the same load per area, as halo surface densities show) and has not followed the expansion over eleven billion years (Genzel et al. 2017; RC100). In 3.14 the eddy is held between each build's inward lean and the pushback of builds at work holding energy on loan. In 3.15 every build in an eddy holds its own loan, and the builds holding their loans hold it up; 3.14's reading of the limit as the most one place can have on loan is withdrawn (the Earth's builds hold far more on loan at the Earth's own place), and the candidate for the common amount at every eddy's center is the energy of the Ocean's flow, acting through the plexus; how is not known. New in 3.15, how an eddy is set going: one of the Ocean's rivers, its builds bent round bound matter and held; bound matter no river passes sits in the current directly and shows no extra turning, as NGC 1052-DF2 and DF4 do. The reading rule, Eq. 16, now follows from the frame law; the eddy's energy is counted once. In the model Milky Way the eddy raises the radial turning by 1.59 and the vertical by 10–17 percent within a kiloparsec, passing the Gaia criterion. The edge, the center and black holes, and what is open.
-6. **§7** — matter and its threshold. The partition is by kind of wave: a kind with a lowest energy can be held in place as matter, a kind without one cannot. The Ocean's own amount and phase are written out as two coupled fields. The electron's 0.511 MeV is the lowest energy of its own kind of wave, set by the field the dynamo sustains; 386 fm is the electron's own localization length, and the Ocean's healing length lies near the Planck length.
-7. **§8–§9** — limiting regimes; black holes (no accumulation, stripping as the no-hair theorem, Hawking radiation, recycling rather than draining) and the traveler falling in, also in the rebuild's terms; new in 3.15, Hawking radiation in the rebuild's terms (each place's build keeps that place's own clock, and a clock far away reads the mismatch as a thermal glow; a traveler falling in meets a faint glow, about four times the far temperature at the crossing); conservation conditions, nothing is destroyed, and where a wave's energy goes.
-8. **§10** — relation to existing work: what is inherited and what is not, set out as labeled lists, and the known deficiencies against current practice and measurement. In 3.15.1 the relation Λ = G²m_e⁶/(α⁶ħ⁴) is traced to Beck (2009), who derived it.
-9. **§11** — one speed and the split; the current through time, now the uneven making of time with no drag; the strong field and the point of no return; frame dragging, carried by the re-made tilt rather than quantized lines; new in 3.13, beyond first order, the Ocean's rulers stretch by direction, set by the plexus's frame law, so a spinning hole's outside is General Relativity's (checked in the Ocean's own slicing by the phase); the edge and the core; new in 3.14, the settled Ocean falls freely into every mass, from rest far away, carrying nothing in, and the horizon is where the rebuild uses the Ocean's full capacity; new in 3.15, the grip's own form (Eq. 38): the grip at a place is the part of the Ocean's capacity there not already drawn, read at the width of a dent, so collapse stops and turns; the same expansion equation arises in loop quantum cosmology for its own reasons, cited as such. New in 3.15.1: the first-order law written out (§11.5): one speed and preservation fix it uniquely, so the even split, γ = 1, is derived rather than an input, with the tilt coefficient 4; the settled Ocean's pressure meets the requirement of Sandvik et al. (§11.6); below the one speed, travel through the Ocean leaves no wake (§11.8, Landau's criterion); and the grip enters as a correction to the stress, with what is in a region kept (§11.9).
-10. **§12** — the rebuild and the law (3.12), with, new in 3.13, §12.9 the plexus law: seven computed tests. Its frame law is the teleparallel equivalent of General Relativity; light and the eleven other carriers are twist-only laws (LEP's color factors pick three complex directions); the joining field's shape is forced by the measured W/Z ratio; matter is half-angle waves on the frame, the reclaiming its backward solution; exactly three families; a half-angle from whole units; and a sea of plexus waves that lets nothing feel drag. The build supplies the Ocean's current as it expands: there is no separate phase rate to set. New in 3.14, the phase's law written in the build's terms (now Eq. 39): the settled Ocean keeps its energy per volume exactly, has no wave of its own, and its net current is zero; and the sterile-neutrino searches as a test of §12.8 (MicroBooNE 2025). In 3.15 the law's one constant is read as the energy of the Ocean's flow, which comes from the builds and powers only the plexus; §12.3 adds a person on the Earth, rebuilt by the same steps with nothing lost between moments. In 3.15.1 stability is settled in §12.7 (Health): in the settled Ocean the phase carries no wave, so the conditions for one do not arise; where the settled Ocean's fall lines meet the phase keeps one value; and the sign of the self-interaction about the present state is fixed by the dent.
-11. **§13–§16** — all open items gathered in one section, brought up to date for 3.15.1, listing only what is open; new in 3.15.1, §13.3, what would kill it, each item with what is open, what to do, what settles it and what fails it; the research program in dependency order (§14); new in 3.15.1, §15, the predictions, each with its test, what settles it and what would show it wrong; a summary (§16).
-12. **Appendix A** — the rebuild of a spinning black hole: Sagittarius A* taken through the same steps as the Earth's rebuild of §12.3, a table comparing the two regimes, and what the account settles and leaves open. Also issued as a standalone PDF.
-13. **Appendix B** — new in 3.13, the rebuild of the Milky Way's eddy, which carries the Earth and holds the black hole at its center: the three stories as one, with a table comparing the Earth, Sagittarius A* and the eddy; in 3.15, the eddy set going by a river.
-14. **Appendix C** — new in 3.15, the rebuild across a change of beat: the end of a beat, the bottom, the turn and the beginning of the next, step by step, with what it settles and what it leaves open. In 3.15.1, nothing gathered is left when the drive runs out: the galaxies and their eddies have come apart, and most if not all black holes are gone.
+1. **Preface** — non-technical, after a reader's note on how to confirm a complete reading. The premise (no empty space; an Ocean without edges or outside; one speed for every disturbance, and no fixed speed; gravity as the medium's response), the motivating problem, where the standard account's numbers come from, the General Relativity / quantum field theory disagreement over the vacuum, what a medium can do, black holes, the revisions the framework has undergone, and what would end the framework as written.
+2. **Conventions and glossary** — fixed meanings for the Ocean, its amount and phase, the settled Ocean, flow, travel, the carrying speed, light, the gas of light and the normal fluid, matter, energy, the rebuild with building and reclaiming, the books, the joining field, the plexus, the dynamo, the Ocean's capacity and grip, the flow's energy, gravity, the load, the Ocean's rivers, the eddy and the pushback; then the Heartbeat, a beat and the observable universe. A key gives the status tags used in the body.
+3. **§1–§4** — the field equation and its status as the effective description of the medium; tensor definitions, including the complex field Φ = ρe^{iθ} with the re-made state, the viscous stress (kept, but carrying nothing in the settled Ocean) and the refractive account of gravity; the equations of motion; the Ocean interpretation.
+4. **§5** — the Heartbeat cosmology. Within the present beat: expansion as divergence rather than transport; the settled Ocean holding the expansion steady while what is gathered drives its flow, and thinning once that drive falls short, fitted directly to the measured distances (DESI's second release with Pantheon+, DES-SN5YR and DES-Dovekie) and about as good as DESI's own two-number formula with one number fewer and no crossing of w = −1; the microwave background as the light of the first builds' pairs, set free once the expansion had cooled it to about 3000 K. Across beats: at a beat's end the reclaiming carries the Ocean; between beats it is first a gas of light and then a normal fluid, the same everywhere; the build makes the Ocean out of the normal fluid nearly all at once.
+5. **§6** — galactic dynamics. A galaxy and its eddy are one region of the Ocean; the eddy acts through the load the build carries in it. At each distance the eddy answers to the galaxy's own turning there and is built only from the Ocean the galaxy's own loans leave free, with one limit for every galaxy (Eq. 15). Fitted to 153 SPARC galaxies one by one, it does nearly as well as the measured radial acceleration relation (Figures 1 and 2). Fitted to the real Milky Way's stars and gas, rotation curve and vertical motions, on the same data and in the same way as the test that ruled out superfluid dark matter, it does as well as the standard dark-matter account (Figure 3). The limit belongs to the loans and does not follow the expansion; the eddy's beginning (one of the Ocean's rivers), its edge and its center. The Hubble constant here comes only from its direct measurements.
+6. **§7** — matter and its threshold. The partition is by kind of wave: a kind with a lowest energy can be held in place as matter, a kind without one cannot. The electron's 0.511 MeV is the lowest energy of its own kind of wave, set by the field the dynamo sustains.
+7. **§8–§9** — limiting regimes; black holes (no accumulation, stripping as the no-hair theorem, Hawking radiation, recycling rather than draining) and a traveler falling in, also in the rebuild's terms; conservation conditions, nothing is destroyed, and where a wave's energy goes.
+8. **§10** — relation to existing work: what is inherited and what is not, and the known deficiencies against current practice and measurement.
+9. **§11** — one speed and the split, with Figure 4, how a pattern's one speed is shared between its travel and its own rhythm; the first-order law, which one speed and preservation fix uniquely; the current through time; the strong field and the point of no return; frame dragging; beyond first order, rulers that stretch by direction, so a spinning hole's outside is General Relativity's; travel below the one speed leaves no wake; the edge, the inside and the core, where the Ocean's grip stops a collapse and turns it.
+10. **§12** — the rebuild and the law: building and reclaiming, time made in the build, the rebuild of the Earth, antimatter as the reclaiming, the beat's turn, what a build knows, the law and its rules, the phase in the build's terms, the strength of gravity from a count of the kinds of wave, the family the rebuild allows, and the plexus law with its seven tests.
+11. **§13–§16** — §13, everything open in one list: what would kill it first (§13.1), then everything else (§13.2); §14, the research program; §15, the predictions, each with its test, what settles it and what would show it wrong; §16, a summary.
+12. **Appendix A** — the rebuild of a spinning black hole: Sagittarius A* taken through the same steps as the Earth's rebuild, a table comparing the two regimes, and what the account settles and leaves open. Also issued as a standalone PDF.
+13. **Appendix B** — the rebuild of the Milky Way's eddy, which carries the Earth and holds the black hole at its center, with a table comparing the Earth, Sagittarius A* and the eddy.
+14. **Appendix C** — the rebuild across a change of beat: the end of a beat, the bottom, the turn and the beginning of the next, step by step, with what it settles and what it leaves open.
 
 ## Known open problems
 
-Stated in the paper (§13), repeated here so that they are visible before reading. §13.3 names those that could end the framework; §15 gathers the predictions.
+Stated in the paper (§13), repeated here so that they are visible before reading.
 
-- **The flow's energy.** Why it has the size it has, and how the differences that keep the flow running the dynamo run down across a beat.
-- **The eddy's limit.** Why every eddy's core stops at the same load per area: how much each build borrows at a place and how much it resists while holding what it has borrowed; why the loans at an eddy's center come to about a tenth of the flow's energy per volume, and how the plexus brings that energy to bear there; and so the value of g† ≈ 1.2 × 10⁻¹⁰ m s⁻²; the smoothing inside the meeting radius; the eddy's shape far from the disk; the early/late-type lensing difference; the black-hole threshold in the swirl's speed in time.
-- **The eddy's beginning.** How much one of the Ocean's rivers carries above the settled Ocean; how far bound matter bends a river's builds round itself; where an eddy's swirl hands back to its river.
-- **The plexus law's open items.** The strong force's hand term; the scale the neutrinos' masses need; the reading strengths; the joining field's size far below the dent; the odd hand count for patterns with no strong books; two weak directions; the grain's strength (Auger passes it by only about 1.35).
-- **The phase's law.** Eq. 39 is written; what makes a departure from the settled phase, what departures do where the settled Ocean's fall lines meet, and how the plexus's reclaiming feeds its supply term (the couplings in C), are not; and energy's books across expansion.
-- **Which waves the dynamo makes.** The plexus law narrows the strong force's mixing to three complex directions and the families to exactly three; that the dynamo makes exactly these is not derived.
-- **The leftover.** The rebuild must give the matter remaining at the start of the beat, a baryon-to-photon ratio of about 6.1 × 10⁻¹⁰.
-- **The plexus's own waves.** That they carry energy in proportion to frequency is not derived; if they do not, travel through the Ocean below light's speed would leave a wake, and gravity's law would have no source in the medium. Their health beyond that is not checked.
-- **Deriving the frame law.** The frame law gives Einstein's form in full and a spinning hole's outside; deriving it from the plexus's own waves, and the region inside a spinning hole's inner edge, remain.
-- **The vertical test.** The real Milky Way's mass model must be built from its measured stars and gas, and the eddy's turning along and across the disk confronted with the measured rotation curve and Gaia's vertical accelerations; the model Milky Way adds 10 to 17 percent to the vertical turning within a kiloparsec of the midplane. Prograde and retrograde halo stars should differ in their turning by up to 2vV_s/r.
-- **The scale hierarchy and its twin.** Galactic effects act across kiloparsecs while the medium's own scale lies near the Planck length; and the electron's lowest energy lies nearly 10²³ below that scale, which the field the dynamo sustains must explain.
-- **The measured vacuum.** The plexus law gives light and the electron the form of the laws quantum electrodynamics quantizes, so vacuum polarization, light-by-light scattering and birefringence follow in form; the numbers need the strength of charge, not derived.
-- **The sign, at a beat's bottom.** About the present state the sign is fixed by the dent. Open is what the Ocean does where its stiffness is lost, at the bottom of a beat, where it is all heat and its settled part forms again: whether that forming leaves flaws, lines along which the phase winds round, which would show in the microwave background.
-- **Black-hole cores and the turn.** The turnaround of collapse and the beat's turn rest on one candidate, the grip letting go (Eq. 38), followed through a change of beat in Appendix C; open are whether the turn is free of instabilities and how evenly the settled Ocean forms again, and the region inside a spinning hole's inner edge.
-- **Size and spin.** The localized excitation must appear pointlike to probes at about 10⁻¹⁸ m, and spin ½ must come from the order the dynamo makes.
-- **The couplings in C.** How the Ocean's amount and phase couple to the re-made state, to the viscous stress (whether Π_μν has any role beyond the heat's damping in the hot early beat; the beat's turn does not need one; any role needs a causal form in place of the first-order one) and to the plexus.
-- **The neutrino predictions** (§15). Neutrinoless double-beta decay must occur, and there is no sterile neutrino. If the neutrino masses are shown to be ordered so that the decay's rate cannot be small, and the next generation of searches does not see it, or a sterile neutrino is found, the account of the families fails, not the framework (§15).
+**What would kill it** (§13.1), in the order they are being worked, the likeliest to end the framework first:
+
+- **Galaxy clusters.** Whether the Ocean gives clusters the turning their hot gas and their bending of light show, colliding clusters included. Whether a cluster has an eddy per galaxy, one of its own, or both is not worked out, and decides the outcome.
+- **The acoustic peaks.** How much the departures from the settled Ocean carry. The peaks come out as in the standard account if they carry what its cold dark matter carries, about 5.4 times the energy of ordinary matter; that must be derived from the first builds, and the spectrum and the sound horizon computed with the Ocean's own content.
+- **The scale gap.** How much Ocean can be lent at a place, set by the flow's energy through the plexus, which sets the limit g† ≈ 1.2 × 10⁻¹⁰ m s⁻²; how the Ocean's law makes and holds an eddy, and what sets its size.
+- **The strength of gravity.** The count's order-one factors; whether the field that gives mass responds to the rulers' overall scale (if it does, gravity repels); whether further kinds of wave exist. The exact count must give the measured G.
+- **The plexus's own waves.** Their spectrum: each wave's energy must be in proportion to its frequency, and the waves must give the frame law. If not, travel below light's speed would leave a wake, and gravity's law would have no source in the medium.
+- **The measured vacuum.** The plexus's share in vacuum polarization (the Lamb shift, the electron's magnetic moment), light-by-light scattering, vacuum birefringence and the Casimir force; this needs the strength of the field the dynamo sustains.
+- **The settled Ocean's pressure.** The settled Ocean holds w = −1 and can only rise above it as the supply runs down. A confirmed crossing of w = −1 ends it; later DESI releases, with the microwave background and supernovae, settle it.
+
+**What else is open** (§13.2): which waves the dynamo makes; the size of the matter that remained at the start of the beat; why the flow's energy has the size it has, and how the drive from what is gathered falls short and deepens into a beat's end; the eddy's limit (how the tie-up compounds inward, how a round eddy answers to the sphere's average, the core's load per area, the eddy's shape far out, the black-hole threshold); the eddy's beginning (what a river carries, how far bound matter bends it, where the swirl hands back); what the eddy has not been tested on (ellipticals and dwarf spheroidals, the early disks galaxy by galaxy, the growth of the large-scale web); the plexus law's open items, among them the scale the neutrinos' masses need and the joining field's size far below the dent; the phase's departures and what holds an eddy up in the law; energy's books across expansion; inside a spinning hole; the couplings in C; and the turn (whether it is free of instabilities, how the gas of light loosens, at what temperature it becomes the normal fluid, how evenly that forms). Under matter and its threshold: each kind's lowest energy; the scale hierarchy and its twin; the relation to the Standard Model; the size and spin of the localized excitation; the conserved sense shared across kinds.
+
+**The predictions** (§15): no long-wavelength primordial gravitational waves; neutrinoless double-beta decay must occur (if the neutrino masses are shown to be in the inverted ordering and the next generation of searches does not see it, the framework fails with the account of the families); no sterile neutrino.
 
 ## Citing
 
@@ -107,22 +136,9 @@ Stated in the paper (§13), repeated here so that they are visible before readin
 
 Please cite the archived release rather than the repository.
 
-- **All versions** — `10.5281/zenodo.23142440`. Resolves to the latest release. Use this when citing the work as an evolving artifact.
-- **Version 3.15.1** — `10.5281/zenodo.24311884`.
-- **Version 3.15** — `10.5281/zenodo.24182632`.
-- **Version 3.14** — `10.5281/zenodo.24037603`.
-- **Version 3.13.1** — `10.5281/zenodo.23904004`.
-- **Version 3.13** — `10.5281/zenodo.23884689`.
-- **Version 3.12.1** — `10.5281/zenodo.23827267`.
-- **Version 3.12** — `10.5281/zenodo.23812291`.
-- **Version 3.11** — `10.5281/zenodo.23718695`.
-- **Version 3.10** — `10.5281/zenodo.23586999`.
-- **Version 3.9** — `10.5281/zenodo.23549277`.
-- **Version 3.8** — `10.5281/zenodo.23488580`.
-- **Version 3.7** — `10.5281/zenodo.23368921`.
-- **Version 3.6** — `10.5281/zenodo.23324587`. Earlier version DOIs are listed on the Zenodo record.
+- **All versions** — `10.5281/zenodo.23142440`. Resolves to the latest release. Use this when citing the work as an evolving artifact. Each version's own DOI is listed on the Zenodo record.
 
-> Hays, K. (2026). *Scalar–Tensor Hydrodynamics: Gravity as the Response of a Vacuum Medium. A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology* (Version 3.15.1) [Preprint]. Zenodo. <https://doi.org/10.5281/zenodo.23142440>
+> Hays, K. (2026). *Scalar–Tensor Hydrodynamics: Gravity as the Response of a Vacuum Medium. A Modified Gravity Framework for Vacuum Viscosity and Cyclic Vacuum Cosmology* (Version 3.16) [Preprint]. Zenodo. <https://doi.org/10.5281/zenodo.23142440>
 
 ## License
 
@@ -130,5 +146,7 @@ Dual-licensed, because the repository holds both a document and a program.
 
 - **The written work** — the paper, its generated LaTeX source, and the prose embedded in the build script — is licensed **CC BY 4.0**. See [`LICENSE`](LICENSE).
 - **The build tooling** — `build_ocean_formalism.py` as a program — is licensed **MIT**. See [`LICENSE-CODE`](LICENSE-CODE).
+
+The SPARC data tables in `sparc/data/` are Lelli, McGaugh & Schombert's (2016), from the SPARC site, and remain theirs; cite them if you use them.
 
 © 2026 Keith Hays

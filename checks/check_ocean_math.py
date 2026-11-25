@@ -10,7 +10,8 @@ number changes, the anchor is no longer found and the check fails, so the checks
 cannot silently drift away from the text.
 
 Run from inside the checks/ folder: the script imports its three helper modules
-(rulers_direction.py, rotor_lines.py, fd_cancel.py) from its own directory.
+(rulers_direction.py, rotor_lines.py, fd_cancel.py) from its own directory, and the
+Milky Way analysis from the sibling folder milky-way/.
 
 Kinds of check
   FORMULA      an equation is re-derived or tested numerically (identities at
@@ -274,7 +275,7 @@ def _():
     a = 1e-4; cs = math.sqrt((1 + a)/(1 + 3*a))
     return verdict(close(1 - cs, a, 2e-3), f"1 - c_s = {1-cs:.6e} vs a = {a:.1e}")
 
-@check("§13.2(2), §11.1", "FORMULA",
+@check("§11.1", "FORMULA",
        "Gapless branch of Eq. (31): omega^2 = c_s^2 k^2 + B k^4 with B about 4a^2 (in units of 1/M^2)",
        anchor=r"the coefficient of the $k^{4}$ term is about $4a^{2}$")
 def _():
@@ -291,7 +292,7 @@ def _():
     return verdict(ok, "; ".join(f"a={a:g}: numerical/series {r:.5f}, B M^2 / 4a^2 = {q:.3f}" for a, r, q in out)
                    + "; positive, and -> 4a^2 as a -> 0")
 
-@check("§13.2(2)", "NUMBER", "k^4 coefficient 4a^2 with a ~ 1e-23", anchor=r"$4a^{2} \lesssim 4 \times 10^{-46}$")
+@check("§11.1", "NUMBER", "k^4 coefficient 4a^2 with a ~ 1e-23", anchor=r"$4a^{2} \lesssim 4 \times 10^{-46}$")
 def _():
     val = 4*(1e-23)**2
     return verdict(abs(val - 4e-46) < 1e-50, f"4a^2 = {val:.0e} for a = 1e-23")
@@ -680,8 +681,22 @@ def _mn(R, z, M=6e10*Msun, a=3.0*kpc, b=0.28*kpc):
     zb = math.sqrt(z*z + b*b); D = (R*R + (a + zb)**2)**1.5
     return G*M*R/D, G*M*z*(a + zb)/(zb*D)
 
+# --- §6, Equation 15 (3.16): the eddy built from the Ocean the galaxy's own loans leave free
+def _free(y):
+    q = y/math.sqrt(3); rho = q*q + q*math.sqrt(1 + q*q); return 1/(1 + rho)
+def _geddy_rule(r, Mr, gd=gdag):
+    gN = G*Mr/r**2; return math.sqrt(gN*gd)*_free(gN/gd)
+def _M_mn(r, M=6e10*Msun):
+    # mass inside the sphere of radius r, by Gauss's law: r^2/G times the turning averaged over the sphere
+    mu, w = np.polynomial.legendre.leggauss(80); tot = 0.0
+    for m, wi in zip(mu, w):
+        st = math.sqrt(1 - m*m); gR, gz = _mn(r*st, abs(r*m), M)
+        tot += wi*(gR*st + gz*abs(m))
+    return r*r/G*tot/2
+SPARC = Path(__file__).resolve().parent.parent / "sparc"
+
 @check("§6, Eq. (16)", "FORMULA", "(s.grad)s - w x curl s = grad(s^2/2) - xdot x curl s, w = xdot - s (random fields)",
-       anchor=r"\ddot{\mathbf{x}} = \partial_{t}\mathbf{s} - \nabla\!\left(\Phi - \tfrac{1}{2}s^{2}\right)")
+       anchor=r"\ddot{\mathbf{x}} = \partial_{t}\mathbf{s} - \nabla\!\left(\Psi - \tfrac{1}{2}s^{2}\right)")
 def _():
     rng = np.random.default_rng(3); worst = 0
     for _k in range(100):
@@ -723,148 +738,215 @@ def _():
     V, r = 1.0, 1.0; load = V*V/r; tilt = V*(V/r)          # -xdot x curl s, xdot = s = V phi_hat, curl = V/r z_hat
     return verdict(close(load + tilt, 2*V*V/r, 1e-12), f"load {load} + tilt {tilt} = {load+tilt} V^2/r")
 
-@check("§6", "NUMBER", "The limit against the settled Ocean's energy per volume: c H_inf = 5.4-5.9e-10 for H0 67.4/73; g_dag/(c H_inf) = 0.20-0.22 (0.16-0.27 with the 20% systematic); loan 3g^2/4piG about a tenth of the energy per volume; a horizon-set limit 1.5-5x at z = 2.2",
-       anchor=r"the limit is about $0.2$ of it (between $0.16$ and $0.27$")
+def _ocean_histories():
+    """H/H0 against redshift for the six shortfall fits of Section 5.1 (DESI DR2
+    with each of three supernova samples, both thinning readings), read from
+    expansion/results.json; matter and the settled Ocean as fitted, the light
+    of the microwave background added for early times (Omega_r h^2 4.2e-5)."""
+    import sys as _sys, json as _json
+    from scipy.integrate import solve_ivp
+    ex = Path(__file__).resolve().parent.parent / "expansion"
+    R = _json.load(open(ex / "results.json"))
+    out = []
+    for n in ("Pantheon+", "DES-SN5YR 2024", "DES-Dovekie 2026"):
+        for u in (0, 1):
+            f = R[n][f"shortfall_wu{u}"]; Om = f["Om"]; e0 = f["settled_today"]
+            x = Om*e0/(1 - Om); aon = 1/(1 + f["onset_z"]); g = 3*(1 + u)
+            K = g*math.sqrt(x*aon**-3 + 1)/(x*aon**-3)
+            def rhs(lna, y, x=x, K=K, g=g):
+                a = math.exp(lna); rm = x*a**-3; H = math.sqrt(rm + y[0]); d = -g*y[0] + K*rm/H
+                return [0.0 if (y[0] >= 1 and d > 0) else d]
+            sol = solve_ivp(rhs, [math.log(aon), 0.0], [1.0], dense_output=True, rtol=1e-9, atol=1e-12)
+            H20 = x + e0
+            def E(z, x=x, aon=aon, sol=sol, H20=H20):
+                a = 1/(1 + z); e = 1.0 if a <= aon else float(sol.sol(math.log(a))[0])
+                return math.sqrt((x*a**-3 + e + 9.1e-5*H20*a**-4)/H20)
+            out.append(E)
+    return out
+
+def _settled_default():
+    """The settled Ocean's default energy per volume as a share of today's critical
+    density, from the six shortfall fits of Section 5.1: (smallest, largest)."""
+    import json as _json
+    R = _json.load(open(Path(__file__).resolve().parent.parent / "expansion" / "results.json"))
+    sh = []
+    for n in ("Pantheon+", "DES-SN5YR 2024", "DES-Dovekie 2026"):
+        for u in (0, 1):
+            f = R[n][f"shortfall_wu{u}"]; Om = f["Om"]; e0 = f["settled_today"]
+            sh.append(1/(Om*e0/(1 - Om) + e0))
+    return min(sh), max(sh)
+
+@check("§6", "NUMBER", "The limit against the flow's energy per volume: c H_inf = 5.8-6.2e-10 for the measured H0, 70-73, with the settled Ocean's default share from Section 5.1; g_dag/(c H_inf) = 0.19-0.21 (0.15-0.25 with the 20% systematic); the Ocean that can be lent, (3/2) g_dag^2/8piG = 1.3e-11 J/m^3, one part in 47-53 of the flow's energy; a limit set through the horizon reached by then about 5x at z = 2.2 (the history of Section 5.1)",
+       anchor=r"The limit is about $0.2$ of that acceleration (between")
 def _():
     from scipy.integrate import quad
     out = []
-    for H0, OL in ((67.4, 0.685), (73.0, 0.70)):
+    pool = 1.5*gdag**2/(8*math.pi*G)
+    lo, hi = _settled_default()
+    for H0, OL in ((70.0, lo), (73.0, hi)):
         H = H0*1e3/3.0857e22; Hinf = H*math.sqrt(OL); eps = OL*3*H*H/(8*math.pi*G)*c*c
-        out.append((c*Hinf, gdag/(c*Hinf), 3*gdag**2/(4*math.pi*G)/eps))
-    Om = 0.315; E = lambda z: math.sqrt(Om*(1+z)**3 + 1 - Om)
-    hub = E(2.2)
-    def ev(z):
-        a = 1/(1+z); I, _ = quad(lambda ap: 1/(ap*ap*math.sqrt(Om/ap**3 + 1 - Om)), a, math.inf); return a*I
-    def ph(z):
-        a = 1/(1+z); I, _ = quad(lambda ap: 1/(ap*ap*math.sqrt(Om/ap**3 + 1 - Om + 9.1e-5/ap**4)), 1e-12, a); return a*I
-    hz = (ev(0)/ev(2.2), hub, ph(0)/ph(2.2))
-    ok = (abs(out[0][0]/1e-10 - 5.4) < 0.1 and abs(out[1][0]/1e-10 - 5.9) < 0.1 and 0.19 < min(o[1] for o in out) and max(o[1] for o in out) < 0.23
-          and 0.8*out[1][1] > 0.16 - 0.01 and 1.2*out[0][1] < 0.27 + 0.01 and 0.08 < min(o[2] for o in out) and max(o[2] for o in out) < 0.11
-          and 1.4 < min(hz) < 1.6 and 5.0 < max(hz) < 5.5)
-    return verdict(ok, f"c H_inf = {out[0][0]:.2e}, {out[1][0]:.2e}; g/(cH) = {out[0][1]:.3f}, {out[1][1]:.3f}; loan/eps = {out[0][2]:.3f}, {out[1][2]:.3f}; horizon-set at z=2.2: x{min(hz):.2f}-{max(hz):.2f}")
+        out.append((c*Hinf, gdag/(c*Hinf), eps/pool))
+    def ph(E, z):
+        I, _ = quad(lambda u: math.exp(u)/E(math.exp(u) - 1), math.log(1 + z), math.log(1e9), limit=400); return I/(1 + z)
+    hz = [ph(E, 0)/ph(E, 2.2) for E in _ocean_histories()]
+    st = (PAPER.has(r"$(3/2)\,g_{\dagger}^{2}/8\pi G \approx 1.3 \times") and PAPER.has(r"part in $47$ to $53$ of that energy per volume")
+          and PAPER.has(r"$5.8$ to $6.2 \times 10^{-10}\,\mathrm{m\,s^{-2}}$. That takes the") and PAPER.has(r"between $0.15$ and $0.25$")
+          and PAPER.has(r"$H_{0} = 70$ to $73\,\mathrm{km\,s^{-1}\,Mpc^{-1}}$")
+          and PAPER.has(r"would have been about $5$ times today's"))
+    ok = (st and round(out[0][0]/1e-10, 1) == 5.8 and round(out[1][0]/1e-10, 1) == 6.2 and 0.19 < min(o[1] for o in out) and max(o[1] for o in out) < 0.21
+          and round(0.8*out[1][1], 2) == 0.15 and round(1.2*out[0][1], 2) == 0.25 and close(pool, 1.3e-11, 0.03) and round(out[0][2]) == 47 and round(out[1][2]) == 53
+          and 4.5 < min(hz) and max(hz) < 5.5)
+    return verdict(ok, f"c H_inf = {out[0][0]:.2e}, {out[1][0]:.2e}; g/(cH) = {out[0][1]:.3f}, {out[1][1]:.3f}; lendable {pool:.2e} J/m^3 = 1/{out[0][2]:.0f} and 1/{out[1][2]:.0f} of the flow's energy; horizon-set at z=2.2: x{min(hz):.2f}-{max(hz):.2f}")
 
-@check("§6", "NUMBER", "Central pushback holding the cored eddy: integral of load density x lean = g_dag^2/(4 pi G), about 1.7e-11 Pa, for any mass",
-       anchor=r"$g_{\dagger}^{2}/4\pi G$, about $1.7 \times 10^{-11}$~pascals")
+@check("§6", "SIMULATION", "The limit belongs to the loans: at each SPARC galaxy's fit the pushback summed to the center grows with the galaxy (about 6e-12 Pa below 1e9 Msun, 2-4e-11 above 1e10); core load per area about 130 in the smallest, 230-300 in the rest (measured 140). Read from sparc/results/pushback.json (sparc_pushback.py); the sum checked against g_dag^2/4piG for Eq. 15 of 3.15",
+       anchor=r"from about $6 \times 10^{-12}$~pascals in those below")
 def _():
+    import json as _json
     from scipy.integrate import quad
-    I, _ = quad(lambda x: x*(3+x*x)/(1+x*x)**3, 0, float('inf'))
-    pc = gdag**2/(4*math.pi*G)
-    return verdict(abs(I-1) < 1e-9 and abs(pc/1e-11 - 1.7) < 0.05, f"integral {I:.9f}; p_c = {pc:.3e} Pa")
+    I, _ = quad(lambda x: x*(3+x*x)/(1+x*x)**3, 0, float('inf'))        # the old cored eddy: exactly g^2/4piG
+    d = _json.load(open(SPARC / "results" / "pushback.json"))
+    rows = d["rows"]; lm = np.array([r["logMb"] for r in rows]); p = np.array([r["p_Pa"] for r in rows]); mu = np.array([r["mu"] for r in rows])
+    small, big = lm < 9, lm >= 10
+    ps, pb1, pb2 = np.median(p[small]), np.median(p[(lm >= 10) & (lm < 10.7)]), np.median(p[lm >= 10.7])
+    ms = np.median(mu[small]); mrest = [np.median(mu[(lm >= a) & (lm < b)]) for a, b in ((9, 10), (10, 10.7), (10.7, 13))]
+    ok = (abs(I - 1) < 1e-9 and close(ps, 6e-12, 0.15) and 1.8e-11 < min(pb1, pb2) and max(pb1, pb2) < 4.6e-11
+          and abs(ms - 130) < 10 and 225 < min(mrest) and max(mrest) < 310 and d["pushback_vs_mass"]["rho"] > 0.4)
+    return verdict(ok, f"pushback median {ps:.1e} Pa below 1e9 Msun, {pb1:.1e} and {pb2:.1e} above 1e10; core load {ms:.0f}, then "
+                       + ", ".join(f"{x:.0f}" for x in mrest) + f" Msun/pc^2; Spearman with mass {d['pushback_vs_mass']['rho']:+.2f}; the 3.15 cored eddy's sum {I:.6f} g^2/4piG")
 
-@check("§6, Eq. (15), App. B", "NUMBER", "Matching rule: V = sqrt(GM/R_t) at R_t = sqrt(GM/g) gives V^4 = G M g; Milky Way model 176 km/s, R_t 8.3 kpc; a flat 200-230 km/s needs 1.0-1.8e11 Msun",
+@check("§6, Eq. (15), App. B", "NUMBER", "Far out Eq. (15) is sqrt(g_N g_dag) = V^2/r with V^4 = G M g; Milky Way model 176 km/s; the model's turning falls to the limit at 6.3 kpc",
        anchor=r"176\,\mathrm{km\,s^{-1}}$, the speed at which")
 def _():
+    from scipy.optimize import brentq
     out = []
     for Mb in (1e8, 1e10, 6e10):
-        m = Mb*Msun; Rt = math.sqrt(G*m/gdag); V = math.sqrt(G*m/Rt); out.append((V**4/(G*m*gdag), V/1e3, Rt/kpc))
-    need = [(v*1e3)**4/(G*gdag)/Msun/1e11 for v in (200, 230)]
-    return verdict(all(close(q, 1, 1e-12) for q, _, _ in out) and abs(out[2][1] - 176) < 1 and abs(out[2][2] - 8.3) < 0.1
-                   and abs(need[0] - 1.0) < 0.05 and abs(need[1] - 1.8) < 0.05,
-                   f"V^4/(GMg) = 1; Milky Way model V = {out[2][1]:.1f} km/s, R_t = {out[2][2]:.2f} kpc; 200-230 km/s needs {need[0]:.2f}-{need[1]:.2f}e11 Msun")
+        m = Mb*Msun; r = 1e4*math.sqrt(G*m/gdag); V = math.sqrt(_geddy_rule(r, m)*r)
+        out.append((V**4/(G*m*gdag), V/1e3))
+    rh = brentq(lambda r: G*_M_mn(r)/r**2 - gdag, 1*kpc, 100*kpc)/kpc
+    ok = (all(abs(q - 1) < 1e-3 for q, _ in out) and abs(out[2][1] - 176) < 1 and not PAPER.has(r"$1.0$ to $1.8 \times")
+          and abs(rh - 6.3) < 0.1 and PAPER.has(r"falls to the eddy's limit at about $6.3$~kpc"))
+    return verdict(ok, f"far out V^4/(GMg) = {out[0][0]:.4f}; Milky Way model V = {out[2][1]:.1f} km/s; turning at the limit at {rh:.2f} kpc")
 
-@check("§6", "SIMULATION", "Model galaxies 10^7.5-10^11.5 Msun, compact/typical/diffuse: rms 0.046-0.057 dex from the RAR, no trend with compactness",
-       anchor=r"$0.046$ to $0.057$~dex of scatter")
+@check("§6, Eq. (15)", "FORMULA", "The second relation of Eq. (15): rho/sqrt(1 + 2 rho) = y/sqrt(3); half the Ocean tied up (rho = 1) where y = 1; the local power d ln rho/d ln y = 1 + rho/(1 + rho), 1 at the outskirts and 2 deep inside; far out the eddy is sqrt(g_N g_dag)",
+       anchor=r"Half the Ocean is tied up exactly where the")
 def _():
-    rms = []; trend = []
-    for form in _SM:
-        res = []; by = {0.5: [], 1.0: [], 3.0: []}
-        for M in np.logspace(7.5, 11.5, 9):
-            for f in by:
-                Rd = 1.5*kpc*(M/1e10)**0.35*f; R = np.linspace(0.5, 8, 40)*Rd
-                gb = _gdisk(R, M*Msun, Rd); go = gb + np.array([_geddy(r, M*Msun, form) for r in R])
-                rr = np.log10(go/_grar(gb)); res += list(rr); by[f] += list(rr)
-        rms.append(math.sqrt(np.mean(np.square(res)))); trend.append(max(abs(np.mean(v)) for v in by.values()))
-    ok = abs(min(rms) - 0.046) < 0.003 and abs(max(rms) - 0.057) < 0.003 and max(trend) < 0.05
-    return verdict(ok, "rms " + ", ".join(f"{x:.3f}" for x in rms) + f"; largest mean offset by compactness {max(trend):.3f} dex")
+    ys = np.logspace(-4, 4, 4001); rho = 1/_free_v(ys) - 1
+    rel = np.max(np.abs(rho/np.sqrt(1 + 2*rho) - ys/math.sqrt(3))/(ys/math.sqrt(3)))
+    power = np.gradient(np.log(rho), np.log(ys)); want = 1 + rho/(1 + rho)
+    ok = rel < 1e-10 and abs(_free(1.0) - 0.5) < 1e-12 and np.max(np.abs(power - want)[5:-5]) < 1e-3 and abs(power[5] - 1) < 1e-3 and abs(power[-6] - 2) < 1e-3
+    return verdict(ok, f"relation exact to {rel:.0e}; free share at y = 1: {_free(1.0):.3f}; local power {power[5]:.3f} at y = 1e-4, {np.interp(0, np.log10(ys), power):.3f} at y = 1, {power[-6]:.3f} at y = 1e4")
+def _free_v(y):
+    q = y/math.sqrt(3); rho = q*q + q*np.sqrt(1 + q*q); return 1/(1 + rho)
 
-@check("§6", "SIMULATION", "Model Milky Way with the eddy: 159 -> 201 km/s at 8.1 kpc (RAR 205); radial x1.59; vertical +9.8% at 0.5 kpc, +16.8% at 1 kpc",
-       anchor=r"by $9.8$ percent at $0.5$~kpc from the midplane and $16.8$ percent at $1$~kpc")
+@check("§6", "SIMULATION", "Model Milky Way with the eddy of Eq. (15): 159 -> 203 km/s at 8.1 kpc (RAR 205); radial x1.62; vertical +10.3% at 0.5 kpc, +17.5% at 1 kpc",
+       anchor=r"by $10.3$ percent at $0.5$~kpc from the midplane and $17.5$ percent at $1$~kpc")
 def _():
-    R0 = 8.1*kpc; gb, _z = _mn(R0, 0.0); ge = _geddy(R0, 6e10*Msun)
+    R0 = 8.1*kpc; gb, _z = _mn(R0, 0.0); ge = _geddy_rule(R0, _M_mn(R0))
     vb, vt = math.sqrt(gb*R0)/1e3, math.sqrt((gb + ge)*R0)/1e3; vr = math.sqrt(_grar(gb)*R0)/1e3
     vert = []
     for zk in (0.5, 1.0):
-        z = zk*kpc; r = math.hypot(R0, z); _r, gbz = _mn(R0, z); vert.append(_geddy(r, 6e10*Msun)*z/r/gbz)
-    ok = (abs(vb - 159) < 1 and abs(vt - 201) < 1 and abs(vr - 205) < 1 and abs(1 + ge/gb - 1.59) < 0.01
-          and abs(vert[0] - 0.098) < 0.002 and abs(vert[1] - 0.168) < 0.002)
-    return verdict(ok, f"{vb:.0f} -> {vt:.0f} km/s (RAR {vr:.0f}); radial x{1+ge/gb:.2f}; vertical +{vert[0]*100:.1f}%, +{vert[1]*100:.1f}%")
+        z = zk*kpc; r = math.hypot(R0, z); _r, gbz = _mn(R0, z); vert.append(_geddy_rule(r, _M_mn(r))*z/r/gbz)
+    ok = (abs(vb - 159) < 1 and abs(vt - 203) < 1 and abs(vr - 205) < 1 and abs(1 + ge/gb - 1.62) < 0.005
+          and abs(vert[0] - 0.103) < 0.0015 and abs(vert[1] - 0.175) < 0.0015)
+    return verdict(ok, f"{vb:.0f} -> {vt:.0f} km/s (RAR {vr:.0f}); radial x{1+ge/gb:.3f}; vertical +{vert[0]*100:.1f}%, +{vert[1]*100:.1f}%")
 
-@check("§6", "SIMULATION", "Eddy core load per area, Burkert-equivalent: 264 Msun/pc^2 (cored), 460-530 (spiked), mass-independent; measured 140",
-       anchor=r"gives $264$, about")
+@check("§6, SPARC", "SIMULATION", "153 SPARC galaxies fitted as Li et al. fit: the eddy with one limit chi2 14358 against the RAR's 13729 (2678 dof), rms 0.061 against 0.057, both limits 1.12; own limits gain 16% and 11% and do not follow mass; DDO 154 3.2 against 3.5; the eddy set by total mass alone 187 in DDO 154, best limit 0.50, own limits follow mass. Read from sparc/results (sparc_fit.py, sparc_report.py), five galaxies refitted",
+       anchor=r"$\chi^{2}$ of $14\,358$ against $13\,729$ on $2678$ degrees of freedom")
 def _():
-    from scipy.optimize import least_squares
-    pc = kpc/1e3; out = {}
-    for form in _SM:
-        vals = []
-        for Mb in (1e7, 1e11):
-            M = Mb*Msun; V2 = math.sqrt(G*M*gdag); Rt = math.sqrt(G*M/gdag); r = np.linspace(0.1, 2.0, 60)*Rt
-            Me = V2*r*_SM[form](r/Rt)/G
-            Mb_ = lambda p: 2*math.pi*10**p[0]*(10**p[1]*Rt)**3*(np.log(1 + r/(10**p[1]*Rt)) + 0.5*np.log(1 + (r/(10**p[1]*Rt))**2) - np.arctan(r/(10**p[1]*Rt)))
-            sol = least_squares(lambda p: np.log(Mb_(p)/Me), [math.log10(V2/(G*Rt**2)), 0.0])
-            vals.append(10**sol.x[0]*10**sol.x[1]*Rt/(Msun/pc**2))
-        out[form] = vals
-    ok = abs(out["cored"][0] - 264) < 3 and abs(out["cored"][1] - out["cored"][0]) < 1 and all(455 < out[f][0] < 535 for f in ("x/(1+x)", "1-exp(-x)"))
-    return verdict(ok, "; ".join(f"{f}: {v[0]:.0f} (1e7) / {v[1]:.0f} (1e11)" for f, v in out.items()))
+    import json as _json, sys as _sys
+    if str(SPARC) not in _sys.path: _sys.path.insert(0, str(SPARC))
+    import sparc_data as SD, sparc_fit as SF
+    s_ = _json.load(open(SPARC / "results" / "summary.json")); c_ = _json.load(open(SPARC / "results" / "summary_cored.json"))
+    e, r = s_["eddy"], s_["rar"]
+    gain = lambda m: 1 - m["own_limit"]["chi2_total"]/m["at_shared"]["chi2_total"]
+    # refit five galaxies at the limit 1.20 and compare with the saved fits
+    gals = {g["name"]: g for g in SD.load()}; d = np.load(SPARC / "results" / "profiles.npz"); names = list(d["names"]); worst = 0
+    for n in ("DDO154", "IC2574", "NGC2841", "NGC3198", "UGC00128"):
+        g = gals[n]; i = names.index(n)
+        for model in ("rar", "eddy"):
+            SF.FORM = SF.DEFAULT_FORM; b = SF.best(g, SF.LGRID[SF.I0], model, [SF.start(g), d[model + "_TH"][i, SF.I0][:4 if g["has_bul"] else 3]])
+            worst = max(worst, abs(b.fun - d[model + "_P"][i, SF.I0])/d[model + "_P"][i, SF.I0])
+    ok = (round(e["at_shared"]["chi2_total"]) == 14358 and round(r["at_shared"]["chi2_total"]) == 13729 and e["at_shared"]["dof"] == 2678
+          and round(e["resid_rms_dex_shared"], 3) == 0.061 and round(r["resid_rms_dex_shared"], 3) == 0.057
+          and round(e["shared_gdag"], 2) == 1.12 and round(r["shared_gdag"], 2) == 1.12 and round(gain(e)*100) == 16 and round(gain(r)*100) == 11
+          and e["trends"]["log_Mb"]["p"] > 0.05 and round(e["per_galaxy"]["DDO154"]["chi2nu_120"], 1) == 3.2 and round(r["per_galaxy"]["DDO154"]["chi2nu_120"], 1) == 3.5
+          and round(c_["eddy"]["per_galaxy"]["DDO154"]["chi2nu_120"]) == 187 and round(c_["eddy"]["shared_gdag"], 2) == 0.50
+          and c_["eddy"]["trends"]["log_Mb"]["p"] < 1e-4 and worst < 1e-3)
+    return verdict(ok, f"eddy {e['at_shared']['chi2_total']:.0f}, RAR {r['at_shared']['chi2_total']:.0f} / {e['at_shared']['dof']}; rms {e['resid_rms_dex_shared']:.3f}, {r['resid_rms_dex_shared']:.3f}; limits {e['shared_gdag']:.2f}, {r['shared_gdag']:.2f}; "
+                       f"own-limit gain {gain(e)*100:.0f}%, {gain(r)*100:.0f}%; trend with mass p {e['trends']['log_Mb']['p']:.2f}; DDO 154 {e['per_galaxy']['DDO154']['chi2nu_120']:.1f} / {r['per_galaxy']['DDO154']['chi2nu_120']:.2f}; "
+                       f"total-mass eddy: DDO 154 {c_['eddy']['per_galaxy']['DDO154']['chi2nu_120']:.0f}, limit {c_['eddy']['shared_gdag']:.2f}, trend p {c_['eddy']['trends']['log_Mb']['p']:.0e}; five galaxies refitted to {worst:.0e}")
 
-@check("§6", "NUMBER", "c H0/2pi = 1.04-1.13e-10 (H0 67.4, 73); late-time c H0 sqrt(OmL)/2pi = 0.86-0.93e-10; H(2.3)/H0 = 3.5 (Omega_m 0.315, as elsewhere)",
-       anchor=r"$1.04$ to $1.13 \times 10^{-10}\,\mathrm{m\,s^{-2}}$")
+@check("§6", "NUMBER", "c H0/2pi = 1.08-1.13e-10 (H0 70, 73, measured); late-time c H0 sqrt(Om_settled)/2pi = 0.92-0.99e-10; H(2.3)/H0 = 3.4-3.5 (the history of Section 5.1)",
+       anchor=r"$1.08$ to $1.13 \times 10^{-10}\,\mathrm{m\,s^{-2}}$")
 def _():
-    Mpc = 3.0857e22; a = [c*h*1e3/Mpc/(2*math.pi) for h in (67.4, 73.0)]; b = [x*math.sqrt(0.685) for x in a]
-    E = math.sqrt(0.315*(1 + 2.3)**3 + 0.685)
-    ok = close(a[0], 1.04e-10, 0.01) and close(a[1], 1.13e-10, 0.01) and close(b[0], 0.86e-10, 0.01) and close(b[1], 0.93e-10, 0.01) and abs(E - 3.5) < 0.05
-    return verdict(ok, f"{a[0]:.3e}, {a[1]:.3e}; late-time {b[0]:.3e}, {b[1]:.3e}; H(2.3)/H0 = {E:.2f}")
+    Mpc = 3.0857e22; a = [c*h*1e3/Mpc/(2*math.pi) for h in (70.0, 73.0)]; lo, hi = _settled_default(); b = [a[0]*math.sqrt(lo), a[1]*math.sqrt(hi)]
+    Es = [E(2.3) for E in _ocean_histories()]
+    ok = (close(a[0], 1.08e-10, 0.01) and close(a[1], 1.13e-10, 0.01) and close(b[0], 0.92e-10, 0.01) and close(b[1], 0.99e-10, 0.01)
+          and round(min(Es), 1) == 3.4 and round(max(Es), 1) == 3.5 and PAPER.has(r"would have a limit $3.4$ to $3.5$ times today's"))
+    return verdict(ok, f"{a[0]:.3e}, {a[1]:.3e}; late-time {b[0]:.3e}, {b[1]:.3e}; H(2.3)/H0 = {min(Es):.2f}-{max(Es):.2f}")
 
-@check("§6", "SIMULATION", "Genzel et al. 2017 six disks: fixed limit fits 5-6 of 6 dark-matter shares; limit following H(z) fails all three beyond z = 2 (0.09-0.36 predicted); bound 1.0-2.7x at z 2.2-2.4 (zC 400569), 1.2x (zC 406690, cored)",
-       anchor=r"predicting $0.09$ to $0.36$ where $0$ to $0.12$ is found")
+@check("§6", "SIMULATION", "Genzel et al. 2017 six disks with Eq. (15): a fixed limit fits 5 of 6 dark-matter shares; a limit following H(z) gives too much in two of the three beyond z = 2 (0.23 and 0.28 against at most 0.08 and 0.26); zC 406690 bounds the limit at z 2.2 to 1.7x, where H was 3.3x; under each of the six histories of Section 5.1",
+       anchor=r"two, about $0.23$ and $0.28$ where at most $0.08$ and $0.26$ are found")
 def _():
     from scipy.optimize import brentq
     gals = [(0.854, 1.7, 0.20, 7.3, (0.11, 0.31)), (1.500, 2.3, 0.35, 7.4, (0.00, 0.38)), (1.613, 1.0, 0.40, 4.9, (0.10, 0.28)),
             (2.196, 1.7, 0.60, 5.5, (0.00, 0.08)), (2.242, 1.7, 0.37, 3.3, (0.00, 0.07)), (2.383, 2.1, 0.15, 6.0, (0.00, 0.26))]
-    E = lambda z: math.sqrt(0.315*(1 + z)**3 + 0.685)
-    def gbar(z, M11, BT, Rh):
-        M = M11*1e11*Msun; R = Rh*kpc; a_ = kpc/1.815
-        return M, R, _gdisk(R, (1 - BT)*M, R/1.68) + G*BT*M/(R + a_)**2
-    fixed = []; hz_fail = []; hz_pred = []; bound = []
-    for form in _SM:
-        nf = 0
-        for z, M11, BT, Rh, (lo, hi) in gals:
-            M, R, gb = gbar(z, M11, BT, Rh)
-            fe = lambda k: _geddy(R, M, form, k*gdag)/(gb + _geddy(R, M, form, k*gdag))
-            nf += lo <= fe(1.0) <= hi
-            if z > 2:
-                hz_fail.append(not (lo <= fe(E(z)) <= hi)); hz_pred.append(fe(E(z)))
-                if Rh == 3.3: bound.append(brentq(lambda k: fe(k) - hi, 1e-3, 100))
-                if Rh == 5.5 and form == 'cored': tight = brentq(lambda k: fe(k) - hi, 1e-3, 100)
-        fixed.append(nf)
-    ok = min(fixed) >= 5 and all(hz_fail) and abs(min(hz_pred) - 0.09) < 0.01 and abs(max(hz_pred) - 0.36) < 0.01 and abs(min(bound) - 1.0) < 0.05 and abs(max(bound) - 2.7) < 0.05 and abs(tight - 1.2) < 0.05
-    return verdict(ok, f"fixed limit inside range: {[int(x) for x in fixed]} of 6; H(z) fails every z > 2 case: {all(hz_fail)}; H(z) predictions {min(hz_pred):.2f}-{max(hz_pred):.2f}; zC 400569 bound {min(bound):.2f}-{max(bound):.2f}x; zC 406690, cored, {tight:.2f}x",
-                   )
+    res = []
+    for E in _ocean_histories():
+        res.append(_genzel(gals, E))
+    ok = all(r[0] for r in res) and PAPER.has(r"puts the limit at redshift $2.2$ at most $1.7$ times today's")
+    return verdict(ok, "; ".join(r[1] for r in res[::2]))
 
-@check("§6", "NUMBER", "In-plane turning at most 15-19 km/s at the Sun: pressure-supported systems on the RAR within 0.10-0.13 dex",
-       anchor=r"turning of at most $15$ to $19\,\mathrm{km\,s^{-1}}$ at the Sun")
+def _genzel(gals, E):
+    from scipy.optimize import brentq
+    nf = 0; over = []; tight = None
+    for z, M11, BT, Rh, (lo, hi) in gals:
+        M = M11*1e11*Msun; R = Rh*kpc; a_ = kpc/1.815; Rd = R/1.68
+        gb = _gdisk(R, (1 - BT)*M, Rd) + G*BT*M/(R + a_)**2
+        Menc = (1 - BT)*M*(1 - math.exp(-R/Rd)*(1 + R/Rd)) + BT*M*R*R/(R + a_)**2
+        fe = lambda k: _geddy_rule(R, Menc, k*gdag)/(gb + _geddy_rule(R, Menc, k*gdag))
+        nf += lo <= fe(1.0) <= hi
+        if z > 2:
+            over.append((round(fe(E(z)), 3), hi, fe(E(z)) > hi))
+            if Rh == 5.5: tight = brentq(lambda k: fe(k) - hi, 1e-3, 100)
+    n_over = sum(o[2] for o in over); preds = sorted(o[0] for o in over if o[2])
+    ok = (nf == 5 and n_over == 2 and abs(preds[0] - 0.23) < 0.006 and abs(preds[1] - 0.28) < 0.008
+          and abs(tight - 1.7) < 0.05 and abs(E(2.196) - 3.3) < 0.05)
+    return ok, f"fixed {nf}/6, H(z)-following over {preds}, bound {tight:.2f}x, H(2.2)/H0 {E(2.196):.2f}"
+
+@check("§6", "NUMBER", "In-plane turning at most 16-20 km/s at the Sun: pressure-supported systems on the RAR within 0.10-0.13 dex",
+       anchor=r"turning of at most $16$ to $20\,\mathrm{km\,s^{-1}}$ at the Sun")
 def _():
-    R0 = 8.1*kpc; gb, _z = _mn(R0, 0.0); ge = _geddy(R0, 6e10*Msun); vt = math.sqrt((gb + ge)*R0)
+    R0 = 8.1*kpc; gb, _z = _mn(R0, 0.0); ge = _geddy_rule(R0, _M_mn(R0)); vt = math.sqrt((gb + ge)*R0)
     Vs = [(1 - 10**(-off))*ge*R0/vt/1e3 for off in (0.10, 0.13)]
-    return verdict(abs(Vs[0] - 15) < 1 and abs(Vs[1] - 19) < 1, f"{Vs[0]:.1f} and {Vs[1]:.1f} km/s")
+    return verdict(abs(Vs[0] - 16) < 0.5 and abs(Vs[1] - 20) < 0.5, f"{Vs[0]:.1f} and {Vs[1]:.1f} km/s")
 
-@check("§6", "SIMULATION", "Escape speed 528 km/s at the Sun places the eddy's edge at about 150-350 kpc in the model",
-       anchor=r"edge at about $150$ to $350$~kpc")
+@check("§6", "SIMULATION", "Escape speed 528 +24/-25 km/s at the Sun places the eddy's edge at about 100-230 kpc in the model",
+       anchor=r"edge at about $100$ to $230$~kpc")
 def _():
     from scipy.integrate import quad
+    from scipy.optimize import brentq
     M = 6e10*Msun; a_, b_ = 3.0*kpc, 0.28*kpc; R0 = 8.1*kpc
     gd = lambda r: G*M*r/(r*r + (a_ + b_)**2)**1.5
+    rg = np.logspace(math.log10(0.5*kpc), math.log10(2500*kpc), 300); Mg = np.array([_M_mn(x) for x in rg])
+    Mr = lambda r: float(np.interp(math.log(r), np.log(rg), Mg))
     def vesc(Re):
-        dphi = quad(lambda r: gd(r) + (_geddy(r, M) if r < Re else 0), R0, Re, limit=200)[0]
-        return math.sqrt(2*(dphi + G*(M + _geddy(Re, M)*Re*Re/G)/Re))/1e3
-    v150, v350 = vesc(150*kpc), vesc(350*kpc)
-    ok = v150 < 528 + 25 and v350 > 528 - 25 and v150 < v350
-    return verdict(ok, f"escape speed {v150:.0f} km/s (edge 150 kpc) to {v350:.0f} km/s (350 kpc), against 528 +24/-25")
+        dphi = quad(lambda r: gd(r) + _geddy_rule(r, Mr(r)), R0, Re, limit=400, epsrel=1e-6)[0]
+        return math.sqrt(2*(dphi + G*(M + _geddy_rule(Re, Mr(Re))*Re*Re/G)/Re))/1e3
+    edges = [brentq(lambda Re: vesc(Re*kpc) - v, 40, 2000, xtol=0.5) for v in (503, 528, 552)]
+    ok = abs(edges[0] - 100) < 8 and abs(edges[2] - 230) < 10 and edges[0] < edges[1] < edges[2]
+    return verdict(ok, f"edge {edges[0]:.0f} kpc (503 km/s), {edges[1]:.0f} (528), {edges[2]:.0f} (552)")
 
-@check("Appendix B", "NUMBER", "The Sun's share at the Earth's distance about 2e-8; the eddy supplies about 37% of the turning at the Sun",
-       anchor=r"about $37$ percent of the turning")
+@check("Appendix B", "NUMBER", "The Sun's share at the Earth's distance about 2e-8; the eddy supplies about 38% of the turning at the Sun (radial x1.62); vertical 10-18% within a kiloparsec",
+       anchor=r"about $38$ percent of the")
 def _():
-    sh = 2*GMsun/(c*c*AU); frac = 1 - 1/1.59
-    return verdict(close(sh, 2e-8, 0.05) and abs(frac - 0.37) < 0.005, f"share {sh:.2e}; eddy fraction {frac:.3f}")
+    sh = 2*GMsun/(c*c*AU)
+    R0 = 8.1*kpc; gb, _z = _mn(R0, 0.0); ge = _geddy_rule(R0, _M_mn(R0)); frac = ge/(gb + ge)
+    vert = []
+    for zk in (0.5, 1.0):
+        z = zk*kpc; r = math.hypot(R0, z); _r, gbz = _mn(R0, z); vert.append(_geddy_rule(r, _M_mn(r))*z/r/gbz)
+    ok = close(sh, 2e-8, 0.05) and abs(frac - 0.38) < 0.005 and round(vert[0]*100) == 10 and round(vert[1]*100) == 18 and PAPER.has(r"turning only $10$ to $18$ percent more")
+    return verdict(ok, f"share {sh:.2e}; eddy fraction {frac:.3f}; vertical {vert[0]*100:.1f}% and {vert[1]*100:.1f}%")
 
 @check("§11.8", "SIMULATION", "Phase slices of a spinning hole (build's law) spacelike through both edges; Cotton-York of the rulers zero without spin and growing as spin squared",
        anchor=r"grows as the square of the spin, checked numerically for spins up to $0.9$")
@@ -1121,35 +1203,56 @@ def _():
     v2, mu0 = 1.3, 0.7; V0 = 2*v2*mu0*mu0
     return verdict(worst < 1e-12 and close(V0 - v2*mu0*mu0, v2*mu0*mu0, 1e-12), f"largest difference between the two laws {worst:.1e}; settled energy V0 - v^2 mu0^2 = v^2 mu0^2")
 
-@check("§12.7, §6", "NUMBER", "The Earth's loan (binding energy) per volume ~2e11 J/m^3: ~1e20 times the flow's energy per volume (5-6e-10 J/m^3), ~1e21 times the eddy's limit counted as a loan (3 g^2/4 pi G, a tenth of the flow's energy = 2 (g/cH)^2); an eddy's central load 1e5-1e7 times the flow's energy",
+@check("§12.7, §6", "NUMBER", "The Earth's loan (binding energy) per volume ~2e11 J/m^3: ~1e20 times the flow's energy per volume (6.0-6.9e-10 J/m^3, Section 5.1), ~1e22 times the Ocean that can be lent at a place ((3/2) g^2/8 pi G, Section 6); an eddy's central load 1e5-1e7 times the flow's energy",
        anchor=r"$2 \times 10^{11}\,\mathrm{J\,m^{-3}}$ at the Earth's own place, some $10^{20}$ times the")
 def _():
     ME, RE = 5.9722e24, 6.371e6; W = 0.6*G*ME**2/RE; per = W/(4/3*math.pi*RE**3)
-    eps = [0.685*3*(67.4e3/3.0857e22)**2/(8*math.pi*G)*c*c, 0.70*3*(73.0e3/3.0857e22)**2/(8*math.pi*G)*c*c]
-    cap = 3*gdag**2/(4*math.pi*G)
-    Hinf = 67.4e3/3.0857e22*math.sqrt(0.685)
+    lo, hi = _settled_default()
+    eps = [lo*3*(70.0e3/3.0857e22)**2/(8*math.pi*G)*c*c, hi*3*(73.0e3/3.0857e22)**2/(8*math.pi*G)*c*c]
+    cap = 1.5*gdag**2/(8*math.pi*G)
+    Hinf = 70.0e3/3.0857e22*math.sqrt(lo)
     cores = []
     for Mb in (1e8, 6e10, 1e12):
         m = Mb*Msun; V2 = math.sqrt(G*m*gdag); Rt2 = G*m/gdag
         cores.append(3*V2/(4*math.pi*G*Rt2)*c*c/eps[0])
-    ok = (close(per, 2e11, 0.1) and close(W/(ME*c*c), 4e-10, 0.1) and all(5e-10 < e_ < 6.5e-10 for e_ in eps)
-          and 2e20 < per/max(eps) and per/min(eps) < 6e20 and 2e21 < per/cap < 6e21
-          and close(cap/eps[0], 2*(gdag/(c*Hinf))**2, 1e-9) and 0.08 < cap/eps[0] < 0.11 and 5e4 < min(cores) and max(cores) < 1e7)
+    ok = (close(per, 2e11, 0.1) and close(W/(ME*c*c), 4e-10, 0.1) and round(eps[0]*1e10, 1) == 6.0 and round(eps[1]*1e10, 1) == 6.9 and PAPER.has(r"about $6.0$ to $6.9 \times")
+          and 2e20 < per/max(eps) and per/min(eps) < 6e20 and 1e22 < per/cap < 2e22 and PAPER.has(r"some $10^{22}$ times that")
+          and close(cap/eps[0], 0.5*(gdag/(c*Hinf))**2, 1e-9) and 0.018 < cap/eps[0] < 0.026 and 5e4 < min(cores) and max(cores) < 1e7)
     return verdict(ok, f"loan {W:.2e} J = {W/(ME*c*c):.1e} of the Earth's mass, {per:.2e} J/m^3; flow's energy {eps[0]:.2e}-{eps[1]:.2e} J/m^3; ratio {per/eps[0]:.1e}; "
-                       f"limit as a loan {cap/eps[0]:.3f} of the flow's energy = 2 (g/cH)^2; Earth against it {per/cap:.1e}; eddy central load / flow's energy {min(cores):.0e}-{max(cores):.0e} (1e12 to 1e8 Msun)")
+                       f"lendable {cap/eps[0]:.4f} of the flow's energy = (g/cH)^2/2; Earth against it {per/cap:.1e}; eddy central load / flow's energy {min(cores):.0e}-{max(cores):.0e} (1e12 to 1e8 Msun)")
 
-@check("§14, preface, §12.7", "CONSISTENCY",
+@check("§12.7, Health", "CONSISTENCY",
        "The sign of lambda about the present state: the dent is the amount's gap sqrt(lambda) v, placed near the Planck energy by the strength of gravity; a real gap needs lambda > 0",
-       anchor=r"which a real gap allows only for $\lambda > 0$")
+       anchor=r"so about the present state $\lambda > 0$")
 def _():
     v = 1.0; out = []
     for lam in (0.5, -0.5):
         gap2 = lam*v*v                                    # amount's ripple at k = 0 in the stiff Ocean
         out.append((lam, gap2 > 0))
     st = PAPER.has(r"In the settled Ocean the supply cancels the bare current and $L_{,X}$ vanishes")
-    pref = PAPER.has(r"For the present state the framework settles it")
-    ok = out[0][1] and not out[1][1] and st and pref
-    return verdict(ok, f"gap^2 = lambda v^2: real for lambda = 0.5 ({out[0][1]}), imaginary for -0.5 ({not out[1][1]}); Health paragraph and preface say so: {st and pref}")
+    ok = out[0][1] and not out[1][1] and st
+    return verdict(ok, f"gap^2 = lambda v^2: real for lambda = 0.5 ({out[0][1]}), imaginary for -0.5 ({not out[1][1]}); Health paragraph says so: {st}")
+
+@check("Appendix C, steps 6-7", "SIMULATION",
+       "The Ocean is built out of the normal fluid with its phase the same everywhere: phases counted from start times that differ from place to place wind round no loop, whatever the differences; phases picked piece by piece would leave lines",
+       anchor=r"It has no current, since there is no flow without a build (step 8), and nothing winds round anywhere")
+def _():
+    rng = np.random.default_rng(6); n = 128
+    def windings(th):
+        d = lambda a: (a + np.pi) % (2*np.pi) - np.pi                # wrapped difference between neighbours
+        w = d(np.roll(th, -1, 1) - th) + d(np.roll(np.roll(th, -1, 1), -1, 0) - np.roll(th, -1, 1)) \
+            - d(np.roll(np.roll(th, -1, 1), -1, 0) - np.roll(th, -1, 0)) - d(np.roll(th, -1, 0) - th)
+        return int(np.abs(np.round(w/(2*np.pi))).sum())
+    k = np.fft.fftfreq(n)[:, None]**2 + np.fft.fftfreq(n)[None, :]**2
+    worst = 0; step = 0.0
+    for amp in (1e-3, 0.3, 1.0, 3.0):                                # spread of start times, in turns of the phase
+        t0 = np.real(np.fft.ifft2(np.fft.fft2(rng.normal(size=(n, n)))*np.exp(-k*n*n/10.0)))
+        t0 *= amp*2*np.pi/np.abs(t0).max()
+        step = max(step, np.abs(np.diff(t0, axis=0)).max(), np.abs(np.diff(t0, axis=1)).max())
+        worst = max(worst, windings(-t0))                            # phase = count of time made since each place's start
+    pieces = windings(rng.uniform(0, 2*np.pi, (n, n)))               # one random phase per piece
+    ok = worst == 0 and pieces > 1000 and step < np.pi              # the grid resolves the differences (below half a turn per step)
+    return verdict(ok, f"counted from start times spread up to 3 turns (largest step between neighbours {step:.2f} rad): {worst} windings on {n*n} loops; phases picked piece by piece: {pieces} windings")
 
 @check("§12.7", "FORMULA",
        "Under the build's law the settled Ocean's L_X = v^2 + s vanishes (s = -v^2): the phase carries no wave of its own",
@@ -1186,13 +1289,13 @@ def _():
     ok = abs(v[0]/1e3 - 14.7) < 0.2 and abs(v[i]/1e3 - 11.2) < 0.1 and np.isfinite(f[i]) and abs(cone - 1) < 1e-4
     return verdict(ok, f"inflow at the center {v[0]/1e3:.1f} km/s, at the surface {v[i]/1e3:.1f} km/s; phase offset center to surface {f[i]-f[0]:.2e} s (finite); near the center theta grows as v0 |x|/c^2 (ratio {cone:.6f})")
 
-@check("Preface, §13.3, §14, §15", "CONSISTENCY",
-       "What would kill it: the preface's entries, §13.3's items and §14's decisive items are the same list; every §13.3 item says what is open, what to do, what settles it and what fails it; every §15 prediction says its test, what settles it and what would show it wrong")
+@check("Preface, §13.1, §14, §15", "CONSISTENCY",
+       "What would kill it: the preface's entries, §13.1's items and §14's decisive items are the same list; every §13.1 item says what is open, what to do, what settles it and what fails it; every §15 prediction says its test, what settles it and what would show it wrong")
 def _():
     b = PAPER.body
     i0 = b.index(r"\subsection*{What would kill it}"); i1 = b.index(r"\paragraph{Conventions.}")
     pref = re.findall(r"\\noindent\s*\\textbf\{([^}]+?)\.\}", b[i0:i1])
-    j0 = b.index(r"\label{sec:killopen}"); j1 = b.index(r"\section{Research Program}")
+    j0 = b.index(r"\label{sec:killopen}"); j1 = b.index(r"\subsection{What else is open}")
     blk = b[j0:j1]; items = re.split(r"\\item ", blk)[1:]
     names = [re.match(r"\\textbf\{([^}]+?)\.\}", it).group(1) for it in items]
     fields_ok = all(all(f in it for f in (r"\emph{Open:}", r"\emph{To do:}", r"\emph{Settled", r"\emph{Fails if}")) for it in items)
@@ -1202,7 +1305,7 @@ def _():
     l0 = b.index(r"\label{sec:program}"); dec = b[l0:k0].count(r"\emph{(decisive)}") - 1   # minus the definition sentence
     match = len(pref) == len(names) and all(any(n.startswith(pn) for n in names) for pn in pref)
     ok = match and fields_ok and pred_ok and dec == len(names)
-    return verdict(ok, f"preface {len(pref)}: {pref}; §13.3 {len(names)}; §14 decisive {dec}; §13.3 fields complete: {fields_ok}; §15 {len(preds)} predictions, fields complete: {pred_ok}")
+    return verdict(ok, f"preface {len(pref)}: {pref}; §13.1 {len(names)}; §14 decisive {dec}; §13.1 fields complete: {fields_ok}; §15 {len(preds)} predictions, fields complete: {pred_ok}")
 
 @check("whole paper", "CONSISTENCY", "Every \\eqref and \\ref has a \\label; every \\cite has a \\bibitem")
 def _():
@@ -1264,6 +1367,21 @@ def _():
         ("delocalized", "11 Nov: the paper's word is coherent"),
         ("Testable Predictions", "15 Nov 17:25: the predictions are their own section (Section 15)"),
         ("galaxies, their eddies and any black holes", "15 Nov 08:16: nothing gathered is left when the drive runs out (Section 5.2)"),
+        ("Gaia's vertical", "21 Nov: the vertical data are SEGUE's (SDSS); only the rotation curve is Gaia's"),
+        ("Gaia's kinematics exclude", "21 Nov: the vertical data are SEGUE's (SDSS)"),
+        ("An eddy cannot know where", "21 Nov: each of the eddy's builds reads the galaxy through what is at its own place (Section 6)"),
+        ("every eddy's core holds the same load", "21 Nov: the limit belongs to the loans; the central sum grows with the galaxy (Section 6)"),
+        ("for model galaxies", "21 Nov: the eddy is fitted to real galaxies (SPARC, Section 6)"),
+        ("about a tenth of that energy per volume", "21 Nov: the Ocean that can be lent is one part in 40-50 (Section 6)"),
+        ("Ocean out on loan", "21 Nov: the loan is a build's; the Ocean it was borrowed from cannot build"),
+        ("not its own source", "§11.7: Einstein's field does gravitate; its own energy is counted once, through rule (a) (Fable, 22 Nov)"),
+        ("Mercury, derived", "§11.7: General Relativity's result, reproduced (Fable, 22 Nov)"),
+        ("pressure does not exceed its energy", "Preface: contraction speeds up when energy density plus pressure is positive (Fable, 22 Nov)"),
+        ("the candidate already present is the coupling", "§5.1: the settled Ocean holds w = -1 and cannot cross it (Neon, Fable, 22 Nov)"),
+        ("not from General Relativity", "§11.5: the first-order law is the known massless Fierz-Pauli form (Fable, 22 Nov)"),
+        ("each checked numerically:", "§11.7: the consequences are General Relativity's own (Fable, 22 Nov)"),
+        ("negligible today or is the eddy", "§6: the eddy is a departure from the settled Ocean (Keith, 22 Nov 10:37)"),
+        ("each of its builds reads the galaxy only through", "§6: Eq. 15 averages over the sphere; how a round eddy does so is open (Neon, 22 Nov)"),
     ]
     found = [ph for ph, _why in ruled_out if ph in PAPER.n]
     return verdict(not found, "none present" if not found else f"present: {found}")
@@ -1292,6 +1410,32 @@ def _():
 def _():
     a = PAPER.has(r"n \equiv \rho^{2}"); b = PAPER.has(r"n(r) \;\simeq\;"); cc = PAPER.has(r"with $n = 1$ if")
     return ("NOTE", "three meanings of n, inherited from 3.10") if a and b and cc else ("PASS", "no clash")
+
+@check("§6, §2.2, §2.5, §12.7", "CONSISTENCY", "Symbols after the 22 Nov validations: the tie-up in Eq. (15) is B, not the Ocean's amount rho; the cutoff in Eq. (40) is E_d, not the coupling kappa; the load's potential is Psi, not the Ocean's field Phi; the disk's lengths are a_d, b_d, not the stiffness a; the supply in Eq. (39) is S, not the tilt s")
+def _():
+    bad = [p for p in (r"1+\rho}", r"\rho/(1+\rho)", r"\mathrm{str}[k_{1}]\, \kappa^{2}", r"\kappa^{2}/2\pi", r"\nabla\!\left(\Phi -", r"$\Phi_{b}", r"$a = 3.0$~kpc", r"+ s\left(\mu^{2}") if PAPER.has(p)]
+    good = all(PAPER.has(p) for p in (r"1+B}", r"E_{\mathrm{d}}^{2}", r"\nabla\!\left(\Psi -", r"a_{\mathrm{d}} = 3.0", r"+ S\left(\mu^{2}"))
+    return verdict(not bad and good, f"old forms present: {bad}" if bad else "B, E_d, Psi, a_d/b_d, S in place")
+
+@check("§12.7, footnote; §13.3", "NUMBER", "Sakharov count: with the field that gives mass conformal (weight 0) str[k1] = -8 + 15/2 = -1/2; minimally coupled (+1/6 per state, four states) it is +1/6 and gravity repels; the paper says so",
+       anchor=r"the total would be $+\tfrac{1}{6}$")
+def _():
+    from fractions import Fraction as F
+    conf = 12*F(-2,3) - 45*F(-1,6) + 4*0
+    mini = 12*F(-2,3) - 45*F(-1,6) + 4*F(1,6)
+    return verdict(conf == F(-1,2) and mini == F(1,6), f"conformal {conf}, minimal {mini}")
+
+@check("§12.3, step 4", "NUMBER", "Mismatch bound: clocks steady to a few 1e-17 a year (Lange 2021) over one rebuild per electron rhythm, about 1e28 a year, give about 1e-45 per rebuild",
+       anchor=r"would have to lie below about one part in $10^{45}$ per rebuild")
+def _():
+    t = h/(me*c*c); n = yr/t; b = 3e-17/n
+    return verdict(1e27 < n < 1e28*1.5 and 1e-45 < b < 1e-44, f"rhythm {t:.2e} s, {n:.1e} a year, bound {b:.1e}")
+
+@check("§11.9", "NUMBER", "PSR J0337+1715: |Delta| < 2.6e-6 against a neutron-star core of 5e17 to 1e18 kg/m^3 places the grip's density above about 2 to 4 x 1e23",
+       anchor=r"above about $2$ to $4 \times 10^{23}\,\mathrm{kg\,m^{-3}}$")
+def _():
+    lo, hi = 5e17/2.6e-6, 1e18/2.6e-6
+    return verdict(1.5e23 < lo < 2.5e23 and 3.5e23 < hi < 4.5e23, f"{lo:.1e} to {hi:.1e} kg/m^3")
 
 @check("§11.4, §11.7, §11.9", "CONSISTENCY", "Symbol M is a mass only (Eq. 31 uses omega_rho for the heavy branch)")
 def _():
@@ -1332,6 +1476,82 @@ def _():
     kk = 1e-2; quart = (w2(kk)[0] - cs2*kk**2)/kk**4*(lam*v*v)
     ok = ok1 and close(gap2, lam*v*v + 6*mu*mu, 1e-9) and close(cs2, (1 + a)/(1 + 3*a), 1e-5) and close(quart, 4*a*a/(1 + 3*a)**3, 0.01)
     return verdict(ok, f"action from the minimal law: {'matches' if ok1 else 'MISMATCH'}; gap^2 {gap2:.6f} vs {lam*v*v+6*mu*mu:.6f}; c_s^2 {cs2:.6f} vs {(1+a)/(1+3*a):.6f}; k^4 term {quart:.2e} = 4a^2/(1+3a)^3 {4*a*a/(1+3*a)**3:.2e}, 4a^2 to leading order")
+
+@check("§11.1, Figure 4", "NUMBER",
+       "Figure 4 (the split of the carrying speed): every marked point lies on the quarter circle (rhythm = sqrt(1 - v^2/c_s^2)); the labels and caption give 0.87 (13% slow) at 0.5, 0.5 at 0.87, 0.14 at 0.99, the 3-4-5 example; the text points to the figure",
+       anchor=r"at $0.87\,c_{s}$ it is halved, at $0.99\,c_{s}$ it is down to 0.14")
+def _():
+    i0 = PAPER.body.index(r"\label{fig:split}"); fig = PAPER.body[PAPER.body.rindex(r"\begin{figure}", 0, i0):i0]
+    pts = [(float(x), float(y)) for x, y in re.findall(r"\\fill \(([\d.]+),([\d.]+)\) circle", fig)]
+    pts += [(1.0, 0.0), (0.6, 0.8)]                          # the open circle at c_s; the worked example's tip
+    off = max(abs(math.hypot(x, y) - 1) for x, y in pts)
+    rh = lambda v: math.sqrt(1 - v*v)
+    vals = (round(rh(0.5), 2), round(1 - rh(0.5), 2), round(rh(0.866), 2), round(rh(0.99), 2), round(math.sqrt(1 - 0.5**2), 2))
+    ok = (off < 2e-4 and vals[:4] == (0.87, 0.13, 0.5, 0.14) and vals[4] == 0.87 and len(pts) == 6
+          and PAPER.has(r"(Figure~\ref{fig:split})") and PAPER.has(r"rhythm 0.87,\\13\% slow") and PAPER.has(r"{$v = 0.99\,c_{s}$: rhythm 0.14}"))
+    return verdict(ok, f"{len(pts)} points, largest distance from the circle {off:.1e}; rhythm 0.87 at 0.5 ({vals[1]*100:.0f}% slow), {vals[2]} at 0.87, {vals[3]} at 0.99; the text refers to the figure")
+
+@check("§6, the real Milky Way", "SIMULATION",
+       "Fitted to the Milky Way's measured stars and gas, rotation curve and vertical motions (Lisanti et al.'s data), the eddy of Eq. (15) does about as well as cold dark matter (chi2 85 against 83) and the parallel contribution does not (124); stars and gas 6.7e10 Msun, bulge 1.3e10, g_dagger 1.22; 213 km/s at 17.75 kpc against the measured 214, above the eddy's far-out level of about 180; radial x1.41, vertical +10% and +15%; on Bovy & Rix's vertical force the eddy beats the halo (78 against 86; parallel 145). Recomputed from milky-way/best_fits.json",
+       anchor=r"($\chi^{2}$ of $85$ against $83$, with two")
+def _():
+    import sys as _sys
+    mw = Path(__file__).resolve().parent.parent / "milky-way"
+    if str(mw) not in _sys.path: _sys.path.insert(0, str(mw))
+    import mw_report as R
+    B = R.BEST
+    cz = {m: R.chi2_lisanti(m, B["lisanti_" + m]) for m in ("cdm", "parallel", "eddy")}
+    cb = {m: R.chi2_bovyrix(m, B["bovyrix_" + m]) for m in ("cdm", "parallel", "eddy")}
+    th = B["lisanti_eddy"][:-3]; r, v05, v10 = R.turning("eddy", th)
+    import mw_fit as MF
+    cb_bary = MF.chi2_parts("eddy", R.np.array(th))[2]
+    Mb = sum(MF.masses(dict(zip(MF.BARYON_KEYS, th[:6]))))
+    vlast = MF.predict("eddy", R.np.array(th))[0][-1]; dlast = MF.D.RC_V[-1]; rlast = MF.D.RC_R[-1]
+    vfar = (G*Mb*Msun*th[6]*1e-10)**0.25/1e3
+    ok_out = (round(Mb/1e10, 1) == 6.7 and round(vlast) == 213 and round(dlast) == 214 and abs(rlast - 17.75) < 0.05 and abs(vfar - 180) < 5
+              and PAPER.has(r"$213\,\mathrm{km\,s^{-1}}$ there") and PAPER.has(r"far-out level of about $180$") and PAPER.has(r"$6.7 \times 10^{10}$ solar"))
+    ok = (round(cz["eddy"]) == 85 and round(cz["cdm"]) == 83 and round(cz["parallel"]) == 124 and round(th[6], 2) == 1.22 and round(th[5], 1) == 1.3
+          and round(r, 2) == 1.41 and round(v05) == 10 and round(v10) == 15 and cb_bary < 2.0
+          and round(cb["eddy"]) == 78 and round(cb["cdm"]) == 86 and round(cb["parallel"]) == 145 and MF.DEFAULT_FORM == "loans" and ok_out)
+    return verdict(ok, f"Lisanti et al.'s data: cold dark matter {cz['cdm']:.1f}, parallel {cz['parallel']:.1f}, eddy {cz['eddy']:.1f}; stars and gas {Mb/1e10:.2f}e10, g_dagger {th[6]:.2f}, bulge {th[5]:.2f}e10; {vlast:.1f} km/s at {rlast:.2f} kpc against {dlast:.1f}, far-out level {vfar:.0f}; radial x{r:.2f}, vertical +{v05:.1f}% / +{v10:.1f}%; "
+                       f"stars and gas constraints chi2 {cb_bary:.1f}; Bovy & Rix's vertical force: {cb['cdm']:.1f}, {cb['parallel']:.1f}, {cb['eddy']:.1f}")
+
+
+@check("§5.1, the measured distances", "SIMULATION",
+       "The settled Ocean's shortfall (w = -1, then above it) fitted to DESI DR2 distances with Pantheon+, DES-SN5YR 2024 and DES-Dovekie 2026: better than w = -1 held fixed by 3.4, 14.0 and 7.8 against the two-number form's 4.9, 13.7 and 7.2; the form dips to -1.02 to -1.22 at z = 1.5; onset z 0.10-0.23, 1.3-2.7 Gyr ago; settled Ocean 5-10% below its default; 1.8-3.7 sigma; drive every 1.2-3.1 Gyr; net output 4-5e-27 W/m^3; the default share 0.727-0.764 of the critical density stated. DESI-alone fit recomputed live (Omega_m 0.2975, h r_d 101.54 Mpc, form -4.7, as DESI quote); the rest read from expansion/results.json",
+       anchor=r"by $\Delta\chi^{2}$ of $3.4$, $14.0$ and")
+def _():
+    import sys as _sys, json as _json
+    ex = Path(__file__).resolve().parent.parent / "expansion"
+    if str(ex) not in _sys.path: _sys.path.insert(0, str(ex))
+    import model as M
+    from scipy.optimize import minimize_scalar as _ms
+    r = _ms(lambda x: M.chi2_of(*M.model_E((x,), 'lcdm')[:2])[0], bounds=(0.2, 0.4), method='bounded', options=dict(xatol=1e-7))
+    z, E, Om, _ = M.model_E((r.x,), 'lcdm'); hrd = 299792.458/M.chi2_of(z, E)[1]/100
+    R = _json.load(open(ex / "results.json"))
+    S = ["Pantheon+", "DES-SN5YR 2024", "DES-Dovekie 2026"]
+    sf = [max(-R[n][f"shortfall_wu{u}"]["dchi2"] for u in (0, 1)) for n in S]
+    fm = [-R[n]["form"]["dchi2"] for n in S]
+    w15 = [R[n]["form"]["w_z15"] for n in S]
+    ons = [R[n][f"shortfall_wu{u}"]["onset_z"] for n in S for u in (0, 1)]
+    gy = [R[n][f"shortfall_wu{u}"]["onset_gyr"] for n in S for u in (0, 1)]
+    eps = [R[n][f"shortfall_wu{u}"]["settled_today"] for n in S for u in (0, 1)]
+    sig = [R[n][f"shortfall_wu{u}"]["sigma"] for n in S for u in (0, 1)]
+    per = [977.8/70/R[n][f"shortfall_wu{u}"]["K_over_H0"] for n in S for u in (0, 1)]
+    _lo, _hi = _settled_default(); _rc = 3*(70e3/3.0857e22)**2/(8*math.pi*G)*c*c
+    net = 3*(70e3/3.0857e22)*np.array([_lo*_rc, _hi*_rc*(73/70)**2])
+    ok = (round(Om, 3) == 0.297 and abs(hrd - 101.54) < 0.05 and round(-R["DESI DR2 alone"]["form"]["dchi2"], 1) == 4.7
+          and [round(x, 1) for x in sf] == [3.4, 14.0, 7.8] and [round(x, 1) for x in fm] == [4.9, 13.7, 7.2]
+          and round(max(w15), 2) == -1.02 and round(min(w15), 2) == -1.22 and min(ons) == 0.10 and max(ons) == 0.23
+          and round(min(gy), 1) == 1.3 and round(max(gy), 1) == 2.7 and round(100*(1 - max(eps))) == 5 and round(100*(1 - min(eps))) == 10
+          and round(min(sig), 1) == 1.8 and round(max(sig), 1) == 3.7 and round(min(per), 1) == 1.2 and round(max(per), 1) == 3.1
+          and 3.5 < net[0]*1e27 and net[1]*1e27 < 5
+          and PAPER.has(r"dips to $w \approx -1.02$ to $-1.22$ at redshift $1.5$") and PAPER.has(r"today $5$ to $10$ percent below its default")
+          and PAPER.has(r"every $1.2$ to $3.1$ billion years") and PAPER.has(r"about $4$ to $5 \times 10^{-27}\,\mathrm{W\,m^{-3}}$ today")
+          and all(f"${x:.3f}$" in PAPER.n for x in _settled_default()) and PAPER.has(r"of the critical density"))
+    return verdict(ok, f"DESI alone: Omega_m {Om:.4f}, h r_d {hrd:.2f} Mpc; shortfall {sf[0]:.2f}/{sf[1]:.2f}/{sf[2]:.2f} against the form {fm[0]:.2f}/{fm[1]:.2f}/{fm[2]:.2f}; "
+                       f"form at z = 1.5 {max(w15):.3f} to {min(w15):.3f}; onset {min(ons):.2f}-{max(ons):.2f} ({min(gy):.2f}-{max(gy):.2f} Gyr); settled today {min(eps):.3f}-{max(eps):.3f} of default; "
+                       f"{min(sig):.2f}-{max(sig):.2f} sigma; drive every {min(per):.2f}-{max(per):.2f} Gyr; net output {net[0]:.1e}-{net[1]:.1e} W/m^3")
 
 # ================================================================ run
 def main():
