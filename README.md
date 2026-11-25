@@ -145,8 +145,7 @@ Please cite the archived release rather than the repository.
 Dual-licensed, because the repository holds both a document and a program.
 
 - **The written work** — the paper, its generated LaTeX source, and the prose embedded in the build script — is licensed **CC BY 4.0**. See [`LICENSE`](LICENSE).
-- **The build tooling** — `build_ocean_formalism.py` as a program — is licensed **MIT**. See [`LICENSE-CODE`](LICENSE-CODE).
-
-The SPARC data tables in `sparc/data/` are Lelli, McGaugh & Schombert's (2016), from the SPARC site, and remain theirs; cite them if you use them.
+- **The code** — `build_ocean_formalism.py` as a program, and the scripts in `checks/`, `sparc/`, `milky-way/` and `expansion/` — is licensed **MIT**. See [`LICENSE-CODE`](LICENSE-CODE).
+- **Published data** included for the analyses remain their authors': the SPARC tables in `sparc/data/` (Lelli, McGaugh & Schombert 2016), the DESI DR2 distances in `expansion/model.py`, and the Milky Way measurements in `milky-way/` (Eilers et al. 2019; Bovy & Rix 2013; Lisanti et al. 2023, Fig. A1). Cite the sources if you use them.
 
 © 2026 Keith Hays
