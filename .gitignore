@@ -58,3 +58,4 @@ expansion/data/
 sparc/results/sparc_test.png
 sparc/results/*.log
 expansion/results_partial.json
+/flows/widebinaries/src/all_columns_catalog.fits.gz
